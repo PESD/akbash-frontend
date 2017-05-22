@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AccordionModule } from 'primeng/components/accordion/accordion';
+import { DataTableModule,SharedModule } from 'primeng/primeng';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  title = 'Akbash';
 }

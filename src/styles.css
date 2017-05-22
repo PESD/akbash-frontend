@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #edf0f5;
+}
+
+.dashboard-panel {
+  background-color: #2ecc71;
+  height: 100px;
+}
+
+.dashboard-text-box {
+  float: right;
+  width: 75%;
+  font-size: 28px;
+  text-align: center;
+  color: white;
+}
+
+.dashboard-icon-box {
+  float: left;
+  background-color: #27ae60;
+  height: 100%;
+  width: 25%;
+}

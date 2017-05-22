@@ -1,0 +1,59 @@
+/* export class Employee {
+  api_url: string;
+  id: number;
+  employee_id: string;
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  badge_number: number;
+  birth_date: string;
+  gender: string;
+  race_white: boolean;
+  race_asian: boolean;
+  race_black: boolean;
+  race_islander: boolean;
+  race_american_indian: boolean;
+  ethnicity: string;
+  hqt: string;
+  ssn: string;
+  tcp_id: number;
+  talented_id: number;
+  onboarding_date: string;
+  is_tcp_fingerprinted: boolean;
+  is_badge_created: boolean;
+  visions_id: boolean;
+  sub_type: string;
+  marked_as_hired: string;
+  epar_id: boolean;
+  services: any[];
+} */
+
+export class Employee {
+  api_url?: any;
+  id?: any;
+  employee_id?: any;
+  first_name?: any;
+  last_name?: any;
+  middle_name?: any;
+  badge_number?: any;
+  birth_date?: any;
+  gender?: any;
+  race_white?: any;
+  race_asian?: any;
+  race_black?: any;
+  race_islander?: any;
+  race_american_indian?: any;
+  ethnicity?: any;
+  hqt?: any;
+  ssn?: any;
+  tcp_id?: any;
+  talented_id?: any;
+  onboarding_date?: any;
+  is_tcp_fingerprinted?: any;
+  is_badge_created?: any;
+  visions_id?: any;
+  sub_type?: any;
+  marked_as_hired?: any;
+  epar_id?: any;
+  services?: any;
+}
