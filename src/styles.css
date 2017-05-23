@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-body {
+/* body {
   font-family: 'Roboto', sans-serif;
   background-color: #edf0f5;
 }
-
+*/
 .dashboard-panel {
   background-color: #2ecc71;
   height: 100px;
@@ -12,9 +12,15 @@ body {
 .dashboard-text-box {
   float: right;
   width: 75%;
-  font-size: 28px;
+  font-size: 24px;
   text-align: center;
   color: white;
+  padding-top: 5px;
+}
+
+span.dashboard-number {
+  font-size: 38px;
+  margin: 5px 0 5px 0
 }
 
 .dashboard-icon-box {
@@ -22,4 +28,14 @@ body {
   background-color: #27ae60;
   height: 100%;
   width: 25%;
+}
+
+.dashboard-icon-box i {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 50px;
 }

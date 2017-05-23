@@ -7,8 +7,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
-import {AccordionModule} from 'primeng/components/accordion/accordion';
-import { DataTableModule, SharedModule, TabMenuModule, MenuItem } from 'primeng/primeng';
+import { AccordionModule } from 'primeng/components/accordion/accordion';
+import {
+          DataTableModule,
+          SharedModule,
+          TabMenuModule,
+          MenuItem,
+          DialogModule,
+          ButtonModule,
+          DropdownModule,
+          ConfirmDialogModule,
+          ConfirmationService,
+        } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './employees.service';
 import { MenuComponent } from './menu/menu.component';
@@ -39,9 +49,13 @@ const routes: Routes = [
     DataTableModule,
     SharedModule,
     TabMenuModule,
+    DialogModule,
+    ButtonModule,
+    DropdownModule,
+    ConfirmDialogModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [EmployeesService],
+  providers: [EmployeesService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
