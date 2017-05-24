@@ -17,6 +17,7 @@ export class MenuComponent implements OnInit {
       {label: 'My Dashboard', icon: 'fa-tachometer', routerLink: '/dashboard'},
       {label: 'Workflows', icon: 'fa-exchange', routerLink: '/workflows'},
       {label: 'New Hires', icon: 'fa-user', routerLink: '/employees'},
+      {label: 'Login', icon: 'fa-sign-in', routerLink: '/login'},
     ];
   }
 

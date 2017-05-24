@@ -1,0 +1,32 @@
+<div class="row align-self-center justify-content-center login-row">
+  <div class="col-lg-4 col-lg-auto">
+    <div class="card card-inverse login-box">
+      <div *ngIf="!authService.isLoggedIn; else successBlock" class="container">
+        <div class="row justify-content-center">
+          <div class="col-10">
+            <h3 class="card-title">Login</h3>
+          </div>
+        </div>
+          <div class="row justify-content-center">
+            <div class="col-10">
+              <input type="text" pInputText placeholder="username" [(ngModel)]="username"/>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-10">
+              <input type="password" pInputText placeholder="password" [(ngModel)]="password"/>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-10">
+              <button pButton type="button" label="Login" (click)="onclick()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<ng-template #successBlock>
+  <h3>You are sucessfully logged in</h3>
+  <button pButton type="button" label="Logout" (click)="onclicklogout()"></button>
+</ng-template>
