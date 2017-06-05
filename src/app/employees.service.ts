@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -18,7 +18,20 @@ export class EmployeesService {
       .then(response => response.json().data as Employee[])
       .catch(this.handleError);
   } */
-    return this.http.get(this.employeesURL)
+
+    var options: RequestOptions;
+    if (localStorage.currentUser) {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      console.log("Current User is: " + currentUser);
+      let token = currentUser["token"];
+      console.log("This user token is: " + token);
+      let headers = new Headers({ 'Authorization': 'JWT ' + token });
+      options = new RequestOptions({ headers: headers });
+    } else {
+      options = new RequestOptions();
+    }
+    console.log(options)
+    return this.http.get(this.employeesURL, options)
       .toPromise()
       .then(response => response.json() as Employee[])
       .catch(this.handleError);

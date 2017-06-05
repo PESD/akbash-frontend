@@ -27,8 +27,14 @@ export class AuthService {
       this.token = token;
       if(this.token) {
         console.log("Username is valid!");
+        console.log(token["token"])
+        console.log("This is logged in:");
+        console.log(this.isLoggedIn);
         this.isLoggedIn = true;
-        localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+        console.log("Now it is set to:");
+        console.log(this.isLoggedIn);
+        localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token["token"] }));
+        console.log("Local Storage now set. Going to return True");
         return true;
       }
       console.log("Username is invalid :sadface")
