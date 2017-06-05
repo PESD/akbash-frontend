@@ -39,3 +39,12 @@ span.dashboard-number {
   color: white;
   font-size: 50px;
 }
+
+.login-row {
+  padding-top: 100px;
+}
+
+div.login-box {
+  background-color: rgb(118, 123, 127);
+  padding: 50px 0 50px 0;
+}

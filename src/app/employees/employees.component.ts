@@ -38,7 +38,6 @@ export class EmployeesComponent implements OnInit {
 
   getEmployees(): void {
     this.employeesService.getEmployees().then(employees => this.employees = employees);
-    console.log(this.employees);
   }
 
   ngOnInit() {
