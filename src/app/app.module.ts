@@ -20,6 +20,8 @@ import {
           ConfirmationService,
           InputTextModule,
           PasswordModule,
+          GrowlModule,
+          Message,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './employees.service';
@@ -30,6 +32,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService }      from './auth.service';
 import { AuthGuard }      from './auth.guard';
 import { LoginService }      from './login.service';
+import { WorkflowsService }      from './workflows.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -63,6 +66,7 @@ const routes: Routes = [
     ConfirmDialogModule,
     InputTextModule,
     PasswordModule,
+    GrowlModule,
     RouterModule.forRoot(routes),
   ],
   providers: [
@@ -71,6 +75,7 @@ const routes: Routes = [
     AuthService,
     AuthGuard,
     LoginService,
+    WorkflowsService,
   ],
   bootstrap: [AppComponent]
 })

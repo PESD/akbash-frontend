@@ -9,10 +9,14 @@ import {
   SelectItem,
   ConfirmDialogModule,
   ConfirmationService,
+  GrowlModule,
+  Message,
 } from 'primeng/primeng';
 
 import { EmployeesService } from '../employees.service';
 import { Employee } from '../employee';
+import { WorkflowsService }      from '../workflows.service';
+import { WorkflowCreate } from '../workflowcreate';
 
 
 @Component({
@@ -23,7 +27,11 @@ import { Employee } from '../employee';
 })
 export class EmployeesComponent implements OnInit {
 
-  constructor(private employeesService: EmployeesService, private confirmationService: ConfirmationService) {
+  constructor(
+    private employeesService: EmployeesService,
+    private confirmationService: ConfirmationService,
+    private workflowsService: WorkflowsService
+  ) {
     this.processes = [];
     this.processes.push({label: "Select Process", value: null})
     this.processes.push({label: "New Hire Process", value: 1})
@@ -35,6 +43,11 @@ export class EmployeesComponent implements OnInit {
   employeeName: string;
   processes: SelectItem[];
   selectedProcess: string;
+  personID: string;
+  processID: string;
+  newWorkflowCreate: WorkflowCreate;
+  msgs: Message[] = [];
+
 
   getEmployees(): void {
     this.employeesService.getEmployees().then(employees => this.employees = employees);
@@ -50,16 +63,31 @@ export class EmployeesComponent implements OnInit {
   onRowSelect(event) {
     this.buttonDisabled = false;
     this.employeeName = `${this.selectedEmployee.first_name} ${this.selectedEmployee.last_name}`;
+    this.personID = `${this.selectedEmployee.id}`;
+    this.processID = "1";
   }
 
   onRowUnselect(event) {
     this.buttonDisabled = true;
   }
 
+  showWorkflowCreateSuccess() {
+    this.msgs.push({severity:'success', summary:'Workflow Created', detail:'Workflow successfully created.'});
+  }
+
   confirm() {
     this.confirmationService.confirm({
       message: `Start a New Hire Process for ${this.employeeName}?`,
         accept: () => {
+          let workflowCreate = new WorkflowCreate(this.processID, this.personID);
+          this.workflowsService.createWorkflow(workflowCreate).then(newWorkflowCreate => {
+            this.newWorkflowCreate = newWorkflowCreate;
+            console.log("WORKFLOW CREATED WOOHOO!");
+            this.showWorkflowCreateSuccess();
+            this.getEmployees();
+            this.buttonDisabled = true;
+            this.employeeName = "";
+          });
                 //Actual logic to perform a confirmation
         }
       });

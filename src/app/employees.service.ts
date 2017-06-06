@@ -5,10 +5,12 @@ import 'rxjs/add/operator/toPromise';
 
 import { Employee } from './employee';
 import { EMPLOYEES } from './mock-employees';
+import { AuthHeaders } from './authheaders';
 
 @Injectable()
 export class EmployeesService {
-  private employeesURL = 'http://10.127.0.202/api/employee/?format=json';
+  //private employeesURL = 'http://10.127.0.202/api/employee/?format=json';
+  private employeesURL = 'http://10.127.0.202/api/employee-no-workflow/?format=json';
 
   constructor(private http: Http) { }
 
@@ -19,17 +21,9 @@ export class EmployeesService {
       .catch(this.handleError);
   } */
 
-    var options: RequestOptions;
-    if (localStorage.currentUser) {
-      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      console.log("Current User is: " + currentUser);
-      let token = currentUser["token"];
-      console.log("This user token is: " + token);
-      let headers = new Headers({ 'Authorization': 'JWT ' + token });
-      options = new RequestOptions({ headers: headers });
-    } else {
-      options = new RequestOptions();
-    }
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+
     console.log(options)
     return this.http.get(this.employeesURL, options)
       .toPromise()
