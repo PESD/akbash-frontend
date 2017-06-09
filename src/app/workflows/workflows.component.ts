@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MenuItem } from 'primeng/primeng';
+
 import { WorkflowComplete } from '../workflowcomplete';
 import { WorkflowsService }      from '../workflows.service';
 
@@ -19,15 +21,24 @@ export interface WorkflowGrid {
 })
 export class WorkflowsComponent implements OnInit {
 
-  constructor(private workflowsService: WorkflowsService) { }
+  constructor(private workflowsService: WorkflowsService) {
+    this.filterItems = [];
+    this.filterItems.push({label: "My Workflows"});
+    this.filterItems.push({label: "Active Workflows"});
+    this.filterItems.push({label: "All Workflows"});
+
+  }
 
   workflowCompletes: WorkflowComplete[];
   selectedWorkflowComplete: WorkflowComplete;
   workflowGrid: WorkflowGrid[];
+  filterItems: MenuItem[];
+  selectedFilter: MenuItem;
+  activeIndex = 0;
 
 
   getWorkflows(): void {
-    this.workflowsService.getAllWorkflows().then(workflowCompletes => {
+    this.workflowsService.getAllWorkflows(this.activeIndex).then(workflowCompletes => {
       this.workflowCompletes = workflowCompletes;
       this.buildData();
     });
@@ -50,6 +61,7 @@ export class WorkflowsComponent implements OnInit {
           for (let user of actRow.activity.users) {
             users = users + user.username + " ";
           }
+          grid.current_user = users;
         }
       }
     /*  console.log(row.workflow_activites) */
@@ -59,9 +71,15 @@ export class WorkflowsComponent implements OnInit {
 
   ngOnInit() {
     this.getWorkflows()
+    this.activeIndex = 0;
   }
 
   onRowSelect(event) { }
   onRowUnselect(event) { }
+
+  menuChange(index) {
+    console.log(this.activeIndex);
+    this.getWorkflows()
+  }
 
 }

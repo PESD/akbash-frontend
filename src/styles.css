@@ -48,3 +48,10 @@ div.login-box {
   background-color: rgb(118, 123, 127);
   padding: 50px 0 50px 0;
 }
+
+body app-root .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number,
+body app-root .ui-steps .ui-steps-item:not(.ui-state-highlight) .ui-steps-number:hover,
+body app-root .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number
+ {
+  color: rgba(0, 0, 0, 0);
+}

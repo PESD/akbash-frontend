@@ -6,11 +6,12 @@ import 'rxjs/add/operator/toPromise';
 import { WorkflowCreate } from './workflowcreate';
 import { WorkflowComplete } from './workflowcomplete';
 import { AuthHeaders } from './authheaders';
+import { UsersService }      from './users.service';
 
 @Injectable()
 export class WorkflowsService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private usersService: UsersService) { }
 
   createWorkflow(workflowCreate: WorkflowCreate): Promise<WorkflowCreate> {
     let url = 'http://10.127.0.202/bpm/create_workflow/?format=json';
@@ -25,8 +26,25 @@ export class WorkflowsService {
 
   }
 
-  getAllWorkflows(): Promise<WorkflowComplete[]> {
-    let url = 'http://10.127.0.202/bpm/workflow-complete/?format=json';
+  getAllWorkflows(type: number): Promise<WorkflowComplete[]> {
+    var url = "";
+    if (type == 0) {
+      this.usersService.getUserFromUsername().then(user => {
+        let user_id = user["id"];
+        console.log(`User ID is ${user_id}`);
+        let user_url = 'http://127.0.0.1:8000/bpm/workflow-complete-active-user/' + user_id + '/?format=json';
+        return this.getWorkflows(user_url);
+      });
+    } else if (type == 1) {
+      url = 'http://10.127.0.202/bpm/workflow-complete-active/?format=json';
+      return this.getWorkflows(url);
+    } else if (type == 2) {
+      url = 'http://10.127.0.202/bpm/workflow-complete/?format=json';
+      return this.getWorkflows(url);
+    }
+  }
+
+  getWorkflows(url: string): Promise<WorkflowComplete[]> {
     let authHeaders = new AuthHeaders;
     let options = authHeaders.getRequestOptions();
 
@@ -34,7 +52,7 @@ export class WorkflowsService {
       .toPromise()
       .then(response => response.json() as WorkflowComplete[])
       .catch(this.handleError);
-    }
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

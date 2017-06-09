@@ -34,7 +34,7 @@ export class EmployeesComponent implements OnInit {
   ) {
     this.processes = [];
     this.processes.push({label: "Select Process", value: null})
-    this.processes.push({label: "New Hire Process", value: 1})
+    this.processes.push({label: "New Hire Process", value: 2})
   }
 
   employees: Employee[];
@@ -64,7 +64,7 @@ export class EmployeesComponent implements OnInit {
     this.buttonDisabled = false;
     this.employeeName = `${this.selectedEmployee.first_name} ${this.selectedEmployee.last_name}`;
     this.personID = `${this.selectedEmployee.id}`;
-    this.processID = "1";
+    this.processID = "2";
   }
 
   onRowUnselect(event) {
