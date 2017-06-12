@@ -31,6 +31,23 @@ export class EmployeesService {
       .catch(this.handleError);
     }
 
+    getEmployee(person_id: string): Promise<Employee> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `http://10.127.0.202/api/employee/${person_id}/?format=json`;
+      console.log(url)
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let e = response.json() as Employee;
+          console.log(`Got Employee ID: ${e.id}`);
+          return e;
+        })
+        .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
       console.error('An error occurred', error); // for demo purposes only
       return Promise.reject(error.message || error);

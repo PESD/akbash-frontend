@@ -1,3 +1,12 @@
-<p>
-  workflows works!
-</p>
+<p-steps [model]="filterItems" [(activeIndex)]="activeIndex" [readonly]="false" (activeIndexChange)="menuChange($index)"></p-steps>
+<p-dataTable [value]="workflowGrid" [(selection)]="selectedWorkflowComplete" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]" expandableRows="true">
+    <p-column expander="true" styleClass="col-icon" [style]="{'width':'5%'}"></p-column>
+    <p-column field="process_name" header="Process" sortable="true"></p-column>
+    <p-column field="first_name" header="First Name" sortable="true"></p-column>
+    <p-column field="last_name" header="Last Name" sortable="true"></p-column>
+    <p-column field="current_activity" header="Current Task" sortable="true"></p-column>
+    <p-column field="current_user" header="Current Users" sortable="true"></p-column>
+    <ng-template let-workflow pTemplate="rowexpansion">
+      <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
+    </ng-template>
+</p-dataTable>
