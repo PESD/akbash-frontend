@@ -68,14 +68,23 @@ export class Employee {
   is_position_linked?: any;
   position_linked_date?: any;
   position_linked_by?: any;
+  is_visions_account_needed?: any;
   is_visions_account_created?: any;
   visions_account_created_date?: any;
   visions_account_created_by?: any;
+  is_synergy_account_needed?: any;
   is_synergy_account_created?: any;
   synergy_account_created_date?: any;
   synergy_account_created_by?: any;
   is_ad_account_created?: any;
   ad_account_created_date?: any;
   ad_account_created_by?: any;
+  is_cell_phone_needed?: any;
+  is_cell_phone_created?: any;
+  cell_phone_created_date?: any;
+  cell_phone_created_by?: any;
+  is_desk_phone_created?: any;
+  desk_phone_created_date?: any;
+  desk_phone_created_by?: any;
   services?: any;
 }

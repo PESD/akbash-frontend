@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/primeng';
 
-import { WorkflowComplete } from '../workflowcomplete';
+import { WorkflowComplete, Person } from '../workflowcomplete';
 import { WorkflowsService }      from '../workflows.service';
 
 export interface WorkflowGrid {
@@ -12,6 +12,7 @@ export interface WorkflowGrid {
   last_name?: string;
   current_activity?: string;
   current_user?: string;
+  person?: Person;
 }
 
 @Component({
@@ -35,6 +36,7 @@ export class WorkflowsComponent implements OnInit {
   filterItems: MenuItem[];
   selectedFilter: MenuItem;
   activeIndex = 0;
+  selectedPerson: string = "1";
 
 
   getWorkflows(): void {
@@ -45,6 +47,7 @@ export class WorkflowsComponent implements OnInit {
   }
 
   buildData(): void {
+    console.log("Rebuilding the data")
     this.workflowGrid = []
     for (let row of this.workflowCompletes) {
       var grid: WorkflowGrid = {
@@ -52,6 +55,7 @@ export class WorkflowsComponent implements OnInit {
         process_name: row.process.name,
         first_name: row.person.first_name,
         last_name: row.person.last_name,
+        person: row.person
       };
 
       for (let actRow of row.workflow_activites) {

@@ -49,6 +49,27 @@ div.login-box {
   padding: 50px 0 50px 0;
 }
 
+body .panelNotCompleted {
+  background-color: #EF9A9A;
+}
+
+body .panelCompleted {
+  background-color: #A5D6A7;
+}
+
+body .panelNotNeeded {
+  background-color: #CFD8DC;
+  color: #90A4AE;
+}
+
+body .workflow-status .ui-panel .ui-panel-content {
+  padding: 0;
+}
+
+body .workflow-status .ui-panel .ui-panel-content .workflow-status-panel {
+  padding: 1.25em;
+}
+
 body app-root .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number,
 body app-root .ui-steps .ui-steps-item:not(.ui-state-highlight) .ui-steps-number:hover,
 body app-root .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number

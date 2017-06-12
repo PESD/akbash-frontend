@@ -15,4 +15,12 @@ export class AuthHeaders {
     }
     return options;
   }
+
+  public getUsername(): string {
+    if (localStorage.currentUser) {
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      return currentUser["username"];
+    }
+    return "";
+  }
 }
