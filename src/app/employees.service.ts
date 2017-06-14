@@ -42,7 +42,26 @@ export class EmployeesService {
         .toPromise()
         .then(response => {
           let e = response.json() as Employee;
-          console.log(`Got Employee ID: ${e.id}`);
+          //console.log(e);
+          return e;
+        })
+        .catch(this.handleError);
+    }
+
+    updateEmployee(person: Employee) {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `http://10.127.0.202/api/employee/${person.id}/?format=json`;
+
+      console.log(JSON.stringify(person))
+
+      return this.http.put(url, JSON.stringify(person), options)
+        .toPromise()
+        .then(response => {
+          let e = response.json() as Employee;
+          console.log("Sent data")
+          console.log(JSON.stringify(e));
           return e;
         })
         .catch(this.handleError);

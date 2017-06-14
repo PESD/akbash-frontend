@@ -8,5 +8,6 @@
     <p-column field="current_user" header="Current Users" sortable="true"></p-column>
     <ng-template let-workflow pTemplate="rowexpansion">
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
+      <app-personform person_id="{{workflow.person.id}}"></app-personform>
     </ng-template>
 </p-dataTable>
