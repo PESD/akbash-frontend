@@ -1,42 +1,42 @@
 <h1 class="display-4">{{employee.first_name}} {{employee.last_name}}</h1>
 <p-panel class="workflow-status" header="Workflow Status">
 <div class="ui-g">
-  <div class="ui-g-2"><p-panel header="Badge Number">
+  <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Badge Number">
   <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.badge_number)">{{getStatusText(employee.badge_number)}}</div>
 </p-panel></div>
-<div class="ui-g-2"><p-panel header="ePAR ID">
+<div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="ePAR ID">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.epar_id)}}</div>
 </p-panel></div>
-    <div class="ui-g-2"><p-panel header="Employee Record ID">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Employee Record ID">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.visions_id)}}</div>
 </p-panel></div>
-    <div class="ui-g-2"><p-panel header="Employee Position ID">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Employee Position ID">
 <div class="workflow-status-panel panelNotNeeded">{{getStatusText(false, true)}}</div>
 </p-panel></div>
-    <div class="ui-g-2"><p-panel header="Active Directory User">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Active Directory User">
 <div class="workflow-status-panel panelCompleted">jon.snow</div>
 </p-panel></div>
-<div class="ui-g-2"><p-panel header="Synergy User">
+<div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Synergy User">
 <div class="workflow-status-panel panelCompleted">jsnow</div>
 </p-panel></div>
 </div>
 <div class="ui-g">
-    <div class="ui-g-2"><p-panel header="Visions User">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Visions User">
 <div class="workflow-status-panel panelNotNeeded">{{getStatusText(false, true)}}</div>
 </p-panel></div>
-    <div class="ui-g-2"><p-panel header="TCP User">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP User">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.tcp_id)">{{getStatusText(employee.tcp_id)}}</div>
 </p-panel></div>
-    <div class="ui-g-2"><p-panel header="Onboarded?">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Onboarded?">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.is_onboarded)">{{getStatusText(employee.onboarded_date)}}</div>
 </p-panel></div>
-<div class="ui-g-2"><p-panel header="TCP Fingerprinted?">
+<div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP Fingerprinted?">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.is_tcp_fingerprinted)">{{getStatusText(employee.tcp_fingerprinted_date)}}</div>
 </p-panel></div>
-<div class="ui-g-2"><p-panel header="Badge Created?">
+<div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Badge Created?">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.is_badge_created)">{{getStatusText(employee.badge_created_date)}}</div>
 </p-panel></div>
-<div class="ui-g-2"><p-panel header="Start Date">
+<div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Start Date">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.marked_as_hired)">{{getStatusText(employee.marked_as_hired)}}</div>
 </p-panel></div>
 </div>

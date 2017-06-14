@@ -1,45 +1,45 @@
 <p-panel class="workflow-status" header="Update Information">
-  <form [formGroup]="personForm" (ngSubmit)="saveEmployee()" novalidate>
+  <form [formGroup]="personForm" (ngSubmit)="saveEmployee()">
 
 
     <div class="ui-g">
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         First Name:<br/>
           <input class="form-control" formControlName="first_name" pInputText>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         Middle Name:<br/>
           <input class="form-control" formControlName="middle_name" pInputText>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         Last Name:<br/>
           <input class="form-control" formControlName="last_name" pInputText>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         Birth Date:<br/>
           <p-calendar formControlName="birth_date" [monthNavigator]="true" [yearNavigator]="true" yearRange="1930:2017" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
       </div>
     </div>
     <div class="ui-g">
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         Gender:<br/>
           <p-selectButton [options]="genders" formControlName="gender"></p-selectButton>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         Race:<br/>
           <div class="ui-g">
-            <div class="ui-g-6">
+            <div class="ui-g-12 ui-lg-6">
               <p-checkbox formControlName="race_american_indian" binary="true"></p-checkbox> American Indian
             </div>
-            <div class="ui-g-6">
+            <div class="ui-g-12 ui-lg-6">
               <p-checkbox formControlName="race_asian" binary="true"></p-checkbox> Asian
             </div>
           </div>
           <div class="ui-g">
-            <div class="ui-g-6">
+            <div class="ui-g-12 ui-lg-6">
               <p-checkbox formControlName="race_black" binary="true"></p-checkbox> Black
             </div>
-            <div class="ui-g-6">
+            <div class="ui-g-12 ui-lg-6">
               <p-checkbox formControlName="race_islander" binary="true"></p-checkbox> Pacific Islander
             </div>
           </div>
@@ -49,18 +49,18 @@
             </div>
           </div>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         Ethnicity:<br/>
           <p-selectButton [options]="ethnicities" formControlName="ethnicity"></p-selectButton>
       </div>
-      <div class="ui-g-3">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
         SSN:<br/>
           <input class="form-control" formControlName="ssn" pInputText>
       </div>
     </div>
     <div class="ui-g">
       <div class="ui-g-12">
-        <button pButton type="submit" label="Save" [disabled]="personForm.pristine"></button>
+        <button pButton type="submit" label="Save" [disabled]="personForm.pristine || !personForm.valid"></button>
         <button pButton type="reset" label="Revert" [disabled]="personForm.pristine" (click)="revert()" class="ui-button-danger"></button>
       </div>
     </div>

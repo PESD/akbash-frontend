@@ -40,9 +40,11 @@ import { AuthService }      from './auth.service';
 import { AuthGuard }      from './auth.guard';
 import { LoginService }      from './login.service';
 import { WorkflowsService }      from './workflows.service';
+import { WorkflowactivityService }      from './workflowactivity.service';
 import { UsersService }      from './users.service';
 import { PersonstatusComponent } from './personstatus/personstatus.component';
 import { PersonformComponent } from './personform/personform.component';
+import { PersontaskComponent } from './persontask/persontask.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -63,6 +65,7 @@ const routes: Routes = [
     LoginComponent,
     PersonstatusComponent,
     PersonformComponent,
+    PersontaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +101,7 @@ const routes: Routes = [
     LoginService,
     WorkflowsService,
     UsersService,
+    WorkflowactivityService,
   ],
   bootstrap: [AppComponent]
 })
