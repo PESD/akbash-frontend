@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -26,6 +26,9 @@ import {
           SelectButtonModule,
           DataGridModule,
           PanelModule,
+          CalendarModule,
+          MultiSelectModule,
+          CheckboxModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './employees.service';
@@ -39,12 +42,14 @@ import { LoginService }      from './login.service';
 import { WorkflowsService }      from './workflows.service';
 import { UsersService }      from './users.service';
 import { PersonstatusComponent } from './personstatus/personstatus.component';
+import { PersonformComponent } from './personform/personform.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard',  component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'workflows',  component: WorkflowsComponent, canActivate: [AuthGuard] },
   { path: 'employees',  component: EmployeesComponent, canActivate: [AuthGuard] },
+  { path: 'test/:person_id', component: PersonformComponent},
   { path: 'login',  component: LoginComponent },
 ];
 
@@ -57,11 +62,13 @@ const routes: Routes = [
     DashboardComponent,
     LoginComponent,
     PersonstatusComponent,
+    PersonformComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     AccordionModule,
     DataTableModule,
@@ -78,6 +85,9 @@ const routes: Routes = [
     StepsModule,
     DataGridModule,
     PanelModule,
+    CalendarModule,
+    MultiSelectModule,
+    CheckboxModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

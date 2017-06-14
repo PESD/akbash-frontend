@@ -8,7 +8,8 @@ export class AuthHeaders {
       console.log("Current User is: " + currentUser);
       let token = currentUser["token"];
       console.log("This user token is: " + token);
-      let headers = new Headers({ 'Authorization': 'JWT ' + token });
+      var headers = new Headers({ 'Authorization': 'JWT ' + token });
+      headers.append('Content-Type','application/json');
       options = new RequestOptions({ headers: headers });
     } else {
       options = new RequestOptions();

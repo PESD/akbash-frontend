@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InputTextModule, PasswordModule } from 'primeng/primeng';
 import { AuthService } from '../auth.service';
+import { AuthHeaders } from '../authheaders';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +14,11 @@ export class LoginComponent implements OnInit {
   showLogin: boolean = true;
   username: string;
   password: string;
+  authHeaders: AuthHeaders;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
+    this.authHeaders = new AuthHeaders;
+  }
 
   ngOnInit() {
 
