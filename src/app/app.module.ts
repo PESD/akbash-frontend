@@ -29,6 +29,7 @@ import {
           CalendarModule,
           MultiSelectModule,
           CheckboxModule,
+          BlockUIModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './employees.service';
@@ -91,6 +92,7 @@ const routes: Routes = [
     CalendarModule,
     MultiSelectModule,
     CheckboxModule,
+    BlockUIModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

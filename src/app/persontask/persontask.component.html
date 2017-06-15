@@ -1,3 +1,4 @@
+<p-growl [(value)]="msgs"></p-growl>
 <p-panel class="workflow-status" header="Current Tasks">
 <div *ngFor="let workflowTask of workflowTasks" class="ui-g">
   <div class="ui-g-12">
@@ -6,7 +7,7 @@
         <div *ngSwitchCase="'Create ePAR'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
-              <form [formGroup]="eparForm">
+              <form [formGroup]="eparForm" (ngSubmit)="submitEparForm(workflowTask)">
                 ePAR ID:<br/>
                 <input class="form-control" formControlName="epar_id" pattern="[0-9]+" pInputText>
                 <button pButton type="submit" label="Save" [disabled]="eparForm.pristine || !eparForm.valid"></button>

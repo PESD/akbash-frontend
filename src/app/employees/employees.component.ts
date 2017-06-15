@@ -17,6 +17,7 @@ import { EmployeesService } from '../employees.service';
 import { Employee } from '../employee';
 import { WorkflowsService }      from '../workflows.service';
 import { WorkflowCreate } from '../workflowcreate';
+import { Process } from '../workflowcomplete';
 
 
 @Component({
@@ -31,17 +32,14 @@ export class EmployeesComponent implements OnInit {
     private employeesService: EmployeesService,
     private confirmationService: ConfirmationService,
     private workflowsService: WorkflowsService
-  ) {
-    this.processes = [];
-    this.processes.push({label: "Select Process", value: null})
-    this.processes.push({label: "New Hire Process", value: 2})
-  }
+  ) { }
 
   employees: Employee[];
   buttonDisabled: boolean;
   selectedEmployee: Employee;
   employeeName: string;
-  processes: SelectItem[];
+  processes: Process[];
+  selectProcesses: SelectItem[];
   selectedProcess: string;
   personID: string;
   processID: string;
@@ -53,22 +51,57 @@ export class EmployeesComponent implements OnInit {
     this.employeesService.getEmployees().then(employees => this.employees = employees);
   }
 
+  getProcesses(): void {
+    this.workflowsService.getProcesses().then(processes => {
+      this.processes = processes;
+      this.buildProcessSelect();
+    });
+  }
+
+  buildProcessSelect() {
+    for (let process of this.processes) {
+      this.selectProcesses = [];
+      this.selectProcesses.push({label: process.name, value: process.id})
+    }
+  }
+
   ngOnInit() {
+    this.getProcesses();
     this.getEmployees();
     this.buttonDisabled = true;
     this.employeeName = "";
 
   }
 
+  checkButton() {
+    console.log(`Checking button: personid is ${this.personID} and processid is ${this.processID}`);
+    if (this.personID && this.processID) {
+      this.buttonDisabled = false;
+    } else {
+      this.buttonDisabled = true;
+    }
+  }
+
   onRowSelect(event) {
-    this.buttonDisabled = false;
     this.employeeName = `${this.selectedEmployee.first_name} ${this.selectedEmployee.last_name}`;
     this.personID = `${this.selectedEmployee.id}`;
-    this.processID = "2";
+    this.checkButton();
   }
 
   onRowUnselect(event) {
-    this.buttonDisabled = true;
+    this.employeeName = "";
+    this.personID = "";
+    this.checkButton();
+  }
+
+  onChange(event) {
+    console.log(`THIS BOX IS A CHANGIN. ${this.selectedProcess}`);
+    if (this.selectedProcess) {
+      this.processID = this.selectedProcess;
+    } else {
+      this.processID = "";
+    }
+    this.checkButton();
   }
 
   showWorkflowCreateSuccess() {

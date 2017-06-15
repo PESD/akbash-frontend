@@ -7,10 +7,12 @@ import { Employee } from './employee';
 import { EMPLOYEES } from './mock-employees';
 import { AuthHeaders } from './authheaders';
 
+import { Globals } from './global';
+
 @Injectable()
 export class EmployeesService {
   //private employeesURL = 'http://10.127.0.202/api/employee/?format=json';
-  private employeesURL = 'http://10.127.0.202/api/employee-no-workflow/?format=json';
+  private employeesURL = `${Globals.BASE_API_URL}/api/employee-no-workflow/?format=json`;
 
   constructor(private http: Http) { }
 
@@ -35,7 +37,7 @@ export class EmployeesService {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
 
-      let url = `http://10.127.0.202/api/employee/${person_id}/?format=json`;
+      let url = `${Globals.BASE_API_URL}/api/employee/${person_id}/?format=json`;
       console.log(url)
 
       return this.http.get(url, options)

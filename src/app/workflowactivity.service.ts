@@ -5,6 +5,9 @@ import 'rxjs/add/operator/toPromise';
 
 import { AuthHeaders } from './authheaders';
 import { WorkflowActivity }      from './workflowcomplete';
+import { TaskEparSubmission } from './task_submissions';
+
+import { Globals } from './global';
 
 @Injectable()
 export class WorkflowactivityService {
@@ -15,7 +18,7 @@ export class WorkflowactivityService {
     let authHeaders = new AuthHeaders;
     let options = authHeaders.getRequestOptions();
 
-    let url = `http://10.127.0.202/bpm/workflowactivity-active-workflow/${workflow_id}/?format=json`;
+    let url = `${Globals.BASE_API_URL}/bpm/workflowactivity-active-workflow/${workflow_id}/?format=json`;
 
     console.log("GETTING SOME ACTIVITIES!... " + url );
 
@@ -23,6 +26,19 @@ export class WorkflowactivityService {
       .toPromise()
       .then(response => response.json() as WorkflowActivity[])
       .catch(this.handleError);
+  }
+
+  taskSetEpar(taskEparSubmission: TaskEparSubmission): Promise<TaskEparSubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_set_epar_id/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskEparSubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskEparSubmission)
+      .catch(this.handleError);
+
   }
 
 

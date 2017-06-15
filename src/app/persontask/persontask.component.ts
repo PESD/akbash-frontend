@@ -1,8 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
+import { Message } from 'primeng/primeng';
+
 import { WorkflowactivityService } from '../workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../workflowcomplete';
+import { TaskEparSubmission } from '../task_submissions';
 
 @Component({
   selector: 'app-persontask',
@@ -14,6 +17,8 @@ export class PersontaskComponent implements OnInit {
   workflowActivities: WorkflowActivity[];
   workflowTasks: WorkflowTask[];
   eparForm: FormGroup;
+  msgs: Message[] = [];
+  taskName: string;
 
   constructor(private workflowactivityService: WorkflowactivityService, private fb: FormBuilder) {
     this.createEparForm();
@@ -39,7 +44,7 @@ export class PersontaskComponent implements OnInit {
       for (let workflowTask of workflowActivity.workflow_tasks) {
         console.log("FOUND A TASK!");
         this.workflowTasks.push(workflowTask);
-      }
+      } 
     }
   }
 
@@ -47,6 +52,30 @@ export class PersontaskComponent implements OnInit {
     this.eparForm = this.fb.group({
       epar_id: [null, Validators.pattern('[0-9]+')]
     })
+  }
+
+  taskUpdateSuccessMessage(success: boolean) {
+    if (success) {
+      this.msgs.push({severity:'success', summary:'Task Completed', detail:`${this.taskName} successfully completed.`});
+    } else {
+      this.msgs.push({severity:'error', summary:'Task Failed', detail:`${this.taskName} failed to complete.`});
+    }
+  }
+
+  submitEparForm(workflowTask: WorkflowTask) {
+    const formModel = this.eparForm.value;
+    let workflow_task_id = workflowTask.id;
+    let epar_id = formModel.epar_id;
+    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id)
+    this.workflowactivityService.taskSetEpar(eparSubmission).then(taskEparSubmission => {
+      this.taskName = "Create ePAR";
+      if (taskEparSubmission.status) {
+        this.taskUpdateSuccessMessage(true);
+      } else {
+        this.taskUpdateSuccessMessage(false);
+      }
+
+    });
   }
 
 }
