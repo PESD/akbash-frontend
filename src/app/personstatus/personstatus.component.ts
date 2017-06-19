@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Employee } from '../employee';
-import { EmployeesService } from '../employees.service';
+import { Employee } from '../_models/api.model';
+import { EmployeesService } from '../_services/employees.service';
 
 enum PanelStatus {
   Complete,

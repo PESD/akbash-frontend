@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/primeng';
 
-import { WorkflowComplete, Person } from '../workflowcomplete';
-import { WorkflowsService }      from '../workflows.service';
+import { Workflow } from '../_models/bpm.model';
+import { Person } from '../_models/api.model';
+import { WorkflowsService }      from '../_services/workflows.service';
 
 export interface WorkflowGrid {
   id?: number;
@@ -30,8 +31,8 @@ export class WorkflowsComponent implements OnInit {
 
   }
 
-  workflowCompletes: WorkflowComplete[];
-  selectedWorkflowComplete: WorkflowComplete;
+  workflows: Workflow[];
+  selectedWorkflows: Workflow;
   workflowGrid: WorkflowGrid[];
   filterItems: MenuItem[];
   selectedFilter: MenuItem;
@@ -40,8 +41,8 @@ export class WorkflowsComponent implements OnInit {
 
 
   getWorkflows(): void {
-    this.workflowsService.getAllWorkflows(this.activeIndex).then(workflowCompletes => {
-      this.workflowCompletes = workflowCompletes;
+    this.workflowsService.getAllWorkflows(this.activeIndex).then(workflows => {
+      this.workflows = workflows;
       this.buildData();
     });
   }
@@ -49,7 +50,7 @@ export class WorkflowsComponent implements OnInit {
   buildData(): void {
     console.log("Rebuilding the data")
     this.workflowGrid = []
-    for (let row of this.workflowCompletes) {
+    for (let row of this.workflows) {
       var grid: WorkflowGrid = {
         id: row.id,
         process_name: row.process.name,

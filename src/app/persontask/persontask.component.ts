@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
 import { Message } from 'primeng/primeng';
 
-import { WorkflowactivityService } from '../workflowactivity.service';
-import { WorkflowActivity, WorkflowTask }      from '../workflowcomplete';
-import { TaskEparSubmission } from '../task_submissions';
+import { WorkflowactivityService } from '../_services/workflowactivity.service';
+import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
+import { TaskEparSubmission } from '../_models/task_submissions';
 
 @Component({
   selector: 'app-persontask',

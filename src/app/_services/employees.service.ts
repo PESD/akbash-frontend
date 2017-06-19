@@ -3,11 +3,10 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Employee } from './employee';
-import { EMPLOYEES } from './mock-employees';
-import { AuthHeaders } from './authheaders';
+import { Employee } from '../_models/api.model';
+import { AuthHeaders } from '../_helpers/authheaders';
 
-import { Globals } from './global';
+import { Globals } from '../global';
 
 @Injectable()
 export class EmployeesService {

@@ -13,11 +13,10 @@ import {
   Message,
 } from 'primeng/primeng';
 
-import { EmployeesService } from '../employees.service';
-import { Employee } from '../employee';
-import { WorkflowsService }      from '../workflows.service';
-import { WorkflowCreate } from '../workflowcreate';
-import { Process } from '../workflowcomplete';
+import { EmployeesService } from '../_services/employees.service';
+import { Employee } from '../_models/api.model';
+import { WorkflowsService }      from '../_services/workflows.service';
+import { WorkflowCreate, Process } from '../_models/bpm.model';
 
 
 @Component({
