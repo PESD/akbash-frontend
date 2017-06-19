@@ -6,6 +6,8 @@ import 'rxjs/add/operator/toPromise';
 import { User } from './user';
 import { AuthHeaders } from './authheaders';
 
+import { Globals } from './global';
+
 @Injectable()
 export class UsersService {
 
@@ -16,7 +18,7 @@ export class UsersService {
     if (localStorage.currentUser) {
       let currentUser = JSON.parse(localStorage.getItem("currentUser"));
       username = currentUser["username"]
-    let url = `http://10.127.0.202/bpm/user-from-username/${username}/?format=json`;
+    let url = `${Globals.BASE_API_URL}/bpm/user-from-username/${username}/?format=json`;
     let authHeaders = new AuthHeaders;
     let options = authHeaders.getRequestOptions();
 

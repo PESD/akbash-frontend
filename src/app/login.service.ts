@@ -5,9 +5,11 @@ import 'rxjs/add/operator/toPromise';
 
 import { Token } from './token';
 
+import { Globals } from './global';
+
 @Injectable()
 export class LoginService {
-  private loginURL = 'http://10.127.0.202/api-token-auth/?format=json';
+  private loginURL = `${Globals.BASE_API_URL}/api-token-auth/?format=json`;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers });
   constructor(private http: Http) { }
