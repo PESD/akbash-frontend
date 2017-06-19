@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { AuthHeaders } from '../_helpers/authheaders';
 import { WorkflowActivity }      from '../_models/bpm.model';
-import { TaskEparSubmission } from '../_models/task_submissions';
+import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
 
 import { Globals } from '../global';
 
@@ -36,13 +36,20 @@ export class WorkflowactivityService {
 
     return this.http.post(url, body, options)
       .toPromise()
-      .then(response => {
-        let eParResponse = response.json() as TaskEparSubmission;
-        console.log(eParResponse.message)
-        return eParResponse;
-      })
+      .then(response => response.json() as TaskEparSubmission)
       .catch(this.handleError);
+  }
 
+  taskSetVisionsID(taskVisionsIDSubmission: TaskVisionsIDSubmission): Promise<TaskVisionsIDSubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_set_visions_id/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskVisionsIDSubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskVisionsIDSubmission)
+      .catch(this.handleError);
   }
 
 

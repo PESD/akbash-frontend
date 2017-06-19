@@ -15,6 +15,17 @@
           </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Create Employee Maintenance Record'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <form [formGroup]="visionsIDForm" (ngSubmit)="submitVisionsIDForm(workflowTask)">
+                Visions Record ID:<br/>
+                <input class="form-control" formControlName="visions_id" pattern="[0-9]+" pInputText>
+                <button pButton type="submit" label="Save" [disabled]="visionsIDForm.pristine || !visionsIDForm.valid"></button>
+              </form>
+          </div>
+          </div>
+        </div>
         <div *ngSwitchDefault>No Tasks</div>
       </div>
     </p-panel>

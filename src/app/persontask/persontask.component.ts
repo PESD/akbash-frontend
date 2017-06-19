@@ -5,7 +5,7 @@ import { Message } from 'primeng/primeng';
 
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
-import { TaskEparSubmission } from '../_models/task_submissions';
+import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
 
 @Component({
   selector: 'app-persontask',
@@ -16,12 +16,15 @@ export class PersontaskComponent implements OnInit {
   @Input() workflow_id: string;
   workflowActivities: WorkflowActivity[];
   workflowTasks: WorkflowTask[];
-  eparForm: FormGroup;
   msgs: Message[] = [];
   taskName: string;
+  // One FormGroup per task
+  eparForm: FormGroup;
+  visionsIDForm: FormGroup;
 
   constructor(private workflowactivityService: WorkflowactivityService, private fb: FormBuilder) {
     this.createEparForm();
+    this.createVisionsForm();
   }
 
   ngOnInit() {
@@ -48,12 +51,6 @@ export class PersontaskComponent implements OnInit {
     }
   }
 
-  createEparForm() {
-    this.eparForm = this.fb.group({
-      epar_id: [null, Validators.pattern('[0-9]+')]
-    })
-  }
-
   taskUpdateSuccessMessage(success: boolean, message: string) {
     if (success) {
       this.msgs.push({severity:'success', summary:`${this.taskName} Completed`, detail:message});
@@ -62,11 +59,20 @@ export class PersontaskComponent implements OnInit {
     }
   }
 
+// Forms -- Create and Submit functions
+
+// "Create ePAR" Form
+  createEparForm() {
+    this.eparForm = this.fb.group({
+      epar_id: [null, Validators.pattern('[0-9]+')]
+    });
+  }
+
   submitEparForm(workflowTask: WorkflowTask) {
     const formModel = this.eparForm.value;
     let workflow_task_id = workflowTask.id;
     let epar_id = formModel.epar_id;
-    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id)
+    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id);
     this.workflowactivityService.taskSetEpar(eparSubmission).then(taskEparSubmission => {
       this.taskName = "Create ePAR";
       if (taskEparSubmission.status) {
@@ -76,6 +82,28 @@ export class PersontaskComponent implements OnInit {
       }
 
     });
+  }
+
+// "Create Employee Maintenance Record" Form
+  createVisionsForm() {
+    this.visionsIDForm = this.fb.group({
+      visions_id: [null, Validators.pattern('[0-9]+')]
+    });
+  }
+
+  submitVisionsIDForm(workflowTask: WorkflowTask) {
+    const formModel = this.visionsIDForm.value;
+    let workflow_task_id = workflowTask.id;
+    let visions_id = formModel.visions_id;
+    let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id);
+    this.workflowactivityService.taskSetVisionsID(visionsIDSubmission).then(taskVisionsIDSubmission => {
+      this.taskName = "Create Employee Maintenance Record";
+      if (taskVisionsIDSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskVisionsIDSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskVisionsIDSubmission.message);
+      }
+    })
   }
 
 }
