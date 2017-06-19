@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InputTextModule, PasswordModule } from 'primeng/primeng';
-import { AuthService } from '../auth.service';
-import { AuthHeaders } from '../authheaders';
+import { AuthService } from '../_services/auth.service';
+import { AuthHeaders } from '../_helpers/authheaders';
 
 @Component({
   selector: 'app-login',

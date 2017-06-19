@@ -3,9 +3,9 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Token } from './token';
+import { Token } from '../_models/token';
 
-import { Globals } from './global';
+import { Globals } from '../global';
 
 @Injectable()
 export class LoginService {

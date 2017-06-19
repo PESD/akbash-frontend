@@ -32,17 +32,17 @@ import {
           BlockUIModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
-import { EmployeesService } from './employees.service';
+import { EmployeesService } from './_services/employees.service';
 import { MenuComponent } from './menu/menu.component';
 import { WorkflowsComponent } from './workflows/workflows.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import { AuthService }      from './auth.service';
-import { AuthGuard }      from './auth.guard';
-import { LoginService }      from './login.service';
-import { WorkflowsService }      from './workflows.service';
-import { WorkflowactivityService }      from './workflowactivity.service';
-import { UsersService }      from './users.service';
+import { AuthService }      from './_services/auth.service';
+import { AuthGuard }      from './_guards/auth.guard';
+import { LoginService }      from './_services/login.service';
+import { WorkflowsService }      from './_services/workflows.service';
+import { WorkflowactivityService }      from './_services/workflowactivity.service';
+import { UsersService }      from './_services/users.service';
 import { PersonstatusComponent } from './personstatus/personstatus.component';
 import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';

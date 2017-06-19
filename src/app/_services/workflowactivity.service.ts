@@ -3,11 +3,11 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { AuthHeaders } from './authheaders';
-import { WorkflowActivity }      from './workflowcomplete';
-import { TaskEparSubmission } from './task_submissions';
+import { AuthHeaders } from '../_helpers/authheaders';
+import { WorkflowActivity }      from '../_models/bpm.model';
+import { TaskEparSubmission } from '../_models/task_submissions';
 
-import { Globals } from './global';
+import { Globals } from '../global';
 
 @Injectable()
 export class WorkflowactivityService {

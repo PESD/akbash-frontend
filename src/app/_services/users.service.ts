@@ -3,10 +3,10 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { User } from './user';
-import { AuthHeaders } from './authheaders';
+import { User } from '../_models/user';
+import { AuthHeaders } from '../_helpers/authheaders';
 
-import { Globals } from './global';
+import { Globals } from '../global';
 
 @Injectable()
 export class UsersService {

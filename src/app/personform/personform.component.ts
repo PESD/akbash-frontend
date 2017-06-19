@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
 import {SelectItem} from 'primeng/primeng';
 
-import { Employee } from '../employee';
-import { EmployeesService } from '../employees.service';
+import { Employee } from '../_models/api.model';
+import { EmployeesService } from '../_services/employees.service';
 
 
 

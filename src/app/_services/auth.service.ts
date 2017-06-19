@@ -7,7 +7,7 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/observable/fromPromise';
 
 import { LoginService }      from './login.service';
-import { Token } from './token'
+import { Token } from '../_models/token'
 
 @Injectable()
 export class AuthService {
