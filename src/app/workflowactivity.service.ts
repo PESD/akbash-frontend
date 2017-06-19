@@ -36,7 +36,11 @@ export class WorkflowactivityService {
 
     return this.http.post(url, body, options)
       .toPromise()
-      .then(response => response.json() as TaskEparSubmission)
+      .then(response => {
+        let eParResponse = response.json() as TaskEparSubmission;
+        console.log(eParResponse.message)
+        return eParResponse;
+      })
       .catch(this.handleError);
 
   }

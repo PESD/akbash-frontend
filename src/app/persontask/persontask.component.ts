@@ -44,7 +44,7 @@ export class PersontaskComponent implements OnInit {
       for (let workflowTask of workflowActivity.workflow_tasks) {
         console.log("FOUND A TASK!");
         this.workflowTasks.push(workflowTask);
-      } 
+      }
     }
   }
 
@@ -54,11 +54,11 @@ export class PersontaskComponent implements OnInit {
     })
   }
 
-  taskUpdateSuccessMessage(success: boolean) {
+  taskUpdateSuccessMessage(success: boolean, message: string) {
     if (success) {
-      this.msgs.push({severity:'success', summary:'Task Completed', detail:`${this.taskName} successfully completed.`});
+      this.msgs.push({severity:'success', summary:`${this.taskName} Completed`, detail:message});
     } else {
-      this.msgs.push({severity:'error', summary:'Task Failed', detail:`${this.taskName} failed to complete.`});
+      this.msgs.push({severity:'error', summary:`${this.taskName} Failed`, detail:message});
     }
   }
 
@@ -70,9 +70,9 @@ export class PersontaskComponent implements OnInit {
     this.workflowactivityService.taskSetEpar(eparSubmission).then(taskEparSubmission => {
       this.taskName = "Create ePAR";
       if (taskEparSubmission.status) {
-        this.taskUpdateSuccessMessage(true);
+        this.taskUpdateSuccessMessage(true, taskEparSubmission.message);
       } else {
-        this.taskUpdateSuccessMessage(false);
+        this.taskUpdateSuccessMessage(false, taskEparSubmission.message);
       }
 
     });
