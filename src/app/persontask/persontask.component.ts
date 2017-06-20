@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
-import { Message } from 'primeng/primeng';
+import { Message, ConfirmationService } from 'primeng/primeng';
 
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
 import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
+import { Epar } from '../_models/visions.model'
 
 @Component({
   selector: 'app-persontask',
@@ -21,8 +22,13 @@ export class PersontaskComponent implements OnInit {
   // One FormGroup per task
   eparForm: FormGroup;
   visionsIDForm: FormGroup;
+  //EparID vars
+  epar: Epar;
 
-  constructor(private workflowactivityService: WorkflowactivityService, private fb: FormBuilder) {
+  constructor(
+    private workflowactivityService: WorkflowactivityService,
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService) {
     this.createEparForm();
     this.createVisionsForm();
   }
@@ -69,6 +75,26 @@ export class PersontaskComponent implements OnInit {
   }
 
   submitEparForm(workflowTask: WorkflowTask) {
+    const formModel = this.eparForm.value;
+    let epar_id = formModel.epar_id;
+    this.workflowactivityService.getEpar(epar_id).then(epar => {
+      console.log(`Epar ID is ${epar.id}`)
+      this.epar = epar;
+      this.confirmEparForm(workflowTask);
+    });
+  }
+
+  confirmEparForm(workflowTask: WorkflowTask) {
+    let epar_string = `${this.epar.id} - ${this.epar.name}`
+    this.confirmationService.confirm({
+      message: `Link to ePAR: ${epar_string}?`,
+        accept: () => {
+          this.commitEparForm(workflowTask);
+        }
+      });
+  }
+
+  commitEparForm(workflowTask: WorkflowTask) {
     const formModel = this.eparForm.value;
     let workflow_task_id = workflowTask.id;
     let epar_id = formModel.epar_id;

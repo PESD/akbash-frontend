@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { WorkflowActivity }      from '../_models/bpm.model';
 import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
+import { Epar } from '../_models/visions.model';
 
 import { Globals } from '../global';
 
@@ -52,7 +53,16 @@ export class WorkflowactivityService {
       .catch(this.handleError);
   }
 
+  getEpar(epar_id: string): Promise<Epar> {
+    let url = `${Globals.BASE_API_URL}/bpm/epar/${epar_id}/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
 
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as Epar)
+      .catch(this.handleError);
+  }
 
 
 
