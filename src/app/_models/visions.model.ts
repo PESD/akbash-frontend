@@ -3,3 +3,8 @@ export interface Epar {
     name?: any;
     position_title?: any;
 }
+
+export interface VisionsEmployee {
+    id?: any;
+    name?: any;
+}

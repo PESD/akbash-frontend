@@ -6,7 +6,7 @@ import { Message, ConfirmationService } from 'primeng/primeng';
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
 import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
-import { Epar } from '../_models/visions.model'
+import { Epar, VisionsEmployee } from '../_models/visions.model'
 
 @Component({
   selector: 'app-persontask',
@@ -19,11 +19,12 @@ export class PersontaskComponent implements OnInit {
   workflowTasks: WorkflowTask[];
   msgs: Message[] = [];
   taskName: string;
-  // One FormGroup per task
+  // epar form vars
   eparForm: FormGroup;
-  visionsIDForm: FormGroup;
-  //EparID vars
   epar: Epar;
+  // visions employee id form vars
+  visionsIDForm: FormGroup;
+  visionsEmployee: VisionsEmployee;
 
   constructor(
     private workflowactivityService: WorkflowactivityService,
@@ -119,6 +120,25 @@ export class PersontaskComponent implements OnInit {
 
   submitVisionsIDForm(workflowTask: WorkflowTask) {
     const formModel = this.visionsIDForm.value;
+    let visions_id = formModel.visions_id;
+    this.workflowactivityService.getVisionsEmployee(visions_id).then(visionsEmployee => {
+      this.visionsEmployee = visionsEmployee;
+      this.confirmVisionsIDForm(workflowTask);
+    });
+  }
+
+  confirmVisionsIDForm(workflowTask: WorkflowTask) {
+    let visions_string = `${this.visionsEmployee.id} - ${this.visionsEmployee.name}`
+    this.confirmationService.confirm({
+      message: `Link to Visions Employee: ${visions_string}?`,
+        accept: () => {
+          this.commitVisionsIDForm(workflowTask);
+        }
+      });
+  }
+
+  commitVisionsIDForm(workflowTask: WorkflowTask) {
+    const formModel = this.visionsIDForm.value;
     let workflow_task_id = workflowTask.id;
     let visions_id = formModel.visions_id;
     let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id);
@@ -129,7 +149,7 @@ export class PersontaskComponent implements OnInit {
       } else {
         this.taskUpdateSuccessMessage(false, taskVisionsIDSubmission.message);
       }
-    })
+    });
   }
 
 }
