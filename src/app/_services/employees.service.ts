@@ -53,7 +53,7 @@ export class EmployeesService {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
 
-      let url = `http://10.127.0.202/api/employee/${person.id}/?format=json`;
+      let url = `${Globals.BASE_API_URL}/api/employee/${person.id}/?format=json`;
 
       console.log(JSON.stringify(person))
 

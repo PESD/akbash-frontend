@@ -84,7 +84,11 @@ export class WorkflowsComponent implements OnInit {
 
   menuChange(index) {
     console.log(this.activeIndex);
-    this.getWorkflows()
+    this.getWorkflows();
+  }
+
+  refreshData(event: object) {
+    this.getWorkflows();
   }
 
 }

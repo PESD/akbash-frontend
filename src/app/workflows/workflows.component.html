@@ -8,7 +8,7 @@
     <p-column field="current_user" header="Current Users" sortable="true"></p-column>
     <ng-template let-workflow pTemplate="rowexpansion">
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
-      <app-personform person_id="{{workflow.person.id}}"></app-personform>
-      <app-persontask workflow_id="{{workflow.id}}"></app-persontask>
+      <app-personform person_id="{{workflow.person.id}}" (update)="refreshData($event)"></app-personform>
+      <app-persontask workflow_id="{{workflow.id}}" (update)="refreshData($event)"></app-persontask>
     </ng-template>
 </p-dataTable>

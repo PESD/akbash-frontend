@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
 import { Message, ConfirmationService } from 'primeng/primeng';
@@ -15,6 +15,7 @@ import { Epar, VisionsEmployee } from '../_models/visions.model'
 })
 export class PersontaskComponent implements OnInit {
   @Input() workflow_id: string;
+  @Output() update = new EventEmitter<any>();
   workflowActivities: WorkflowActivity[];
   workflowTasks: WorkflowTask[];
   msgs: Message[] = [];
@@ -61,6 +62,7 @@ export class PersontaskComponent implements OnInit {
   taskUpdateSuccessMessage(success: boolean, message: string) {
     if (success) {
       this.msgs.push({severity:'success', summary:`${this.taskName} Completed`, detail:message});
+      this.update.emit({refresh: true});
     } else {
       this.msgs.push({severity:'error', summary:`${this.taskName} Failed`, detail:message});
     }

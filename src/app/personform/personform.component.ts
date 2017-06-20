@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
 import {SelectItem} from 'primeng/primeng';
@@ -15,6 +15,7 @@ import { EmployeesService } from '../_services/employees.service';
 })
 export class PersonformComponent implements OnInit {
   @Input() person_id: string;
+  @Output() update = new EventEmitter<any>();
   employee: Employee;
   personForm: FormGroup;
   genders: SelectItem[];
@@ -87,25 +88,6 @@ export class PersonformComponent implements OnInit {
       ssn: this.employee.ssn,
       tcp_id: this.employee.tcp_id,
     });
-    /*
-    console.log(this.employee.gender);
-    this.personForm.patchValue({
-      first_name: this.employee.first_name,
-      middle_name: this.employee.middle_name,
-      last_name: this.employee.last_name,
-      birth_date: this.employee.birth_date,
-      gender: this.employee.gender,
-      race_white: this.employee.race_white,
-      race_asian: this.employee.race_asian,
-      race_black: this.employee.race_black,
-      race_islander: this.employee.race_islander,
-      race_american_indian: this.employee.race_american_indian,
-      ethnicity: this.employee.ethnicity,
-      hqt: this.employee.hqt,
-      ssn: this.employee.ssn,
-      tcp_id: this.employee.tcp_id,
-    }); */
-
   }
 
   revert() {
@@ -132,10 +114,10 @@ export class PersonformComponent implements OnInit {
 
   saveEmployee() {
     console.log("Saving Employee");
-    var res;
     let updatedEmployee = this.prepareSave();
-    this.employeesService.updateEmployee(updatedEmployee).then(result => res = result)
-    console.log(JSON.stringify(res))
+    this.employeesService.updateEmployee(updatedEmployee).then(result => {
+      this.update.emit({refresh: true});
+    });
   }
 
 }
