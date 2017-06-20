@@ -11,3 +11,17 @@ export class TaskEparSubmission {
         this.message = "";
   }
 }
+
+export class TaskVisionsIDSubmission {
+  workflow_task_id?: any;
+  visions_id?: any;
+  status?: any;
+  message?: any;
+
+  constructor(workflow_task_id: number, epar_id: any) {
+        this.workflow_task_id = workflow_task_id;
+        this.visions_id = epar_id;
+        this.status = false;
+        this.message = "";
+  }
+}

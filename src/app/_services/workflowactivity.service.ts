@@ -5,7 +5,8 @@ import 'rxjs/add/operator/toPromise';
 
 import { AuthHeaders } from '../_helpers/authheaders';
 import { WorkflowActivity }      from '../_models/bpm.model';
-import { TaskEparSubmission } from '../_models/task_submissions';
+import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
+import { Epar, VisionsEmployee } from '../_models/visions.model';
 
 import { Globals } from '../global';
 
@@ -36,16 +37,43 @@ export class WorkflowactivityService {
 
     return this.http.post(url, body, options)
       .toPromise()
-      .then(response => {
-        let eParResponse = response.json() as TaskEparSubmission;
-        console.log(eParResponse.message)
-        return eParResponse;
-      })
+      .then(response => response.json() as TaskEparSubmission)
       .catch(this.handleError);
-
   }
 
+  taskSetVisionsID(taskVisionsIDSubmission: TaskVisionsIDSubmission): Promise<TaskVisionsIDSubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_set_visions_id/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskVisionsIDSubmission);
 
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskVisionsIDSubmission)
+      .catch(this.handleError);
+  }
+
+  getEpar(epar_id: string): Promise<Epar> {
+    let url = `${Globals.BASE_API_URL}/bpm/epar/${epar_id}/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as Epar)
+      .catch(this.handleError);
+  }
+
+  getVisionsEmployee(visions_id: string): Promise<VisionsEmployee> {
+    let url = `${Globals.BASE_API_URL}/bpm/visions-employee/${visions_id}/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as VisionsEmployee)
+      .catch(this.handleError);
+  }
 
 
 
