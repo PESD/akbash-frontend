@@ -5,13 +5,14 @@ import 'rxjs/add/operator/toPromise';
 
 import { User } from '../_models/user';
 import { AuthHeaders } from '../_helpers/authheaders';
+import { HttperrorService } from './httperror.service';
 
 import { Globals } from '../global';
 
 @Injectable()
 export class UsersService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private httperrorService: HttperrorService) { }
 
   getUserFromUsername(): Promise<User> {
     var username = "";
@@ -30,11 +31,14 @@ export class UsersService {
         console.log(user.username)
         return user;
       })
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
     }
   }
-  private handleError(error: any): Promise<any> {
+  handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
+    this.httperrorService.raiseHttpError("Trouble connecting to API server");
     return Promise.reject(error.message || error);
   }
 }

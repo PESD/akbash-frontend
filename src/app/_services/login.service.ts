@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { Token } from '../_models/token';
 import { AuthHeaders } from '../_helpers/authheaders';
+import { HttperrorService } from './httperror.service';
 
 import { Globals } from '../global';
 
@@ -14,13 +15,16 @@ export class LoginService {
   private refreshURL = `${Globals.BASE_API_URL}/api-token-refresh/?format=json`;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers });
-  constructor(private http: Http) { }
+
+  constructor(private http: Http, private httperrorService: HttperrorService) { }
 
   getLogin(username: string, password: string): Promise<Token[]> {
     return this.http.post(this.loginURL, JSON.stringify({ username: username, password: password }), this.options)
       .toPromise()
       .then(response => response.json() as Token[])
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
   getRefreshedToken(): Promise<Token> {
@@ -29,11 +33,14 @@ export class LoginService {
     return this.http.post(this.refreshURL, JSON.stringify(token), this.options)
       .toPromise()
       .then(response => response.json() as Token)
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
-  private handleError(error: any): Promise<any> {
+  handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
+    //this.httperrorService.raiseHttpError("Trouble connecting to API server");
     return Promise.reject(error.message || error);
   }
 

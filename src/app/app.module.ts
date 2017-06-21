@@ -43,6 +43,7 @@ import { LoginService }      from './_services/login.service';
 import { WorkflowsService }      from './_services/workflows.service';
 import { WorkflowactivityService }      from './_services/workflowactivity.service';
 import { UsersService }      from './_services/users.service';
+import { HttperrorService } from './_services/httperror.service';
 import { PersonstatusComponent } from './personstatus/personstatus.component';
 import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';
@@ -104,6 +105,7 @@ const routes: Routes = [
     WorkflowsService,
     UsersService,
     WorkflowactivityService,
+    HttperrorService,
   ],
   bootstrap: [AppComponent]
 })

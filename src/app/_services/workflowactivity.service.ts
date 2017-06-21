@@ -7,13 +7,14 @@ import { AuthHeaders } from '../_helpers/authheaders';
 import { WorkflowActivity }      from '../_models/bpm.model';
 import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model';
+import { HttperrorService } from './httperror.service';
 
 import { Globals } from '../global';
 
 @Injectable()
 export class WorkflowactivityService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private httperrorService: HttperrorService) { }
 
   getWorkflowActivity(workflow_id: string): Promise<WorkflowActivity[]> {
     let authHeaders = new AuthHeaders;
@@ -26,7 +27,9 @@ export class WorkflowactivityService {
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as WorkflowActivity[])
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
   taskSetEpar(taskEparSubmission: TaskEparSubmission): Promise<TaskEparSubmission> {
@@ -38,7 +41,9 @@ export class WorkflowactivityService {
     return this.http.post(url, body, options)
       .toPromise()
       .then(response => response.json() as TaskEparSubmission)
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
   taskSetVisionsID(taskVisionsIDSubmission: TaskVisionsIDSubmission): Promise<TaskVisionsIDSubmission> {
@@ -50,7 +55,9 @@ export class WorkflowactivityService {
     return this.http.post(url, body, options)
       .toPromise()
       .then(response => response.json() as TaskVisionsIDSubmission)
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
   getEpar(epar_id: string): Promise<Epar> {
@@ -72,13 +79,16 @@ export class WorkflowactivityService {
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as VisionsEmployee)
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
 
 
-    private handleError(error: any): Promise<any> {
-      console.error('An error occurred', error); // for demo purposes only
-      return Promise.reject(error.message || error);
-    }
+  handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    this.httperrorService.raiseHttpError("Trouble connecting to API server");
+    return Promise.reject(error.message || error);
+  }
 }

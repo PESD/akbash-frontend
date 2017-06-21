@@ -7,6 +7,7 @@ import { WorkflowCreate } from '../_models/bpm.model';
 import { Workflow, Process } from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { UsersService }      from './users.service';
+import { HttperrorService } from './httperror.service';
 
 import { Globals } from '../global';
 
@@ -14,7 +15,7 @@ import { Globals } from '../global';
 export class WorkflowsService {
   authHeaders: AuthHeaders = new AuthHeaders;
 
-  constructor(private http: Http, private usersService: UsersService) { }
+  constructor(private http: Http, private usersService: UsersService, private httperrorService: HttperrorService) { }
 
   createWorkflow(workflowCreate: WorkflowCreate): Promise<WorkflowCreate> {
     let url = `${Globals.BASE_API_URL}/bpm/create_workflow/?format=json`;
@@ -57,15 +58,17 @@ export class WorkflowsService {
 
   getWorkflows(url: string): Promise<Workflow[]> {
     let options = this.authHeaders.getRequestOptions();
-
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as Workflow[])
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
   }
 
-  private handleError(error: any): Promise<any> {
+  handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
+    this.httperrorService.raiseHttpError("Trouble connecting to API server");
     return Promise.reject(error.message || error);
   }
 
