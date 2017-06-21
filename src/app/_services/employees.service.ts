@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { Employee } from '../_models/api.model';
 import { AuthHeaders } from '../_helpers/authheaders';
+import { HttperrorService } from './httperror.service';
 
 import { Globals } from '../global';
 
@@ -13,7 +14,7 @@ export class EmployeesService {
   //private employeesURL = 'http://10.127.0.202/api/employee/?format=json';
   private employeesURL = `${Globals.BASE_API_URL}/api/employee-no-workflow/?format=json`;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private httperrorService: HttperrorService) { }
 
   getEmployees(): Promise<Employee[]> {
 /*    return this.http.get(this.employeesURL)
@@ -29,7 +30,9 @@ export class EmployeesService {
     return this.http.get(this.employeesURL, options)
       .toPromise()
       .then(response => response.json() as Employee[])
-      .catch(this.handleError);
+      .catch(error => {
+        return this.handleError(error)
+      });
     }
 
     getEmployee(person_id: string): Promise<Employee> {
@@ -46,14 +49,16 @@ export class EmployeesService {
           //console.log(e);
           return e;
         })
-        .catch(this.handleError);
+        .catch(error => {
+          return this.handleError(error)
+        });
     }
 
     updateEmployee(person: Employee) {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
 
-      let url = `http://10.127.0.202/api/employee/${person.id}/?format=json`;
+      let url = `${Globals.BASE_API_URL}/api/employee/${person.id}/?format=json`;
 
       console.log(JSON.stringify(person))
 
@@ -65,11 +70,14 @@ export class EmployeesService {
           console.log(JSON.stringify(e));
           return e;
         })
-        .catch(this.handleError);
+        .catch(error => {
+          return this.handleError(error)
+        });
     }
 
-    private handleError(error: any): Promise<any> {
+    handleError(error: any): Promise<any> {
       console.error('An error occurred', error); // for demo purposes only
+      this.httperrorService.raiseHttpError("Trouble connecting to API server");
       return Promise.reject(error.message || error);
     }
 

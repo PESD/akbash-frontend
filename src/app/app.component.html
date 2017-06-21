@@ -13,3 +13,6 @@
   </div>
   <router-outlet></router-outlet>
 </div>
+<p-dialog header="Error" [(visible)]="displayHttpError" modal="modal" width="300" [responsive]="true">
+    <p>{{displayHttpErrorMessage}}</p>
+</p-dialog>

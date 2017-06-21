@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
 import { Message, ConfirmationService } from 'primeng/primeng';
@@ -15,10 +15,13 @@ import { Epar, VisionsEmployee } from '../_models/visions.model'
 })
 export class PersontaskComponent implements OnInit {
   @Input() workflow_id: string;
+  @Output() update = new EventEmitter<any>();
   workflowActivities: WorkflowActivity[];
   workflowTasks: WorkflowTask[];
   msgs: Message[] = [];
   taskName: string;
+  displayError: boolean = false;
+  displayErrorMessage: string;
   // epar form vars
   eparForm: FormGroup;
   epar: Epar;
@@ -61,9 +64,15 @@ export class PersontaskComponent implements OnInit {
   taskUpdateSuccessMessage(success: boolean, message: string) {
     if (success) {
       this.msgs.push({severity:'success', summary:`${this.taskName} Completed`, detail:message});
+      this.update.emit({refresh: true});
     } else {
       this.msgs.push({severity:'error', summary:`${this.taskName} Failed`, detail:message});
     }
+  }
+
+  displayErrorWithMessage(msg: string) {
+    this.displayErrorMessage = msg;
+    this.displayError = true;
   }
 
 // Forms -- Create and Submit functions
@@ -86,13 +95,17 @@ export class PersontaskComponent implements OnInit {
   }
 
   confirmEparForm(workflowTask: WorkflowTask) {
-    let epar_string = `${this.epar.id} - ${this.epar.name}`
-    this.confirmationService.confirm({
-      message: `Link to ePAR: ${epar_string}?`,
-        accept: () => {
-          this.commitEparForm(workflowTask);
-        }
-      });
+    if (this.epar.name) {
+      let epar_string = `${this.epar.id} - ${this.epar.name}`
+      this.confirmationService.confirm({
+        message: `Link to ePAR: ${epar_string}?`,
+          accept: () => {
+            this.commitEparForm(workflowTask);
+          }
+        });
+    } else {
+      this.displayErrorWithMessage("ePAR not Found");
+    }
   }
 
   commitEparForm(workflowTask: WorkflowTask) {
@@ -128,13 +141,17 @@ export class PersontaskComponent implements OnInit {
   }
 
   confirmVisionsIDForm(workflowTask: WorkflowTask) {
-    let visions_string = `${this.visionsEmployee.id} - ${this.visionsEmployee.name}`
-    this.confirmationService.confirm({
-      message: `Link to Visions Employee: ${visions_string}?`,
-        accept: () => {
-          this.commitVisionsIDForm(workflowTask);
-        }
-      });
+    if (this.visionsEmployee.name) {
+      let visions_string = `${this.visionsEmployee.id} - ${this.visionsEmployee.name}`
+      this.confirmationService.confirm({
+        message: `Link to Visions Employee: ${visions_string}?`,
+          accept: () => {
+            this.commitVisionsIDForm(workflowTask);
+          }
+        });
+    } else {
+      this.displayErrorWithMessage("Visions Employee not Found");
+    }
   }
 
   commitVisionsIDForm(workflowTask: WorkflowTask) {

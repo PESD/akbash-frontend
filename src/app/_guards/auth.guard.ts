@@ -3,10 +3,18 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, } fro
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService }      from '../_services/auth.service';
+import { LoginService }     from '../_services/login.service';
+
+import { Token }            from '../_models/token';
+
+import { AuthHeaders }      from '../_helpers/authheaders';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  token: Token;
+  authHeaders: AuthHeaders = new AuthHeaders;
+
+  constructor(private authService: AuthService, private loginService: LoginService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     let url: string = state.url;
@@ -14,17 +22,21 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(url: string): boolean {
-    console.log("This auth service is logged in?" + this.authService.isLoggedIn);
-    if (this.authService.isLoggedIn) { return true; }
+    if (this.authService.isLoggedIn) {
+      this.loginService.getRefreshedToken().then(token => {
+        this.authHeaders.setToken(token)
+      });
+      return true;
+    }
 
     console.log("Requested a page  but not authorized");
-    console.log(this.authService.isLoggedIn)
+    console.log(this.authService.isLoggedIn);
 
     // Store the attempted URL for redirecting
     this.authService.redirectUrl = url;
 
     // Navigate to the login page with extras
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { queryParams: { returnUrl: url }});
     return false;
   }
 }

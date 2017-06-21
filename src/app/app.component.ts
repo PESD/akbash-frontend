@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { AccordionModule } from 'primeng/components/accordion/accordion';
 import { DataTableModule,SharedModule } from 'primeng/primeng';
 
+import { HttperrorService } from './_services/httperror.service';
+
+import { Subscription } from 'rxjs/Subscription';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,4 +13,20 @@ import { DataTableModule,SharedModule } from 'primeng/primeng';
 })
 export class AppComponent {
   title = 'Akbash';
+  displayHttpError: boolean = false;
+  displayHttpErrorMessage: string;
+  httpErrorSubscription: Subscription;
+
+  constructor(private httperrorService: HttperrorService) {
+    this.httpErrorSubscription = this.httperrorService.httperror.subscribe(value => {
+      if (value.isError) {
+        this.displayHttpErrorMessage = value.errorMsg;
+        this.displayHttpError = true;
+      } else {
+        this.displayHttpError = false;
+      }
+    })
+  }
+
+
 }
