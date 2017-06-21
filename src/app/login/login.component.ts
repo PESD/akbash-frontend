@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   password: string;
   authHeaders: AuthHeaders;
   returnUrl: string;
+  display: boolean = false;
 
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
     this.authHeaders = new AuthHeaders;
@@ -31,6 +32,10 @@ export class LoginComponent implements OnInit {
       data => {
                     this.router.navigate([this.returnUrl]);
             },
+      err => {
+          console.log("THERE WAS AN ERROR PLEASE DO SOMETHING!");
+          this.display = true;
+      }
     );
   }
 

@@ -20,6 +20,8 @@ export class PersontaskComponent implements OnInit {
   workflowTasks: WorkflowTask[];
   msgs: Message[] = [];
   taskName: string;
+  displayError: boolean = false;
+  displayErrorMessage: string;
   // epar form vars
   eparForm: FormGroup;
   epar: Epar;
@@ -68,6 +70,11 @@ export class PersontaskComponent implements OnInit {
     }
   }
 
+  displayErrorWithMessage(msg: string) {
+    this.displayErrorMessage = msg;
+    this.displayError = true;
+  }
+
 // Forms -- Create and Submit functions
 
 // "Create ePAR" Form
@@ -88,13 +95,17 @@ export class PersontaskComponent implements OnInit {
   }
 
   confirmEparForm(workflowTask: WorkflowTask) {
-    let epar_string = `${this.epar.id} - ${this.epar.name}`
-    this.confirmationService.confirm({
-      message: `Link to ePAR: ${epar_string}?`,
-        accept: () => {
-          this.commitEparForm(workflowTask);
-        }
-      });
+    if (this.epar.name) {
+      let epar_string = `${this.epar.id} - ${this.epar.name}`
+      this.confirmationService.confirm({
+        message: `Link to ePAR: ${epar_string}?`,
+          accept: () => {
+            this.commitEparForm(workflowTask);
+          }
+        });
+    } else {
+      this.displayErrorWithMessage("ePAR not Found");
+    }
   }
 
   commitEparForm(workflowTask: WorkflowTask) {
@@ -130,13 +141,17 @@ export class PersontaskComponent implements OnInit {
   }
 
   confirmVisionsIDForm(workflowTask: WorkflowTask) {
-    let visions_string = `${this.visionsEmployee.id} - ${this.visionsEmployee.name}`
-    this.confirmationService.confirm({
-      message: `Link to Visions Employee: ${visions_string}?`,
-        accept: () => {
-          this.commitVisionsIDForm(workflowTask);
-        }
-      });
+    if (this.visionsEmployee.name) {
+      let visions_string = `${this.visionsEmployee.id} - ${this.visionsEmployee.name}`
+      this.confirmationService.confirm({
+        message: `Link to Visions Employee: ${visions_string}?`,
+          accept: () => {
+            this.commitVisionsIDForm(workflowTask);
+          }
+        });
+    } else {
+      this.displayErrorWithMessage("Visions Employee not Found");
+    }
   }
 
   commitVisionsIDForm(workflowTask: WorkflowTask) {

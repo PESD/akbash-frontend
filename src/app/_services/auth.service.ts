@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
@@ -16,6 +17,7 @@ export class AuthService {
 
   isLoggedIn: boolean = false;
   token: Token;
+  loggedInSubject: Subject<boolean> = new Subject<boolean>();
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
@@ -28,6 +30,7 @@ export class AuthService {
       if(this.token) {
         this.isLoggedIn = true;
         localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token["token"] }));
+        this.loggedInSubject.next(true);
         return true;
       }
       console.log("Username is invalid :sadface")
@@ -43,6 +46,7 @@ export class AuthService {
 
   logout(): void {
     this.isLoggedIn = false;
+    this.loggedInSubject.next(false);
     console.log("Log out got called on service")
   }
 

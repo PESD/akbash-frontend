@@ -33,3 +33,6 @@
 </div>
 </p-panel>
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="500"></p-confirmDialog>
+<p-dialog header="Error" [(visible)]="displayError" modal="modal" width="300" [responsive]="true">
+    <p>{{displayErrorMessage}}</p>
+</p-dialog>
