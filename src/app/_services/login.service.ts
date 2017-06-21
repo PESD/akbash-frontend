@@ -4,12 +4,14 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Token } from '../_models/token';
+import { AuthHeaders } from '../_helpers/authheaders';
 
 import { Globals } from '../global';
 
 @Injectable()
 export class LoginService {
   private loginURL = `${Globals.BASE_API_URL}/api-token-auth/?format=json`;
+  private refreshURL = `${Globals.BASE_API_URL}/api-token-refresh/?format=json`;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers });
   constructor(private http: Http) { }
@@ -18,6 +20,15 @@ export class LoginService {
     return this.http.post(this.loginURL, JSON.stringify({ username: username, password: password }), this.options)
       .toPromise()
       .then(response => response.json() as Token[])
+      .catch(this.handleError);
+  }
+
+  getRefreshedToken(): Promise<Token> {
+    let authHeaders = new AuthHeaders();
+    let token = authHeaders.getToken();
+    return this.http.post(this.refreshURL, JSON.stringify(token), this.options)
+      .toPromise()
+      .then(response => response.json() as Token)
       .catch(this.handleError);
   }
 
