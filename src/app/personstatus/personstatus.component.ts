@@ -19,12 +19,21 @@ export class PersonstatusComponent implements OnInit {
 
   employee: Employee;
   positions: Position[];
+  showEmployee: boolean = false;
+  showContractor: boolean = false;
 
   constructor(private employeesService: EmployeesService) { }
 
   getEmployee() {
     this.employeesService.getEmployee(this.person_id).then(employee => {
       this.employee = employee;
+      if (employee.type == "Employee") {
+        this.showEmployee = true;
+        this.showContractor = false;
+      } else {
+        this.showEmployee = false;
+        this.showContractor = true;
+      }
       console.log(this.employee.id)
     });
   }

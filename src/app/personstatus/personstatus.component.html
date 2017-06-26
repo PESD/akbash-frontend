@@ -35,7 +35,7 @@
 </p-panel></div>
 </div>
 </p-panel>
-<p-panel class="workflow-status" header="Employee Information">
+<p-panel *ngIf="showEmployee" class="workflow-status" header="Employee Information">
   <div class="ui-g">
     <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="Employee ID">
     <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.employee_id)}}</div>
@@ -48,7 +48,7 @@
   </p-panel></div>
 </div>
 </p-panel>
-<p-panel class="workflow-status" header="Contractor Information">
+<p-panel *ngIf="showContractor" class="workflow-status" header="Contractor Information">
   <div class="ui-g">
     <div class="ui-g-12 ui-md-6 ui-lg-6"><p-panel header="Vendor Type">
     <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText("Temp")}}</div>

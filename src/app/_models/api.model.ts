@@ -1,6 +1,7 @@
 export class Employee {
   api_url?: any;
   id?: any;
+  type?: any;
   employee_id?: any;
   first_name?: any;
   last_name?: any;
@@ -62,6 +63,7 @@ export class Employee {
 export interface Person {
     api_url: string;
     id: number;
+    type?: any;
     first_name?: string;
     last_name?: string;
     middle_name?: string;
