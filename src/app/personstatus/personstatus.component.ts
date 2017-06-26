@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Employee } from '../_models/api.model';
+import { Employee, Position } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
 
 enum PanelStatus {
@@ -18,6 +18,7 @@ export class PersonstatusComponent implements OnInit {
   @Input() person_id: string;
 
   employee: Employee;
+  positions: Position[];
 
   constructor(private employeesService: EmployeesService) { }
 
@@ -28,9 +29,17 @@ export class PersonstatusComponent implements OnInit {
     });
   }
 
+  getPositions() {
+    this.employeesService.getPositions(this.person_id).then(positions => {
+      this.positions = positions;
+    })
+  }
+
   ngOnInit() {
     this.employee = new Employee;
+    this.positions = [];
     this.getEmployee();
+    this.getPositions();
   }
 
   getStatusText(value: string | boolean, notNeeded?: boolean): string {
