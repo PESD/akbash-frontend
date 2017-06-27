@@ -3,7 +3,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Employee } from '../_models/api.model';
+import { Employee, Position } from '../_models/api.model';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { HttperrorService } from './httperror.service';
 
@@ -48,6 +48,25 @@ export class EmployeesService {
           let e = response.json() as Employee;
           //console.log(e);
           return e;
+        })
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
+    getPositions(person_id: string): Promise<Position[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/position-from-person/${person_id}/?format=json`;
+      console.log(url)
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let p = response.json() as Position[];
+          //console.log(e);
+          return p;
         })
         .catch(error => {
           return this.handleError(error)

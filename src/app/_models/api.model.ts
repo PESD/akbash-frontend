@@ -1,6 +1,7 @@
 export class Employee {
   api_url?: any;
   id?: any;
+  type?: any;
   employee_id?: any;
   first_name?: any;
   last_name?: any;
@@ -62,6 +63,7 @@ export class Employee {
 export interface Person {
     api_url: string;
     id: number;
+    type?: any;
     first_name?: string;
     last_name?: string;
     middle_name?: string;
@@ -104,3 +106,23 @@ export interface Person {
     ad_account_created_by?: any;
     services?: any[];
 }
+
+export interface Location {
+        api_url: string;
+        id: number;
+        name: string;
+        short_name: string;
+        location_number: string;
+    }
+
+export class Position {
+        api_url: string;
+        id: number;
+        title?: string;
+        person: number;
+        last_updated_date?: any;
+        last_updated_by?: string;
+        location?: Location;
+        department?: any;
+        position_type?: any;
+    }
