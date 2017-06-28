@@ -5,6 +5,7 @@ import {SelectItem} from 'primeng/primeng';
 
 import { Employee } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
+import { FormHelper } from '../_helpers/formhelper';
 
 
 
@@ -25,19 +26,11 @@ export class PersonformComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, private employeesService: EmployeesService) {
+    let formHelper = new FormHelper;
     this.createForm();
-    this.genders = [];
-    this.genders.push({label: "Female", value: "F"});
-    this.genders.push({label: "Male", value: "M"});
-    this.races = [];
-    this.races.push({label: "American Indian", value: "race_american_indian"});
-    this.races.push({label: "Asian", value: "race_asian"});
-    this.races.push({label: "Black", value: "race_black"});
-    this.races.push({label: "Pacific Islander", value: "race_islander"});
-    this.races.push({label: "White", value: "race_white"});
-    this.ethnicities = []
-    this.ethnicities.push({label: "Hispanic", value: "Hispanic"})
-    this.ethnicities.push({label: "Non-Hispanic", value: "Non-Hispanic"})
+    this.genders = formHelper.getGenders();
+    this.races = formHelper.getRaces();
+    this.ethnicities = formHelper.getEthnicities();
   }
 
   ngOnInit() {

@@ -47,12 +47,14 @@ import { HttperrorService } from './_services/httperror.service';
 import { PersonstatusComponent } from './personstatus/personstatus.component';
 import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';
+import { ContractorComponent } from './contractor/contractor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard',  component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'workflows',  component: WorkflowsComponent, canActivate: [AuthGuard] },
   { path: 'employees',  component: EmployeesComponent, canActivate: [AuthGuard] },
+  { path: 'contractor', component: ContractorComponent, canActivate: [AuthGuard] },
   { path: 'test/:person_id', component: PersonformComponent},
   { path: 'login',  component: LoginComponent },
 ];
@@ -68,6 +70,7 @@ const routes: Routes = [
     PersonstatusComponent,
     PersonformComponent,
     PersontaskComponent,
+    ContractorComponent,
   ],
   imports: [
     BrowserModule,

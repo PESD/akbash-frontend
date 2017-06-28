@@ -58,9 +58,11 @@ export class EmployeesComponent implements OnInit {
   }
 
   buildProcessSelect() {
+    this.selectProcesses = [];
     for (let process of this.processes) {
-      this.selectProcesses = [];
-      this.selectProcesses.push({label: process.name, value: process.id})
+      if (!(process.name.indexOf("Contractor") >= 0)) {
+        this.selectProcesses.push({label: process.name, value: process.id})
+      }
     }
   }
 
