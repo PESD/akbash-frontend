@@ -1,0 +1,89 @@
+<p-panel header="New Contractor">
+  <form [formGroup]="contractorForm" (ngSubmit)="saveContractor()">
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        Vendor*:<br/>
+        <p-dropdown [options]="selectVendors" class="form-control" formControlName="vendor" (onChange)="onChange($event)" autoWidth="False" [style]="{'width':'250px'}" placeholder="Select a Vendor"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        First Name*:<br/>
+          <input class="form-control" formControlName="first_name" pInputText>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Middle Name:<br/>
+          <input class="form-control" formControlName="middle_name" pInputText>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Last Name*:<br/>
+          <input class="form-control" formControlName="last_name" pInputText>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Birth Date:<br/>
+          <p-calendar formControlName="birth_date" [monthNavigator]="true" [yearNavigator]="true" yearRange="1930:2017" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Gender:<br/>
+          <p-selectButton [options]="genders" formControlName="gender"></p-selectButton>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Race:<br/>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+              <p-checkbox formControlName="race_american_indian" binary="true"></p-checkbox> American Indian
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+              <p-checkbox formControlName="race_asian" binary="true"></p-checkbox> Asian
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+              <p-checkbox formControlName="race_black" binary="true"></p-checkbox> Black
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+              <p-checkbox formControlName="race_islander" binary="true"></p-checkbox> Pacific Islander
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <p-checkbox formControlName="race_white" binary="true"></p-checkbox> White
+            </div>
+          </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Ethnicity:<br/>
+          <p-selectButton [options]="ethnicities" formControlName="ethnicity"></p-selectButton>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        SSN:<br/>
+          <input class="form-control" formControlName="ssn" pInputText>
+      </div>
+    </div>
+    <div formArrayName="positions">
+      <h4>Positions</h4>
+      <p-panel *ngFor="let position of positions.controls; let i=index" [formGroupName]="i" header="Position #{{i + 1}}">
+        <button *ngIf="i > 0" pButton type="button" label="Remove Position" class="ui-button-danger" (click)="removePosition(i)"></button>
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6">
+            Title:<br/>
+            <input class="form-control" formControlName="title">
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            Location:
+            <p-dropdown [options]="selectLocations" class="form-control" formControlName="location" autoWidth="False" [style]="{'width':'250px'}" placeholder="Select a Location"></p-dropdown>
+          </div>
+        </div>
+      </p-panel>
+      <button (click)="addPosition()" type="button">Add Another Position</button>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Save" [disabled]="contractorForm.pristine || !contractorForm.valid"></button>
+        <button pButton type="reset" label="Clear" [disabled]="contractorForm.pristine" (click)="revert()" class="ui-button-danger"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

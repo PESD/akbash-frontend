@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Employee, Position } from '../_models/api.model';
+import { Employee, Position, Contractor, Person, Vendor } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
 
 enum PanelStatus {
@@ -17,24 +17,32 @@ enum PanelStatus {
 export class PersonstatusComponent implements OnInit {
   @Input() person_id: string;
 
+  person: Person;
   employee: Employee;
+  contractor: Contractor;
+  vendor: Vendor;
   positions: Position[];
   showEmployee: boolean = false;
   showContractor: boolean = false;
 
   constructor(private employeesService: EmployeesService) { }
 
-  getEmployee() {
-    this.employeesService.getEmployee(this.person_id).then(employee => {
-      this.employee = employee;
-      if (employee.type == "Employee") {
+  getPerson() {
+    this.employeesService.getPerson(this.person_id).then(person => {
+      this.person = person;
+      if (person.type == "Employee") {
         this.showEmployee = true;
         this.showContractor = false;
+        this.employeesService.getEmployee(this.person_id).then(employee => this.employee = employee)
       } else {
         this.showEmployee = false;
         this.showContractor = true;
+        this.employeesService.getContractor(this.person_id).then(contractor => {
+          this.contractor = contractor;
+          this.employeesService.getVendor(contractor.vendor).then(vendor => this.vendor = vendor)
+        })
       }
-      console.log(this.employee.id)
+      console.log(this.person.id)
     });
   }
 
@@ -45,9 +53,12 @@ export class PersonstatusComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.employee = new Employee;
+    this.person = new Person();
+    this.employee = new Employee();
+    this.contractor = new Contractor();
+    this.vendor = new Vendor();
     this.positions = [];
-    this.getEmployee();
+    this.getPerson();
     this.getPositions();
   }
 

@@ -47,15 +47,38 @@ import { HttperrorService } from './_services/httperror.service';
 import { PersonstatusComponent } from './personstatus/personstatus.component';
 import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';
+import { ContractorComponent } from './contractor/contractor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard',  component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'workflows',  component: WorkflowsComponent, canActivate: [AuthGuard] },
   { path: 'employees',  component: EmployeesComponent, canActivate: [AuthGuard] },
+  { path: 'contractor', component: ContractorComponent, canActivate: [AuthGuard] },
   { path: 'test/:person_id', component: PersonformComponent},
   { path: 'login',  component: LoginComponent },
 ];
+
+declare global {
+  interface Date {
+    yyyymmdd(): string;
+  }
+}
+
+Date.prototype.yyyymmdd = function() {
+  var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+  var dd = this.getDate().toString();
+
+  if (mm.length===1) {
+    mm = "0" + mm;
+  }
+
+  if (dd.length===1) {
+    dd = "0" + dd;
+  }
+
+    return [this.getFullYear(), mm, dd].join('-'); // padding
+  };
 
 @NgModule({
   declarations: [
@@ -68,6 +91,7 @@ const routes: Routes = [
     PersonstatusComponent,
     PersonformComponent,
     PersontaskComponent,
+    ContractorComponent,
   ],
   imports: [
     BrowserModule,

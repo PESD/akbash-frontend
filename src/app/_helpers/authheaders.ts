@@ -1,6 +1,8 @@
 import { Headers, RequestOptions } from '@angular/http';
 import { Token } from '../_models/token';
 
+// Helper class for dealing with authentication and http headers.
+// Name should be refactored at some point.
 export class AuthHeaders {
   public getRequestOptions(): RequestOptions {
     var options: RequestOptions;
