@@ -1,5 +1,5 @@
 export class Vendor {
-  id: any;
+  id?: any;
   name?: any;
   short_name?: any;
   vendor_type?: any;
@@ -67,9 +67,9 @@ export class Employee {
   services?: any;
 }
 
-export interface Person {
-    api_url: string;
-    id: number;
+export class Person {
+    api_url?: string;
+    id?: number;
     type?: any;
     first_name?: string;
     last_name?: string;
@@ -87,6 +87,10 @@ export interface Person {
     ssn?: string;
     tcp_id?: any;
     talented_id?: number;
+    visions_id?: any;
+    sub_type?: any;
+    marked_as_hired?: any;
+    epar_id?: any;
     is_onboarded?: boolean;
     onboarded_date?: any;
     onboarded_by?: any;
@@ -112,17 +116,19 @@ export interface Person {
     ad_account_created_date?: any;
     ad_account_created_by?: any;
     services?: any[];
+    vendor?: any;
+    employee_id?: any;
 }
 
-export interface Contractor {
-    api_url: string;
-    id: number;
+export class Contractor {
+    api_url?: string;
+    id?: number;
     type?: any;
     first_name?: string;
     last_name?: string;
     middle_name?: string;
     badge_number?: any;
-    birth_date?: string;
+    birth_date?: any;
     gender?: string;
     race_white?: boolean;
     race_asian?: boolean;
@@ -159,7 +165,7 @@ export interface Contractor {
     ad_account_created_date?: any;
     ad_account_created_by?: any;
     services?: any[];
-    vendor?: Vendor;
+    vendor?: any;
 }
 
 export interface Location {

@@ -1,14 +1,14 @@
-<h1 class="display-4">{{employee.first_name}} {{employee.last_name}}</h1>
+<h1 class="display-4">{{person.first_name}} {{person.last_name}}</h1>
 <p-panel class="workflow-status" header="General Information">
   <div class="ui-g">
     <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Type">
-    <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.badge_number)">{{getStatusText("Employee")}}</div>
+    <div class="workflow-status-panel" [ngClass]="setPanelClass(person.type)">{{getStatusText(person.type)}}</div>
   </p-panel></div>
   <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Badge Number">
-  <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.badge_number)">{{getStatusText(employee.badge_number)}}</div>
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(person.badge_number)">{{getStatusText(person.badge_number)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Start Date">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(employee.marked_as_hired)">{{getStatusText(employee.marked_as_hired)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.marked_as_hired)">{{getStatusText(person.marked_as_hired)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Active Directory User">
 <div class="workflow-status-panel panelCompleted">jon.snow</div>
@@ -22,39 +22,39 @@
 <div class="workflow-status-panel panelNotNeeded">{{getStatusText(false, true)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP User">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(employee.tcp_id)">{{getStatusText(employee.tcp_id)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.tcp_id)">{{getStatusText(person.tcp_id)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Onboarded?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(employee.is_onboarded)">{{getStatusText(employee.onboarded_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_onboarded)">{{getStatusText(person.onboarded_date)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP Fingerprinted?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(employee.is_tcp_fingerprinted)">{{getStatusText(employee.tcp_fingerprinted_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_tcp_fingerprinted)">{{getStatusText(person.tcp_fingerprinted_date)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Badge Created?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(employee.is_badge_created)">{{getStatusText(employee.badge_created_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_badge_created)">{{getStatusText(person.badge_created_date)}}</div>
 </p-panel></div>
 </div>
 </p-panel>
 <p-panel *ngIf="showEmployee" class="workflow-status" header="Employee Information">
   <div class="ui-g">
     <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="Employee ID">
-    <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.employee_id)}}</div>
+    <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.employee_id)">{{getStatusText(employee.employee_id)}}</div>
     </p-panel></div>
   <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="ePAR ID">
   <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.epar_id)}}</div>
   </p-panel></div>
       <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="Employee Record ID">
-  <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.visions_id)}}</div>
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.visions_id)">{{getStatusText(employee.visions_id)}}</div>
   </p-panel></div>
 </div>
 </p-panel>
 <p-panel *ngIf="showContractor" class="workflow-status" header="Contractor Information">
   <div class="ui-g">
     <div class="ui-g-12 ui-md-6 ui-lg-6"><p-panel header="Vendor Type">
-    <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText("Temp")}}</div>
+    <div class="workflow-status-panel" [ngClass]="setPanelClass(vendor.vendor_type)">{{getStatusText(vendor.vendor_type)}}</div>
     </p-panel></div>
-  <div class="ui-g-12 ui-md-6 ui-lg-6"><p-panel header="ePAR ID">
-  <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText("Kelly Staffing")}}</div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6"><p-panel header="Vendor Name">
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(vendor.name)">{{getStatusText(vendor.name)}}</div>
   </p-panel></div>
 </div>
 </p-panel>
@@ -70,7 +70,7 @@
 <div class="workflow-status-panel">{{getStatusText(true)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Last Updated by:">
-<div class="workflow-status-panel">{{getStatusText(position.last_updated_by)}} - {{getStatusText(position.last_updated_date) | date :'shortDate'}}</div>
+<div class="workflow-status-panel">{{getStatusText(position.last_updated_by)}} - {{getStatusText(position.last_updated_date) | date :'y-MM-dd'}}</div>
 </p-panel></div>
 </div>
 </p-panel>

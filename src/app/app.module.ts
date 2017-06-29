@@ -59,6 +59,27 @@ const routes: Routes = [
   { path: 'login',  component: LoginComponent },
 ];
 
+declare global {
+  interface Date {
+    yyyymmdd(): string;
+  }
+}
+
+Date.prototype.yyyymmdd = function() {
+  var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+  var dd = this.getDate().toString();
+
+  if (mm.length===1) {
+    mm = "0" + mm;
+  }
+
+  if (dd.length===1) {
+    dd = "0" + dd;
+  }
+
+    return [this.getFullYear(), mm, dd].join('-'); // padding
+  };
+
 @NgModule({
   declarations: [
     AppComponent,

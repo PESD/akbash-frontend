@@ -3,10 +3,31 @@ import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
 import {SelectItem} from 'primeng/primeng';
 
-import { Employee } from '../_models/api.model';
+import { Employee, Person } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
 import { FormHelper } from '../_helpers/formhelper';
 
+
+declare global {
+  interface Date {
+    yyyymmdd(): string;
+  }
+}
+
+Date.prototype.yyyymmdd = function() {
+  var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+  var dd = this.getDate().toString();
+
+  if (mm.length===1) {
+    mm = "0" + mm;
+  }
+
+  if (dd.length===1) {
+    dd = "0" + dd;
+  }
+
+    return [this.getFullYear(), mm, dd].join('-'); // padding
+  }
 
 
 @Component({
@@ -17,7 +38,7 @@ import { FormHelper } from '../_helpers/formhelper';
 export class PersonformComponent implements OnInit {
   @Input() person_id: string;
   @Output() update = new EventEmitter<any>();
-  employee: Employee;
+  person: Person;
   personForm: FormGroup;
   genders: SelectItem[];
   races: SelectItem[];
@@ -34,12 +55,12 @@ export class PersonformComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getEmployee();
+    this.getPerson();
   }
 
-  getEmployee() {
-    this.employeesService.getEmployee(this.person_id).then(employee => {
-      this.employee = employee;
+  getPerson() {
+    this.employeesService.getPerson(this.person_id).then(person => {
+      this.person = person;
       this.personForm.reset();
       this.updateForm();
     });
@@ -66,49 +87,54 @@ export class PersonformComponent implements OnInit {
 
   updateForm() {
     this.personForm.setValue({
-      first_name: this.employee.first_name,
-      middle_name: this.employee.middle_name,
-      last_name: this.employee.last_name,
-      birth_date: this.employee.birth_date,
-      gender: this.employee.gender,
-      race_white: this.employee.race_white,
-      race_asian: this.employee.race_asian,
-      race_black: this.employee.race_black,
-      race_islander: this.employee.race_islander,
-      race_american_indian: this.employee.race_american_indian,
-      ethnicity: this.employee.ethnicity,
-      hqt: this.employee.hqt,
-      ssn: this.employee.ssn,
-      tcp_id: this.employee.tcp_id,
+      first_name: this.person.first_name,
+      middle_name: this.person.middle_name,
+      last_name: this.person.last_name,
+      birth_date: this.person.birth_date,
+      gender: this.person.gender,
+      race_white: this.person.race_white,
+      race_asian: this.person.race_asian,
+      race_black: this.person.race_black,
+      race_islander: this.person.race_islander,
+      race_american_indian: this.person.race_american_indian,
+      ethnicity: this.person.ethnicity,
+      hqt: this.person.hqt,
+      ssn: this.person.ssn,
+      tcp_id: this.person.tcp_id,
     });
   }
 
   revert() {
-    this.getEmployee();
+    this.getPerson();
   }
 
   prepareSave(): Employee {
     const formModel = this.personForm.value;
-    var updatedEmployee = this.employee;
-    updatedEmployee.first_name = formModel.first_name as string;
-    updatedEmployee.middle_name = formModel.middle_name as string;
-    updatedEmployee.last_name = formModel.last_name as string;
-    updatedEmployee.birth_date = formModel.birth_date as string;
-    updatedEmployee.gender = formModel.gender as string;
-    updatedEmployee.race_asian = formModel.race_asian as boolean;
-    updatedEmployee.race_black = formModel.race_black as boolean;
-    updatedEmployee.race_white = formModel.race_white as boolean;
-    updatedEmployee.race_islander = formModel.race_islander as boolean;
-    updatedEmployee.race_american_indian = formModel.race_american_indian as boolean;
-    updatedEmployee.ethnicity = formModel.ethnicity as string;
-    updatedEmployee.ssn = formModel.ssn as string;
-    return updatedEmployee;
+    let updatedPerson = this.person;
+    let bday_string = formModel.birth_date as string
+    if (!(formModel.birth_date.length===10)) {
+      let birth_date = formModel.birth_date as Date;
+      bday_string = birth_date.yyyymmdd();
+    }
+    updatedPerson.first_name = formModel.first_name as string;
+    updatedPerson.middle_name = formModel.middle_name as string;
+    updatedPerson.last_name = formModel.last_name as string;
+    updatedPerson.birth_date = bday_string;
+    updatedPerson.gender = formModel.gender as string;
+    updatedPerson.race_asian = formModel.race_asian as boolean;
+    updatedPerson.race_black = formModel.race_black as boolean;
+    updatedPerson.race_white = formModel.race_white as boolean;
+    updatedPerson.race_islander = formModel.race_islander as boolean;
+    updatedPerson.race_american_indian = formModel.race_american_indian as boolean;
+    updatedPerson.ethnicity = formModel.ethnicity as string;
+    updatedPerson.ssn = formModel.ssn as string;
+    return updatedPerson;
   }
 
   saveEmployee() {
     console.log("Saving Employee");
-    let updatedEmployee = this.prepareSave();
-    this.employeesService.updateEmployee(updatedEmployee).then(result => {
+    let updatedPerson = this.prepareSave();
+    this.employeesService.updatePerson(updatedPerson).then(result => {
       this.update.emit({refresh: true});
     });
   }

@@ -7,6 +7,7 @@ import { Contractor, Vendor, Position, Location } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
 import { WorkflowsService }      from '../_services/workflows.service';
 import { FormHelper } from '../_helpers/formhelper';
+import { AuthHeaders } from '../_helpers/authheaders';
 import { Process } from '../_models/bpm.model';
 
 export class PositionForm {
@@ -35,6 +36,9 @@ export class ContractorComponent implements OnInit {
   vendorID: string;
   processes: Process[];
   process: Process;
+  contractorVendor: Vendor;
+  newContractor: Contractor;
+  contractorPositions: Position[];
 
   constructor (
     private fb: FormBuilder,
@@ -137,8 +141,59 @@ export class ContractorComponent implements OnInit {
     this.positions.removeAt(index);
   }
 
-  saveContractor() {
+  prepareSave() {
+    const formModel = this.contractorForm.value;
+    this.newContractor = new Contractor();
+    let birth_date = formModel.birth_date as Date;
+    let bday_string = '1900-01-01'
+    if (birth_date) {
+      bday_string = birth_date.yyyymmdd();
+    }
+    this.newContractor.first_name = formModel.first_name as string;
+    this.newContractor.last_name = formModel.last_name as string;
+    this.newContractor.middle_name = formModel.middle_name as string;
+    this.newContractor.birth_date = bday_string;
+    this.newContractor.gender = formModel.gender as string;
+    this.newContractor.race_asian = formModel.race_asian as boolean;
+    this.newContractor.race_black = formModel.race_black as boolean;
+    this.newContractor.race_white = formModel.race_white as boolean;
+    this.newContractor.race_islander = formModel.race_islander as boolean;
+    this.newContractor.race_american_indian = formModel.race_american_indian as boolean;
+    this.newContractor.ethnicity = formModel.ethnicity as string;
+    this.newContractor.ssn = formModel.ssn as string;
+    //this.prepareVendor(formModel.vendor as string);
+    let posArr = this.contractorForm.get("positions") as FormArray;
+    this.preparePositions(posArr);
+    this.newContractor.vendor = formModel.vendor as number;
+    this.newContractor.type = "Contractor";
+  }
 
+  saveContractor() {
+    this.prepareSave();
+    this.employeesService.saveContractorWithPositions(this.newContractor, this.contractorPositions);
+    this.revert();
+  }
+/*
+  prepareVendor(vendorID: string) {
+    const vendorIDNumber = +vendorID;
+    this.contractorVendor = this.vendors.find(vendor => vendor.id === vendorIDNumber);
+  }
+  */
+
+  preparePositions(formArray: FormArray) {
+    let authHeaders = new AuthHeaders;
+    this.contractorPositions = []
+    for (var i = 0; i < formArray.length; i++) {
+      let group = formArray.at(i) as FormGroup
+      let values = group.value;
+      let location = this.locations.find(location => location.id === +values.location)
+      console.log(location)
+      let position = new Position();
+      position.title = values.title;
+      position.location = location;
+      position.last_updated_by = authHeaders.getUsername();
+      this.contractorPositions.push(position);
+    }
   }
 
   revert() {
