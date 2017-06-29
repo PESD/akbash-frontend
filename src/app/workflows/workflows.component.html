@@ -4,7 +4,7 @@
     <p-column field="process_name" header="Process" sortable="true"></p-column>
     <p-column field="first_name" header="First Name" sortable="true"></p-column>
     <p-column field="last_name" header="Last Name" sortable="true"></p-column>
-    <p-column field="current_activity" header="Current Task" sortable="true"></p-column>
+    <p-column field="current_activity" header="Current Task(s)" sortable="true"></p-column>
     <p-column field="current_user" header="Current Users" sortable="true"></p-column>
     <ng-template let-workflow pTemplate="rowexpansion">
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>

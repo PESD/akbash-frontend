@@ -58,17 +58,18 @@ export class WorkflowsComponent implements OnInit {
         last_name: row.person.last_name,
         person: row.person
       };
-
+      let workflowActivities: string[] = [];
+      let workflowUsers: string[] = [];
       for (let actRow of row.workflow_activites) {
         if (actRow.status == "Active") {
-          grid.current_activity = actRow.activity.name;
-          var users = "";
+          workflowActivities.push(actRow.activity.name)
           for (let user of actRow.activity.users) {
-            users = users + user.username + " ";
+            workflowUsers.push(user.username)
           }
-          grid.current_user = users;
         }
       }
+      grid.current_activity = workflowActivities.join(" - ");
+      grid.current_user = workflowUsers.join(" - ");
     /*  console.log(row.workflow_activites) */
       this.workflowGrid.push(grid)
     }

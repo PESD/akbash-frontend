@@ -5,6 +5,7 @@ import { Message, ConfirmationService } from 'primeng/primeng';
 
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
+import { AuthHeaders } from '../_helpers/authheaders';
 import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model'
 
@@ -50,13 +51,21 @@ export class PersontaskComponent implements OnInit {
   }
 
   refreshTasks() {
+    let authHeaders = new AuthHeaders;
     console.log("REFESHING SOME TASKS!");
     this.workflowTasks = [];
     for (let workflowActivity of this.workflowActivities) {
       console.log("FOUND AN ACTIVITY!");
       for (let workflowTask of workflowActivity.workflow_tasks) {
         console.log("FOUND A TASK!");
-        this.workflowTasks.push(workflowTask);
+        let users = workflowActivity.activity.users
+        let usernames: string[] = [];
+        for (let user of users) {
+          usernames.push(user.username);
+        }
+        if (usernames.includes(authHeaders.getUsername())) {
+          this.workflowTasks.push(workflowTask);
+        }
       }
     }
   }
