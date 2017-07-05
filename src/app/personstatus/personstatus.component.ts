@@ -24,12 +24,37 @@ export class PersonstatusComponent implements OnInit {
   positions: Position[];
   showEmployee: boolean = false;
   showContractor: boolean = false;
+  visionsUsername: string;
+  activeDirectoryUsername: string;
+  synergyUsername: string;
 
   constructor(private employeesService: EmployeesService) { }
 
   getPerson() {
     this.employeesService.getPerson(this.person_id).then(person => {
       this.person = person;
+      if(this.person.services) {
+        for (let service of this.person.services) {
+          switch(service["type"]) {
+            case "ad": {
+              this.activeDirectoryUsername = service["user_info"];
+              break;
+            }
+            case "visions": {
+              this.visionsUsername = service["user_info"];
+              break;
+            }
+            case "synergy": {
+              this.synergyUsername = service["user_info"];
+              break;
+            }
+            default: {
+              break;
+            }
+          }
+        }
+      }
+      console.log(person.services)
       if (person.type == "Employee") {
         this.showEmployee = true;
         this.showContractor = false;

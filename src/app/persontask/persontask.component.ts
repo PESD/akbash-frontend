@@ -6,7 +6,7 @@ import { Message, ConfirmationService } from 'primeng/primeng';
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
-import { TaskEparSubmission, TaskVisionsIDSubmission } from '../_models/task_submissions';
+import { TaskEparSubmission, TaskVisionsIDSubmission, TaskEmployeeADSubmission } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model'
 
 @Component({
@@ -178,4 +178,18 @@ export class PersontaskComponent implements OnInit {
     });
   }
 
+  // "Check Employee Active Directory User" Form
+  submitEmployeeADForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskEmployeeADSubmission = new TaskEmployeeADSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskCheckEmployeeAD(taskEmployeeADSubmission).then(taskEmployeeADSubmission => {
+      this.taskName = "Verify Employee Active Directory";
+      if (taskEmployeeADSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskEmployeeADSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskEmployeeADSubmission.message);
+      }
+    })
+  }
 }
