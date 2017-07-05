@@ -11,15 +11,15 @@
 <div class="workflow-status-panel" [ngClass]="setPanelClass(person.marked_as_hired)">{{getStatusText(person.marked_as_hired)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Active Directory User">
-<div class="workflow-status-panel panelCompleted">jon.snow</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(activeDirectoryUsername)">{{getStatusText(activeDirectoryUsername)}}</div>
 </p-panel></div>
 </div>
 <div class="ui-g">
   <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Synergy User">
-  <div class="workflow-status-panel panelCompleted">jsnow</div>
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(synergyUsername)">{{getStatusText(synergyUsername)}}</div>
   </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Visions User">
-<div class="workflow-status-panel panelNotNeeded">{{getStatusText(false, true)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(visionsUsername)">{{getStatusText(visionsUsername)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP User">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(person.tcp_id)">{{getStatusText(person.tcp_id)}}</div>

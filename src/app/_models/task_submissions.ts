@@ -25,3 +25,19 @@ export class TaskVisionsIDSubmission {
         this.message = "";
   }
 }
+
+export class TaskEmployeeADSubmission {
+  workflow_task_id?: any;
+  ad_username?: any;
+  username?: any;
+  status?: any;
+  message?: any;
+
+  constructor(workflow_task_id: number, username: any) {
+        this.workflow_task_id = workflow_task_id;
+        this.username = username;
+        this.ad_username = "";
+        this.status = false;
+        this.message = "";
+  }
+}

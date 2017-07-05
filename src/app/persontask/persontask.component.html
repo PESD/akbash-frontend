@@ -26,6 +26,13 @@
           </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Create Active Directory Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitEmployeeADForm(workflowTask)" label="Check for Active Directory Account"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchDefault>No Tasks</div>
       </div>
     </p-panel>
