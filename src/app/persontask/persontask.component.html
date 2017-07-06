@@ -33,6 +33,13 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Assign Employee to Visions Position'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitEmployeeVisionsPositionForm(workflowTask)" label="Check for Employee Visions Positions"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchDefault>No Tasks</div>
       </div>
     </p-panel>

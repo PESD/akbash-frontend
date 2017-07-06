@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { AuthHeaders } from '../_helpers/authheaders';
 import { WorkflowActivity }      from '../_models/bpm.model';
-import { TaskEparSubmission, TaskVisionsIDSubmission, TaskEmployeeADSubmission } from '../_models/task_submissions';
+import { TaskEparSubmission, TaskVisionsIDSubmission, TaskEmployeeADSubmission, TaskVisionsPositionSubmission } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model';
 import { HttperrorService } from './httperror.service';
 
@@ -69,6 +69,20 @@ export class WorkflowactivityService {
     return this.http.post(url, body, options)
       .toPromise()
       .then(response => response.json() as TaskEmployeeADSubmission)
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  taskUpdateVisionsPositions(taskVisionsPositionSubmission: TaskVisionsPositionSubmission): Promise<TaskVisionsPositionSubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_update_position/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskVisionsPositionSubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskVisionsPositionSubmission)
       .catch(error => {
         return this.handleError(error)
       });
