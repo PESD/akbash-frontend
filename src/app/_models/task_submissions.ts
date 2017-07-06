@@ -41,3 +41,15 @@ export class TaskEmployeeADSubmission {
         this.message = "";
   }
 }
+
+export class TaskVisionsPositionSubmission {
+  workflow_task_id?: any;
+  status?: any;
+  message?: any;
+
+  constructor(workflow_task_id: number) {
+        this.workflow_task_id = workflow_task_id;
+        this.status = false;
+        this.message = "";
+  }
+}

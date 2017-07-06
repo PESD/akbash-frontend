@@ -6,7 +6,7 @@ import { Message, ConfirmationService } from 'primeng/primeng';
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
-import { TaskEparSubmission, TaskVisionsIDSubmission, TaskEmployeeADSubmission } from '../_models/task_submissions';
+import { TaskEparSubmission, TaskVisionsIDSubmission, TaskEmployeeADSubmission, TaskVisionsPositionSubmission } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model'
 
 @Component({
@@ -178,7 +178,7 @@ export class PersontaskComponent implements OnInit {
     });
   }
 
-  // "Check Employee Active Directory User" Form
+  // "Create Active Directory Account" Form
   submitEmployeeADForm(workflowTask: WorkflowTask) {
     let authHeaders = new AuthHeaders;
     let username = authHeaders.getUsername();
@@ -189,6 +189,19 @@ export class PersontaskComponent implements OnInit {
         this.taskUpdateSuccessMessage(true, taskEmployeeADSubmission.message);
       } else {
         this.taskUpdateSuccessMessage(false, taskEmployeeADSubmission.message);
+      }
+    })
+  }
+
+  // "Assign Employee to Visions Position" Form
+  submitEmployeeVisionsPositionForm(workflowTask: WorkflowTask) {
+    let taskVisionsPositionSubmission = new TaskVisionsPositionSubmission(workflowTask.id)
+    this.workflowactivityService.taskUpdateVisionsPositions(taskVisionsPositionSubmission).then(taskVisionsPositionSubmission => {
+      this.taskName = "Employee Added to Visions Position";
+      if (taskVisionsPositionSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskVisionsPositionSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskVisionsPositionSubmission.message);
       }
     })
   }
