@@ -3,7 +3,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Employee, Position, Vendor, Location, Contractor, Person } from '../_models/api.model';
+import { Employee, Position, Vendor, Location, Contractor, Person, Comment } from '../_models/api.model';
 import { WorkflowCreate, Process } from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { HttperrorService } from './httperror.service';
@@ -234,6 +234,32 @@ export class EmployeesService {
           }
         }
         return null
+    }
+
+    getCommentsByPerson(person_id: string): Promise<Comment[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+      let url = `${Globals.BASE_API_URL}/api/comment/?format=json`;
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => response.json() as Comment[])
+        .catch(error => {
+          return this.handleError(error)
+        });
+
+    }
+
+    saveComment(comment: Comment): Promise<Comment> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+      let url = `${Globals.BASE_API_URL}/api/comment/?format=json`;
+      let body = JSON.stringify(comment);
+
+      return this.http.post(url, body, options)
+        .toPromise()
+        .then(response => response.json() as Comment)
+        .catch(this.handleError);
     }
 
     handleError(error: any): Promise<any> {

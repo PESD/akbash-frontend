@@ -1,0 +1,14 @@
+<p-panel class="workflow-status" header="Comments">
+  <div *ngFor="let comment of comments" class="ui-g">
+    <h4>{{comment.formatted_date}} - {{comment.username}}</h4>
+    <p>{{comment.text}}</p>
+  </div>
+  <div class="ui-g">
+    <p-panel class="workflow-status" header="Add Comment">
+      <form [formGroup]="commentForm" (ngSubmit)="saveComment()">
+        <textarea pInputTextarea class="form-control" formControlName="text"></textarea>
+        <button pButton type="submit" label="Save" [disabled]="commentForm.pristine || !commentForm.valid"></button>
+      </form>
+    </p-panel>
+  </div>
+</p-panel>
