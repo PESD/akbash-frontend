@@ -191,10 +191,10 @@ export class Position {
     }
 
 export class Comment {
-  id: number;
-  person: number;
+  id: any;
+  person: any;
   text?: string;
-  user?: User;
+  user?: any;
   created_date?: string;
   username?: string;
   formatted_date?: string;

@@ -36,6 +36,23 @@ export class UsersService {
       });
     }
   }
+
+  getUser(user_id): Promise<User> {
+    let url = `${Globals.BASE_API_URL}/bpm/user/${user_id}/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => {
+        let user = response.json() as User;
+        return user;
+      })
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
   handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     this.httperrorService.raiseHttpError("Trouble connecting to API server");

@@ -239,7 +239,7 @@ export class EmployeesService {
     getCommentsByPerson(person_id: string): Promise<Comment[]> {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
-      let url = `${Globals.BASE_API_URL}/api/comment/?format=json`;
+      let url = `${Globals.BASE_API_URL}/api/comment-from-person/${person_id}/?format=json`;
 
       return this.http.get(url, options)
         .toPromise()
