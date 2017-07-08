@@ -1,9 +1,9 @@
 import { Person } from './api.model'
 
-export interface User {
-    api_url: string;
-    id: number;
-    username: string;
+export class User {
+    api_url?: string;
+    id?: number;
+    username?: string;
 }
 
 export interface Task {

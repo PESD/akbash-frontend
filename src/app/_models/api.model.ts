@@ -1,3 +1,5 @@
+import { User } from './bpm.model';
+
 export class Vendor {
   id?: any;
   name?: any;
@@ -187,3 +189,13 @@ export class Position {
         department?: any;
         position_type?: any;
     }
+
+export class Comment {
+  id: any;
+  person: any;
+  text?: string;
+  user?: any;
+  created_date?: string;
+  username?: string;
+  formatted_date?: string;
+}

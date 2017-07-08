@@ -9,6 +9,7 @@
     <ng-template let-workflow pTemplate="rowexpansion">
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
       <app-personform person_id="{{workflow.person.id}}" (update)="refreshData($event)"></app-personform>
+      <app-comments person_id="{{workflow.person.id}}"></app-comments>
       <app-persontask workflow_id="{{workflow.id}}" (update)="refreshData($event)"></app-persontask>
     </ng-template>
 </p-dataTable>

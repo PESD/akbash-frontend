@@ -30,6 +30,7 @@ import {
           MultiSelectModule,
           CheckboxModule,
           BlockUIModule,
+          InputTextareaModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
@@ -48,6 +49,7 @@ import { PersonstatusComponent } from './personstatus/personstatus.component';
 import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';
 import { ContractorComponent } from './contractor/contractor.component';
+import { CommentsComponent } from './comments/comments.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -92,6 +94,7 @@ Date.prototype.yyyymmdd = function() {
     PersonformComponent,
     PersontaskComponent,
     ContractorComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -118,6 +121,7 @@ Date.prototype.yyyymmdd = function() {
     MultiSelectModule,
     CheckboxModule,
     BlockUIModule,
+    InputTextareaModule,
     RouterModule.forRoot(routes),
   ],
   providers: [
