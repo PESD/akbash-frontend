@@ -32,7 +32,7 @@ export class WorkflowsComponent implements OnInit {
   }
 
   workflows: Workflow[];
-  selectedWorkflows: Workflow;
+  selectedWorkflows: WorkflowGrid;
   workflowGrid: WorkflowGrid[];
   filterItems: MenuItem[];
   selectedFilter: MenuItem;
@@ -83,7 +83,7 @@ export class WorkflowsComponent implements OnInit {
   onRowSelect(event) { }
   onRowUnselect(event) { }
 
-  menuChange(index) {
+  menuChange() {
     console.log(this.activeIndex);
     this.getWorkflows();
   }

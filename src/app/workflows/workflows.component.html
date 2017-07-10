@@ -1,4 +1,4 @@
-<p-steps [model]="filterItems" [(activeIndex)]="activeIndex" [readonly]="false" (activeIndexChange)="menuChange($index)"></p-steps>
+<p-steps [model]="filterItems" [(activeIndex)]="activeIndex" [readonly]="false" (activeIndexChange)="menuChange()"></p-steps>
 <p-dataTable [value]="workflowGrid" [(selection)]="selectedWorkflowComplete" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]" expandableRows="true">
     <p-column expander="true" styleClass="col-icon" [style]="{'width':'5%'}"></p-column>
     <p-column field="process_name" header="Process" sortable="true"></p-column>

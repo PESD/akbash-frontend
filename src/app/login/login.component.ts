@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   display: boolean = false;
 
-  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {
+  constructor(public authService: AuthService, private route: ActivatedRoute, private router: Router) {
     this.authHeaders = new AuthHeaders;
   }
 
