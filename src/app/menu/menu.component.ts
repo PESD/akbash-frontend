@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  private menuItems: MenuItem[];
+  menuItems: MenuItem[];
   loginString: string = "Login";
   isLoggedIn: Observable<boolean>;
 
