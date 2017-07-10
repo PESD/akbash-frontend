@@ -6,7 +6,14 @@ import { Message, ConfirmationService } from 'primeng/primeng';
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
-import { TaskEparSubmission, TaskVisionsIDSubmission, TaskEmployeeADSubmission, TaskVisionsPositionSubmission } from '../_models/task_submissions';
+import {
+  TaskEparSubmission,
+  TaskVisionsIDSubmission,
+  TaskEmployeeADSubmission,
+  TaskVisionsPositionSubmission,
+  TaskGenericCheckSubmission ,
+  TaskGenericTodoSubmission,
+} from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model'
 
 @Component({
@@ -202,6 +209,64 @@ export class PersontaskComponent implements OnInit {
         this.taskUpdateSuccessMessage(true, taskVisionsPositionSubmission.message);
       } else {
         this.taskUpdateSuccessMessage(false, taskVisionsPositionSubmission.message);
+      }
+    })
+  }
+
+  // "Create TCP Account" Form
+  submitTcpAccountForm(workflowTask: WorkflowTask) {
+    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id)
+    this.workflowactivityService.taskGenericCheck(taskGenericCheckSubmission).then(taskGenericCheckSubmission => {
+      this.taskName = "Employee Added to Visions Position";
+      if (taskGenericCheckSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericCheckSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericCheckSubmission.message);
+      }
+    })
+  }
+
+  // "Onboard Employee" Form
+  submitIsOnboardedForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Onboard Employee";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "TCP Fingerprint Employee" Form
+  submitIsTcpFingerprintedForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "TCP Fingerprint Employee";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Employee Badge Printed" Form
+  submitIsEmployeeBadgePrintedForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Print Employee Badge";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
       }
     })
   }

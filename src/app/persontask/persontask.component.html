@@ -40,6 +40,34 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Create TCP Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitTcpAccountForm(workflowTask)" label="Check for TCP Job ID in Visions"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Onboard Employee'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitIsOnboardedForm(workflowTask)" label="Employee has been Onboarded"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'TCP Fingerprint Employee'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitIsTcpFingerprintedForm(workflowTask)" label="Employee has been fingerprinted in TCP"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Employee Badge Printed'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitIsEmployeeBadgePrintedForm(workflowTask)" label="Employee's Badge has been printed"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchDefault>No Tasks</div>
       </div>
     </p-panel>

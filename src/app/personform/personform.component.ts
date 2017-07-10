@@ -82,11 +82,14 @@ export class PersonformComponent implements OnInit {
       hqt: '',
       ssn: '',
       tcp_id: '',
+      start_date: '',
+      is_visions_account_needed: [false],
+      is_synergy_account_needed: [false],
     });
   }
 
   updateForm() {
-    this.personForm.setValue({
+    this.personForm.patchValue({
       first_name: this.person.first_name,
       middle_name: this.person.middle_name,
       last_name: this.person.last_name,
@@ -101,6 +104,9 @@ export class PersonformComponent implements OnInit {
       hqt: this.person.hqt,
       ssn: this.person.ssn,
       tcp_id: this.person.tcp_id,
+      start_date: this.person.start_date,
+      is_visions_account_needed: this.person.is_visions_account_needed,
+      is_synergy_account_needed: this.person.is_synergy_account_needed,
     });
   }
 
@@ -116,6 +122,11 @@ export class PersonformComponent implements OnInit {
       let birth_date = formModel.birth_date as Date;
       bday_string = birth_date.yyyymmdd();
     }
+    let start_date_string = formModel.start_date as string
+    if (!(formModel.start_date.length===10)) {
+      let start_date = formModel.start_date as Date;
+      start_date_string = start_date.yyyymmdd();
+    }
     updatedPerson.first_name = formModel.first_name as string;
     updatedPerson.middle_name = formModel.middle_name as string;
     updatedPerson.last_name = formModel.last_name as string;
@@ -128,6 +139,9 @@ export class PersonformComponent implements OnInit {
     updatedPerson.race_american_indian = formModel.race_american_indian as boolean;
     updatedPerson.ethnicity = formModel.ethnicity as string;
     updatedPerson.ssn = formModel.ssn as string;
+    updatedPerson.start_date = start_date_string;
+    updatedPerson.is_visions_account_needed = formModel.is_visions_account_needed as boolean
+    updatedPerson.is_synergy_account_needed = formModel.is_synergy_account_needed as boolean
     return updatedPerson;
   }
 

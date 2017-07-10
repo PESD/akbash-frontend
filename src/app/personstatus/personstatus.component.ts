@@ -100,6 +100,25 @@ export class PersonstatusComponent implements OnInit {
     return value;
   }
 
+  getStatusBool(value: string | boolean, notNeeded?: boolean): string {
+    if (!value) {
+      return "No"
+    }
+    if (value) {
+      return "Yes"
+    }
+  }
+
+  getStatusDate(value: string, notNeeded?: boolean): Date | string {
+    if (notNeeded) {
+      return "N/A"
+    }
+    if (!value) {
+      return "None"
+    }
+    return new Date(value)
+  }
+
   setPanelClass(value: string | boolean, notNeeded?: boolean) {
     var classes = {}
     if (notNeeded) {

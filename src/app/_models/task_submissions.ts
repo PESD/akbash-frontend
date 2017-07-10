@@ -53,3 +53,29 @@ export class TaskVisionsPositionSubmission {
         this.message = "";
   }
 }
+
+export class TaskGenericCheckSubmission {
+  workflow_task_id?: any;
+  status?: any;
+  message?: any;
+
+  constructor(workflow_task_id: number) {
+        this.workflow_task_id = workflow_task_id;
+        this.status = false;
+        this.message = "";
+  }
+}
+
+export class TaskGenericTodoSubmission {
+  workflow_task_id?: any;
+  status?: any;
+  message?: any;
+  username?: any;
+
+  constructor(workflow_task_id: number, username: string) {
+        this.workflow_task_id = workflow_task_id;
+        this.status = false;
+        this.message = "";
+        this.username = username;
+  }
+}
