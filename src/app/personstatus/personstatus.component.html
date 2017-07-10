@@ -8,7 +8,7 @@
   <div class="workflow-status-panel" [ngClass]="setPanelClass(person.badge_number)">{{getStatusText(person.badge_number)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Start Date">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(person.marked_as_hired)">{{getStatusText(person.marked_as_hired)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.start_date)">{{getStatusDate(person.start_date)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Active Directory User">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(activeDirectoryUsername)">{{getStatusText(activeDirectoryUsername)}}</div>
@@ -25,13 +25,13 @@
 <div class="workflow-status-panel" [ngClass]="setPanelClass(person.tcp_id)">{{getStatusText(person.tcp_id)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Onboarded?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_onboarded)">{{getStatusText(person.onboarded_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_onboarded)">{{getStatusBool(person.is_onboarded)}}<span *ngIf="person.is_onboarded"> - {{getStatusDate(person.onboarded_date) | date:'short'}}</span></div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP Fingerprinted?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_tcp_fingerprinted)">{{getStatusText(person.tcp_fingerprinted_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_tcp_fingerprinted)">{{getStatusBool(person.is_tcp_fingerprinted)}}<span *ngIf="person.is_tcp_fingerprinted"> - {{getStatusDate(person.tcp_fingerprinted_date) | date:'short'}}</span></div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Badge Created?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_badge_created)">{{getStatusText(person.badge_created_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_badge_created)">{{getStatusBool(person.is_badge_created)}}<span *ngIf="person.is_badge_created"> - {{getStatusDate(person.badge_created_date) | date:'short'}}</span></div>
 </p-panel></div>
 </div>
 </p-panel>

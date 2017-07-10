@@ -67,6 +67,7 @@ export class Employee {
   desk_phone_created_date?: any;
   desk_phone_created_by?: any;
   services?: any;
+  start_date?: any;
 }
 
 export class Person {
@@ -108,9 +109,11 @@ export class Person {
     is_position_linked?: boolean;
     position_linked_date?: any;
     position_linked_by?: any;
+    is_visions_account_needed?: any;
     is_visions_account_created?: boolean;
     visions_account_created_date?: any;
     visions_account_created_by?: any;
+    is_synergy_account_needed?: any;
     is_synergy_account_created?: boolean;
     synergy_account_created_date?: any;
     synergy_account_created_by?: any;
@@ -120,6 +123,7 @@ export class Person {
     services?: any[];
     vendor?: any;
     employee_id?: any;
+    start_date?: any;
 }
 
 export class Contractor {
@@ -168,6 +172,7 @@ export class Contractor {
     ad_account_created_by?: any;
     services?: any[];
     vendor?: any;
+    start_date?: any;
 }
 
 export interface Location {

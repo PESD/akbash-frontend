@@ -59,6 +59,23 @@
       </div>
     </div>
     <div class="ui-g">
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Start Date:<br/>
+        <p-calendar formControlName="start_date" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-3">
+        Accounts needed:<br/>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-lg-6">
+              <p-checkbox formControlName="is_synergy_account_needed" binary="true"></p-checkbox> Synergy
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+              <p-checkbox formControlName="is_visions_account_needed" binary="true"></p-checkbox> Visions
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="ui-g">
       <div class="ui-g-12">
         <button pButton type="submit" label="Save" [disabled]="personForm.pristine || !personForm.valid"></button>
         <button pButton type="reset" label="Revert" [disabled]="personForm.pristine" (click)="revert()" class="ui-button-danger"></button>
