@@ -5,8 +5,8 @@
   <button pButton type="button" (click)="confirm()" label="Start Workflow" [disabled]="buttonDisabled"></button>
 </p-panel>
 <p-dataTable [value]="employees" [(selection)]="selectedEmployee" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]">
-    <p-column field="first_name" header="First Name" sortable="true"></p-column>
-    <p-column field="last_name" header="Last Name" sortable="true"></p-column>
+    <p-column field="first_name" header="First Name" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
+    <p-column field="last_name" header="Last Name" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
     <p-column field="marked_as_hired" header="Date Hired" sortable="true"></p-column>
 </p-dataTable>
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="500"></p-confirmDialog>
