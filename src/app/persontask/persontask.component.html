@@ -68,6 +68,13 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Ignore Employee'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitIgnoreEmployeeForm(workflowTask)" label="Ignore Employee"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchDefault>No Tasks</div>
       </div>
     </p-panel>

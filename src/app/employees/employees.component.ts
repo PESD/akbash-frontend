@@ -96,7 +96,6 @@ export class EmployeesComponent implements OnInit {
   }
 
   onChange(event) {
-    console.log(`THIS BOX IS A CHANGIN. ${this.selectedProcess}`);
     if (this.selectedProcess) {
       this.processID = this.selectedProcess;
     } else {
@@ -110,8 +109,14 @@ export class EmployeesComponent implements OnInit {
   }
 
   confirm() {
+    let processName = "Process";
+    for (let process of this.processes) {
+      if (`${process.id}` == this.processID) {
+        processName = process.name;
+      }
+    }
     this.confirmationService.confirm({
-      message: `Start a New Hire Process for ${this.employeeName}?`,
+      message: `Start a ${processName} for ${this.employeeName}?`,
         accept: () => {
           let workflowCreate = new WorkflowCreate(this.processID, this.personID);
           this.workflowsService.createWorkflow(workflowCreate).then(newWorkflowCreate => {

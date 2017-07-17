@@ -270,4 +270,17 @@ export class PersontaskComponent implements OnInit {
       }
     })
   }
+
+  // "Ignore Employee" Form
+  submitIgnoreEmployeeForm(workflowTask: WorkflowTask) {
+    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id)
+    this.workflowactivityService.taskGenericCheck(taskGenericCheckSubmission).then(taskGenericCheckSubmission => {
+      this.taskName = "Ignore Employee";
+      if (taskGenericCheckSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericCheckSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericCheckSubmission.message);
+      }
+    })
+  }
 }
