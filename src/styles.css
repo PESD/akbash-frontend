@@ -76,3 +76,11 @@ body app-root .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number
  {
   color: rgba(0, 0, 0, 0);
 }
+
+body app-root span.fa-chevron-circle-right, body app-root span.fa-chevron-circle-down {
+  color: black;
+}
+
+body app-root .fa-chevron-circle-right:before, body app-root .fa-chevron-circle-down {
+  font-size: 36px;
+}

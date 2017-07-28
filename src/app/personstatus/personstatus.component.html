@@ -1,4 +1,3 @@
-<h1 class="display-4">{{person.first_name}} {{person.last_name}}</h1>
 <p-panel class="workflow-status" header="General Information">
   <div class="ui-g">
     <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Type">
@@ -8,7 +7,7 @@
   <div class="workflow-status-panel" [ngClass]="setPanelClass(person.badge_number)">{{getStatusText(person.badge_number)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Start Date">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(person.start_date)">{{getStatusDate(person.start_date)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(person.start_date)">{{getStatusDate(person.start_date) | date:'short'}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Active Directory User">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(activeDirectoryUsername)">{{getStatusText(activeDirectoryUsername)}}</div>
