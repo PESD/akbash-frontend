@@ -1,15 +1,16 @@
 <p-steps [model]="filterItems" [(activeIndex)]="activeIndex" [readonly]="false" (activeIndexChange)="menuChange()"></p-steps>
 <p-dataTable [value]="workflowGrid" [(selection)]="selectedWorkflows" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]" expandableRows="true">
     <p-column expander="true" styleClass="col-icon" [style]="{'width':'5%'}"></p-column>
-    <p-column field="process_name" header="Process" sortable="true"></p-column>
-    <p-column field="first_name" header="First Name" sortable="true"></p-column>
-    <p-column field="last_name" header="Last Name" sortable="true"></p-column>
-    <p-column field="current_activity" header="Current Task(s)" sortable="true"></p-column>
-    <p-column field="current_user" header="Current Users" sortable="true"></p-column>
+    <p-column field="process_name" header="Process" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
+    <p-column field="first_name" header="First Name" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
+    <p-column field="last_name" header="Last Name" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
+    <p-column field="current_activity" header="Current Task(s)" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
+    <p-column field="current_user" header="Current Users" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
     <ng-template let-workflow pTemplate="rowexpansion">
+      <h1 class="display-4">{{workflow.person.first_name}} {{workflow.person.last_name}}</h1>
+      <app-persontask workflow_id="{{workflow.id}}" (update)="refreshData($event)"></app-persontask>
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
       <app-personform person_id="{{workflow.person.id}}" (update)="refreshData($event)"></app-personform>
       <app-comments person_id="{{workflow.person.id}}"></app-comments>
-      <app-persontask workflow_id="{{workflow.id}}" (update)="refreshData($event)"></app-persontask>
     </ng-template>
 </p-dataTable>
