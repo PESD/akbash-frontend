@@ -33,6 +33,13 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Create Synergy Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <button pButton type="button" (click)="submitEmployeeSynergyForm(workflowTask)" label="Check for Synergy Account"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchCase="'Assign Employee to Visions Position'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">

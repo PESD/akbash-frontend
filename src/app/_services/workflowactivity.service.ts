@@ -9,6 +9,7 @@ import {
   TaskEparSubmission,
   TaskVisionsIDSubmission,
   TaskEmployeeADSubmission,
+  TaskEmployeeSynergySubmission,
   TaskVisionsPositionSubmission,
   TaskGenericCheckSubmission,
   TaskGenericTodoSubmission,
@@ -76,6 +77,20 @@ export class WorkflowactivityService {
     return this.http.post(url, body, options)
       .toPromise()
       .then(response => response.json() as TaskEmployeeADSubmission)
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  taskCheckEmployeeSynergy(taskEmployeeSynergySubmission: TaskEmployeeSynergySubmission): Promise<TaskEmployeeSynergySubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_check_employee_synergy/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskEmployeeSynergySubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskEmployeeSynergySubmission)
       .catch(error => {
         return this.handleError(error)
       });

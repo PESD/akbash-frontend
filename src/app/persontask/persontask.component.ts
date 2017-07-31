@@ -10,6 +10,7 @@ import {
   TaskEparSubmission,
   TaskVisionsIDSubmission,
   TaskEmployeeADSubmission,
+  TaskEmployeeSynergySubmission,
   TaskVisionsPositionSubmission,
   TaskGenericCheckSubmission ,
   TaskGenericTodoSubmission,
@@ -196,6 +197,21 @@ export class PersontaskComponent implements OnInit {
         this.taskUpdateSuccessMessage(true, taskEmployeeADSubmission.message);
       } else {
         this.taskUpdateSuccessMessage(false, taskEmployeeADSubmission.message);
+      }
+    })
+  }
+
+  // "Create Synergy Account" Form
+  submitEmployeeSynergyForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskEmployeeSynergySubmission = new TaskEmployeeSynergySubmission(workflowTask.id, username)
+    this.workflowactivityService.taskCheckEmployeeSynergy(taskEmployeeSynergySubmission).then(taskEmployeeSynergySubmission => {
+      this.taskName = "Verify Employee Synergy Account";
+      if (taskEmployeeSynergySubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskEmployeeSynergySubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskEmployeeSynergySubmission.message);
       }
     })
   }
