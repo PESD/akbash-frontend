@@ -71,7 +71,7 @@ export class PersonformComponent implements OnInit {
       first_name: ['', Validators.required],
       middle_name: '',
       last_name: ['', Validators.required],
-      birth_date: '',
+      birth_date: ['', Validators.required],
       gender: [''],
       race_white: [false],
       race_asian: [false],
@@ -82,7 +82,7 @@ export class PersonformComponent implements OnInit {
       hqt: '',
       ssn: '',
       tcp_id: '',
-      start_date: '',
+      start_date: ['', Validators.required],
       is_visions_account_needed: [false],
       is_synergy_account_needed: [false],
     });

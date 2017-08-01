@@ -84,3 +84,11 @@ body app-root span.fa-chevron-circle-right, body app-root span.fa-chevron-circle
 body app-root .fa-chevron-circle-right:before, body app-root .fa-chevron-circle-down {
   font-size: 36px;
 }
+
+.task-instructions {
+  margin: 1em;
+  padding: 1em;
+  background-color: #eee;
+  font-size: 0.9em;
+  font-style: italic;
+}
