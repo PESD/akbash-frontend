@@ -28,6 +28,7 @@ export class WorkflowsComponent implements OnInit {
     this.filterItems.push({label: "My Workflows"});
     this.filterItems.push({label: "Active Workflows"});
     this.filterItems.push({label: "All Workflows"});
+    this.filterItems.push({label: "Completed Workflows"});
 
   }
 
