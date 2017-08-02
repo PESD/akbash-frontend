@@ -204,3 +204,19 @@ export class Comment {
   username?: string;
   formatted_date?: string;
 }
+
+export class PositionSkinny {
+    id: number;
+    title?: string;
+    location?: string;
+}
+
+export class PersonSkinny {
+    id: number;
+    type: string;
+    status: string;
+    first_name?: string;
+    last_name?: string;
+    start_date?: any;
+    positions?: PositionSkinny[];
+}
