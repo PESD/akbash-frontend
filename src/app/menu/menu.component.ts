@@ -44,6 +44,7 @@ export class MenuComponent implements OnInit {
       {label: 'Workflows', icon: 'fa-exchange', routerLink: '/workflows'},
       {label: 'New Hires', icon: 'fa-user', routerLink: '/employees'},
       {label: 'New Contractor', icon: 'fa-handshake-o', routerLink: '/contractor'},
+      {label: 'Employees', icon: 'fa-users', routerLink: '/employeegrid'},
       {label: this.loginString, icon: 'fa-sign-in', routerLink: '/login'},
     ];
   }

@@ -50,6 +50,8 @@ import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';
 import { ContractorComponent } from './contractor/contractor.component';
 import { CommentsComponent } from './comments/comments.component';
+import { PersongridComponent } from './persongrid/persongrid.component';
+import { EmployeegridComponent } from './employeegrid/employeegrid.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -57,6 +59,7 @@ const routes: Routes = [
   { path: 'workflows',  component: WorkflowsComponent, canActivate: [AuthGuard] },
   { path: 'employees',  component: EmployeesComponent, canActivate: [AuthGuard] },
   { path: 'contractor', component: ContractorComponent, canActivate: [AuthGuard] },
+  { path: 'employeegrid', component: EmployeegridComponent, canActivate: [AuthGuard] },
   { path: 'test/:person_id', component: PersonformComponent},
   { path: 'login',  component: LoginComponent },
 ];
@@ -95,6 +98,8 @@ Date.prototype.yyyymmdd = function() {
     PersontaskComponent,
     ContractorComponent,
     CommentsComponent,
+    PersongridComponent,
+    EmployeegridComponent,
   ],
   imports: [
     BrowserModule,

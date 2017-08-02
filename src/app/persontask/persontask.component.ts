@@ -216,6 +216,21 @@ export class PersontaskComponent implements OnInit {
     })
   }
 
+  skipEmployeeSynergyForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskEmployeeSynergySubmission = new TaskEmployeeSynergySubmission(workflowTask.id, username);
+    taskEmployeeSynergySubmission.status = false;
+    this.workflowactivityService.taskCheckEmployeeSynergy(taskEmployeeSynergySubmission).then(taskEmployeeSynergySubmission => {
+      this.taskName = "Set Employee Synergy Account as Not Needed";
+      if (taskEmployeeSynergySubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskEmployeeSynergySubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskEmployeeSynergySubmission.message);
+      }
+    })
+  }
+
   // "Assign Employee to Visions Position" Form
   submitEmployeeVisionsPositionForm(workflowTask: WorkflowTask) {
     let taskVisionsPositionSubmission = new TaskVisionsPositionSubmission(workflowTask.id)

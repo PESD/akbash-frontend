@@ -53,7 +53,7 @@ export class TaskEmployeeSynergySubmission {
         this.workflow_task_id = workflow_task_id;
         this.username = username;
         this.synergy_username = "";
-        this.status = false;
+        this.status = true;
         this.message = "";
   }
 }

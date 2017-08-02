@@ -3,7 +3,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Employee, Position, Vendor, Location, Contractor, Person, Comment } from '../_models/api.model';
+import { Employee, Position, Vendor, Location, Contractor, Person, Comment, PersonSkinny } from '../_models/api.model';
 import { WorkflowCreate, Process } from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { HttperrorService } from './httperror.service';
@@ -35,6 +35,28 @@ export class EmployeesService {
       .catch(error => {
         return this.handleError(error)
       });
+    }
+
+    getPersonsbyType(personType: string): Promise<PersonSkinny[]> {
+      let url = "";
+      if (personType == "Contractor") {
+        url = `${Globals.BASE_API_URL}/api/person-all-contractors/?format=json`;
+      } else {
+        url = `${Globals.BASE_API_URL}/api/person-all-employees/?format=json`;
+      }
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let e = response.json() as PersonSkinny[];
+          //console.log(e);
+          return e;
+        })
+        .catch(error => {
+          return this.handleError(error)
+        });
     }
 
     getPerson(person_id: string): Promise<Person> {
