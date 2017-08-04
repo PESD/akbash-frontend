@@ -6,6 +6,7 @@ import {SelectItem} from 'primeng/primeng';
 import { Employee, Person } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
 import { FormHelper } from '../_helpers/formhelper';
+import { AuthHeaders } from '../_helpers/authheaders';
 
 
 declare global {
@@ -115,6 +116,7 @@ export class PersonformComponent implements OnInit {
   }
 
   prepareSave(): Employee {
+    let authHeaders = new AuthHeaders;
     const formModel = this.personForm.value;
     let updatedPerson = this.person;
     let bday_string = formModel.birth_date as string
@@ -142,6 +144,7 @@ export class PersonformComponent implements OnInit {
     updatedPerson.start_date = start_date_string;
     updatedPerson.is_visions_account_needed = formModel.is_visions_account_needed as boolean
     updatedPerson.is_synergy_account_needed = formModel.is_synergy_account_needed as boolean
+    updatedPerson.last_updated_by = authHeaders.getUsername();
     return updatedPerson;
   }
 

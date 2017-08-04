@@ -34,6 +34,7 @@ import {
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
+import { AuditlogService } from './_services/auditlog.service';
 import { MenuComponent } from './menu/menu.component';
 import { WorkflowsComponent } from './workflows/workflows.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -52,6 +53,7 @@ import { ContractorComponent } from './contractor/contractor.component';
 import { CommentsComponent } from './comments/comments.component';
 import { PersongridComponent } from './persongrid/persongrid.component';
 import { EmployeegridComponent } from './employeegrid/employeegrid.component';
+import { PersonlogComponent } from './personlog/personlog.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -100,6 +102,7 @@ Date.prototype.yyyymmdd = function() {
     CommentsComponent,
     PersongridComponent,
     EmployeegridComponent,
+    PersonlogComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,6 +142,7 @@ Date.prototype.yyyymmdd = function() {
     UsersService,
     WorkflowactivityService,
     HttperrorService,
+    AuditlogService,
   ],
   bootstrap: [AppComponent]
 })
