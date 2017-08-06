@@ -7,8 +7,11 @@
         <div *ngSwitchCase="'Create ePAR'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create the employee's ePAR in iVisions and enter the ePAR ID in the box below.
+              </div>
               <form [formGroup]="eparForm" (ngSubmit)="submitEparForm(workflowTask)">
-                ePAR ID:<br/>
+                ePAR ID *:<br/>
                 <input class="form-control" formControlName="epar_id" pattern="[0-9]+" pInputText>
                 <button pButton type="submit" label="Save" [disabled]="eparForm.pristine || !eparForm.valid"></button>
               </form>
@@ -18,8 +21,11 @@
         <div *ngSwitchCase="'Create Employee Maintenance Record'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create the employee's Visions Employee Maintenance record and enter the "Record ID" in the box below.
+              </div>
               <form [formGroup]="visionsIDForm" (ngSubmit)="submitVisionsIDForm(workflowTask)">
-                Visions Record ID:<br/>
+                Visions Record ID *:<br/>
                 <input class="form-control" formControlName="visions_id" pattern="[0-9]+" pInputText>
                 <button pButton type="submit" label="Save" [disabled]="visionsIDForm.pristine || !visionsIDForm.valid"></button>
               </form>
@@ -29,6 +35,9 @@
         <div *ngSwitchCase="'Create Active Directory Account'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create the user's Active Directory account (making sure to enter the Visions ID in the appropriate place) and click the button below.
+              </div>
               <button pButton type="button" (click)="submitEmployeeADForm(workflowTask)" label="Check for Active Directory Account"></button>
             </div>
           </div>
@@ -36,13 +45,20 @@
         <div *ngSwitchCase="'Create Synergy Account'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
-              <button pButton type="button" (click)="submitEmployeeSynergyForm(workflowTask)" label="Check for Synergy Account"></button>
+              <div class="task-instructions">
+                Create the user's Synergy account (making sure to enter the Visions ID into the badge number field) and click the button below.
+              </div>
+              <button pButton type="button" (click)="submitEmployeeSynergyForm(workflowTask)" label="Check for Synergy Account"></button><br/><br/>
+              <button pButton type="button" (click)="skipEmployeeSynergyForm(workflowTask)" label="Synergy Account Not Needed"></button>
             </div>
           </div>
         </div>
         <div *ngSwitchCase="'Assign Employee to Visions Position'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                In Visions, assign the employee to the appropriate positions, then click the button below.
+              </div>
               <button pButton type="button" (click)="submitEmployeeVisionsPositionForm(workflowTask)" label="Check for Employee Visions Positions"></button>
             </div>
           </div>
@@ -50,6 +66,9 @@
         <div *ngSwitchCase="'Create TCP Account'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Once the employee has been synced to Time Clock Plus, click the button below.
+              </div>
               <button pButton type="button" (click)="submitTcpAccountForm(workflowTask)" label="Check for TCP Job ID in Visions"></button>
             </div>
           </div>
@@ -57,6 +76,9 @@
         <div *ngSwitchCase="'Onboard Employee'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Once the employee or contractor has completed the onboarding process, click the button below.
+              </div>
               <button pButton type="button" (click)="submitIsOnboardedForm(workflowTask)" label="Employee has been Onboarded"></button>
             </div>
           </div>
@@ -64,6 +86,9 @@
         <div *ngSwitchCase="'TCP Fingerprint Employee'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                After the employee or contractor has registered their fingerprints in Time Clock Plus, click the button below.
+              </div>
               <button pButton type="button" (click)="submitIsTcpFingerprintedForm(workflowTask)" label="Employee has been fingerprinted in TCP"></button>
             </div>
           </div>
@@ -71,6 +96,9 @@
         <div *ngSwitchCase="'Employee Badge Printed'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Once the employee or contractor's physical badge has been printed and given to them, click the button below.
+              </div>
               <button pButton type="button" (click)="submitIsEmployeeBadgePrintedForm(workflowTask)" label="Employee's Badge has been printed"></button>
             </div>
           </div>
@@ -78,6 +106,9 @@
         <div *ngSwitchCase="'Ignore Employee'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Click the button below to set the employee to be ignored by Tandem.
+              </div>
               <button pButton type="button" (click)="submitIgnoreEmployeeForm(workflowTask)" label="Ignore Employee"></button>
             </div>
           </div>

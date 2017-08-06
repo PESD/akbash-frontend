@@ -53,6 +53,9 @@ export class WorkflowsService {
     } else if (type == 2) {
       url = `${Globals.BASE_API_URL}/bpm/workflow-complete/?format=json`;
       return this.getWorkflows(url);
+    } else if (type == 3) {
+      url = `${Globals.BASE_API_URL}/bpm/workflow-complete-completed/?format=json`;
+      return this.getWorkflows(url);
     }
   }
 

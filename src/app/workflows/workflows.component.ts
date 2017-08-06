@@ -13,6 +13,7 @@ export interface WorkflowGrid {
   last_name?: string;
   current_activity?: string;
   current_user?: string;
+  start_date?: string;
   person?: Person;
 }
 
@@ -28,6 +29,7 @@ export class WorkflowsComponent implements OnInit {
     this.filterItems.push({label: "My Workflows"});
     this.filterItems.push({label: "Active Workflows"});
     this.filterItems.push({label: "All Workflows"});
+    this.filterItems.push({label: "Completed Workflows"});
 
   }
 
@@ -56,7 +58,8 @@ export class WorkflowsComponent implements OnInit {
         process_name: row.process.name,
         first_name: row.person.first_name,
         last_name: row.person.last_name,
-        person: row.person
+        start_date: row.person.start_date,
+        person: row.person,
       };
       let workflowActivities: string[] = [];
       let workflowUsers: string[] = [];

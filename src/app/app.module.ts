@@ -34,6 +34,7 @@ import {
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
+import { AuditlogService } from './_services/auditlog.service';
 import { MenuComponent } from './menu/menu.component';
 import { WorkflowsComponent } from './workflows/workflows.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -50,6 +51,9 @@ import { PersonformComponent } from './personform/personform.component';
 import { PersontaskComponent } from './persontask/persontask.component';
 import { ContractorComponent } from './contractor/contractor.component';
 import { CommentsComponent } from './comments/comments.component';
+import { PersongridComponent } from './persongrid/persongrid.component';
+import { EmployeegridComponent } from './employeegrid/employeegrid.component';
+import { PersonlogComponent } from './personlog/personlog.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -57,6 +61,7 @@ const routes: Routes = [
   { path: 'workflows',  component: WorkflowsComponent, canActivate: [AuthGuard] },
   { path: 'employees',  component: EmployeesComponent, canActivate: [AuthGuard] },
   { path: 'contractor', component: ContractorComponent, canActivate: [AuthGuard] },
+  { path: 'employeegrid', component: EmployeegridComponent, canActivate: [AuthGuard] },
   { path: 'test/:person_id', component: PersonformComponent},
   { path: 'login',  component: LoginComponent },
 ];
@@ -95,6 +100,9 @@ Date.prototype.yyyymmdd = function() {
     PersontaskComponent,
     ContractorComponent,
     CommentsComponent,
+    PersongridComponent,
+    EmployeegridComponent,
+    PersonlogComponent,
   ],
   imports: [
     BrowserModule,
@@ -134,6 +142,7 @@ Date.prototype.yyyymmdd = function() {
     UsersService,
     WorkflowactivityService,
     HttperrorService,
+    AuditlogService,
   ],
   bootstrap: [AppComponent]
 })

@@ -15,10 +15,10 @@
 </div>
 <div class="ui-g">
   <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Synergy User">
-  <div class="workflow-status-panel" [ngClass]="setPanelClass(synergyUsername)">{{getStatusText(synergyUsername)}}</div>
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(synergyUsername, !person.is_synergy_account_needed)">{{getStatusText(synergyUsername, !person.is_synergy_account_needed)}}</div>
   </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Visions User">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(visionsUsername)">{{getStatusText(visionsUsername)}}</div>
+<div class="workflow-status-panel" [ngClass]="setPanelClass(visionsUsername, !person.is_visions_account_needed)">{{getStatusText(visionsUsername, !person.is_visions_account_needed)}}</div>
 </p-panel></div>
     <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP User">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(person.tcp_id)">{{getStatusText(person.tcp_id)}}</div>

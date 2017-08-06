@@ -4,7 +4,7 @@
 
     <div class="ui-g">
       <div class="ui-g-12 ui-md-6 ui-lg-3">
-        First Name:<br/>
+        First Name *:<br/>
           <input class="form-control" formControlName="first_name" pInputText>
       </div>
       <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -12,11 +12,11 @@
           <input class="form-control" formControlName="middle_name" pInputText>
       </div>
       <div class="ui-g-12 ui-md-6 ui-lg-3">
-        Last Name:<br/>
+        Last Name *:<br/>
           <input class="form-control" formControlName="last_name" pInputText>
       </div>
       <div class="ui-g-12 ui-md-6 ui-lg-3">
-        Birth Date:<br/>
+        Birth Date *:<br/>
           <p-calendar formControlName="birth_date" [monthNavigator]="true" [yearNavigator]="true" yearRange="1930:2017" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
       </div>
     </div>
@@ -60,7 +60,7 @@
     </div>
     <div class="ui-g">
       <div class="ui-g-12 ui-md-6 ui-lg-3">
-        Start Date:<br/>
+        Start Date *:<br/>
         <p-calendar formControlName="start_date" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
       </div>
       <div class="ui-g-12 ui-md-6 ui-lg-3">
