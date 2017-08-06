@@ -68,6 +68,8 @@ export class Employee {
   desk_phone_created_by?: any;
   services?: any;
   start_date?: any;
+  last_updated_date?: any;
+  last_updated_by?: string;
 }
 
 export class Person {
@@ -124,6 +126,8 @@ export class Person {
     vendor?: any;
     employee_id?: any;
     start_date?: any;
+    last_updated_date?: any;
+    last_updated_by?: string;
 }
 
 export class Contractor {
@@ -173,6 +177,8 @@ export class Contractor {
     services?: any[];
     vendor?: any;
     start_date?: any;
+    last_updated_date?: any;
+    last_updated_by?: string;
 }
 
 export interface Location {

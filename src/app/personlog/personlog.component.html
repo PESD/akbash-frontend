@@ -1,0 +1,9 @@
+<p-panel class="workflow-status" header="Changelog" toggleable="true" collapsed="true">
+  <p-dataTable [value]="modelLogs" [(selection)]="selectedModelLog" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]">
+      <p-column field="model_field_name" header="Field Name" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
+      <p-column field="old_value" header="Old Value" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
+      <p-column field="new_value" header="New Value" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
+      <p-column field="change_date" header="Change Date" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
+      <p-column field="user" header="User" sortable="true" [filter]="true" filterPlaceholder="Search"></p-column>
+  </p-dataTable>
+</p-panel>
