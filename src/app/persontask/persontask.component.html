@@ -8,7 +8,21 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
               <div class="task-instructions">
-                Create the employee's ePAR in iVisions and enter the ePAR ID in the box below.
+                Create the new hire ePAR in iVisions and enter the ePAR ID in the box below.
+              </div>
+              <form [formGroup]="eparForm" (ngSubmit)="submitEparForm(workflowTask)">
+                ePAR ID *:<br/>
+                <input class="form-control" formControlName="epar_id" pattern="[0-9]+" pInputText>
+                <button pButton type="submit" label="Save" [disabled]="eparForm.pristine || !eparForm.valid"></button>
+              </form>
+          </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Create Termination ePAR'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create the termination ePAR in iVisions and enter the ePAR ID in the box below.
               </div>
               <form [formGroup]="eparForm" (ngSubmit)="submitEparForm(workflowTask)">
                 ePAR ID *:<br/>
@@ -42,6 +56,16 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Disable Active Directory Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Disable the user's Active Directory account and click the button below.
+              </div>
+              <button pButton type="button" (click)="submitDisableEmployeeADForm(workflowTask)" label="Verify Active Directory Account Disabled"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchCase="'Create Synergy Account'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -50,6 +74,16 @@
               </div>
               <button pButton type="button" (click)="submitEmployeeSynergyForm(workflowTask)" label="Check for Synergy Account"></button><br/><br/>
               <button pButton type="button" (click)="skipEmployeeSynergyForm(workflowTask)" label="Synergy Account Not Needed"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Disable Synergy Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Disable the user's Synergy account and click the button below.
+              </div>
+              <button pButton type="button" (click)="submitDisableEmployeeSynergyForm(workflowTask)" label="Verify Synergy Account Disabled"></button>
             </div>
           </div>
         </div>
