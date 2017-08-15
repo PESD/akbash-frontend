@@ -201,6 +201,21 @@ export class PersontaskComponent implements OnInit {
     })
   }
 
+  // "Disable Active Directory Account" Form
+  submitDisableEmployeeADForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskEmployeeADSubmission = new TaskEmployeeADSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskCheckEmployeeAD(taskEmployeeADSubmission).then(taskEmployeeADSubmission => {
+      this.taskName = "Verify Employee Active Directory Disabled";
+      if (taskEmployeeADSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskEmployeeADSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskEmployeeADSubmission.message);
+      }
+    })
+  }
+
   // "Create Synergy Account" Form
   submitEmployeeSynergyForm(workflowTask: WorkflowTask) {
     let authHeaders = new AuthHeaders;
@@ -208,6 +223,20 @@ export class PersontaskComponent implements OnInit {
     let taskEmployeeSynergySubmission = new TaskEmployeeSynergySubmission(workflowTask.id, username)
     this.workflowactivityService.taskCheckEmployeeSynergy(taskEmployeeSynergySubmission).then(taskEmployeeSynergySubmission => {
       this.taskName = "Verify Employee Synergy Account";
+      if (taskEmployeeSynergySubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskEmployeeSynergySubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskEmployeeSynergySubmission.message);
+      }
+    })
+  }
+  // "Disable Synergy Account" Form
+  submitDisableEmployeeSynergyForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskEmployeeSynergySubmission = new TaskEmployeeSynergySubmission(workflowTask.id, username)
+    this.workflowactivityService.taskCheckEmployeeSynergy(taskEmployeeSynergySubmission).then(taskEmployeeSynergySubmission => {
+      this.taskName = "Verify Employee Synergy Account Disabled";
       if (taskEmployeeSynergySubmission.status) {
         this.taskUpdateSuccessMessage(true, taskEmployeeSynergySubmission.message);
       } else {

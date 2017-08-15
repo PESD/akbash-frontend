@@ -1,3 +1,9 @@
+<p-growl [(value)]="msgs"></p-growl>
+<p-panel #pnl header="Start Workflow">
+  <h4>{{personName ? personName : "Select a Person"}}</h4>
+  <p-dropdown [options]="selectProcesses" [(ngModel)]="selectedProcess" (onChange)="onChange($event)" autoWidth="False" [style]="{'width':'250px'}" placeholder="Select a Process"></p-dropdown><br/>
+  <button pButton type="button" (click)="confirm()" label="Start Workflow" [disabled]="buttonDisabled"></button>
+</p-panel>
 <p-dataTable [value]="personGrid" [(selection)]="selectedPerson" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]" expandableRows="true">
   <p-column expander="true" styleClass="col-icon" [style]="{'width':'5%'}"></p-column>
   <p-column field="status" header="Status" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
@@ -13,3 +19,4 @@
     <app-personlog person_id="{{person.id}}"></app-personlog>
   </ng-template>
 </p-dataTable>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="500"></p-confirmDialog>
