@@ -27,12 +27,14 @@ export class PersonstatusComponent implements OnInit {
   visionsUsername: string;
   activeDirectoryUsername: string;
   synergyUsername: string;
+  locationsString: string;
 
   constructor(private employeesService: EmployeesService) { }
 
   getPerson() {
     this.employeesService.getPerson(this.person_id).then(person => {
       this.person = person;
+      this.locationsString = person.locations.join(", ");
       if(this.person.services) {
         for (let service of this.person.services) {
           switch(service["type"]) {

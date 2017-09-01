@@ -13,6 +13,7 @@ import {
   TaskVisionsPositionSubmission,
   TaskGenericCheckSubmission,
   TaskGenericTodoSubmission,
+  TaskAssignLocationsSubmission,
 } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model';
 import { HttperrorService } from './httperror.service';
@@ -133,6 +134,20 @@ export class WorkflowactivityService {
     return this.http.post(url, body, options)
       .toPromise()
       .then(response => response.json() as TaskGenericTodoSubmission)
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  taskAssignLocations(taskAssignLocationsSubmission: TaskAssignLocationsSubmission): Promise<TaskAssignLocationsSubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_work_locations/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskAssignLocationsSubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskAssignLocationsSubmission)
       .catch(error => {
         return this.handleError(error)
       });

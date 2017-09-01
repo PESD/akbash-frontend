@@ -31,6 +31,8 @@ import {
           CheckboxModule,
           BlockUIModule,
           InputTextareaModule,
+          OverlayPanelModule,
+          PickListModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
@@ -54,6 +56,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { PersongridComponent } from './persongrid/persongrid.component';
 import { EmployeegridComponent } from './employeegrid/employeegrid.component';
 import { PersonlogComponent } from './personlog/personlog.component';
+import { TransferformComponent } from './transferform/transferform.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -103,6 +106,7 @@ Date.prototype.yyyymmdd = function() {
     PersongridComponent,
     EmployeegridComponent,
     PersonlogComponent,
+    TransferformComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,6 +134,8 @@ Date.prototype.yyyymmdd = function() {
     CheckboxModule,
     BlockUIModule,
     InputTextareaModule,
+    OverlayPanelModule,
+    PickListModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

@@ -51,7 +51,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   getProcesses(): void {
-    this.workflowsService.getProcesses().then(processes => {
+    this.workflowsService.getProcessesByCategory("new_hire").then(processes => {
       this.processes = processes;
       this.buildProcessSelect();
     });

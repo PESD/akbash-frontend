@@ -13,6 +13,8 @@
   <p-column field="positions" header="Positions" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
   <p-column field="locations" header="Locations" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
   <ng-template let-person pTemplate="rowexpansion">
+    <h1 class="display-4">{{person.first_name}} {{person.last_name}}</h1>
+    <h5>{{person.status}}</h5>
     <app-personstatus person_id="{{person.id}}"></app-personstatus>
     <app-personform person_id="{{person.id}}" (update)="refreshData($event)"></app-personform>
     <app-comments person_id="{{person.id}}"></app-comments>

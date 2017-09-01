@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
 import { Message, ConfirmationService } from 'primeng/primeng';
 
 import { WorkflowactivityService } from '../_services/workflowactivity.service';
+import { EmployeesService } from '../_services/employees.service';
 import { WorkflowActivity, WorkflowTask }      from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
 import {
@@ -14,8 +15,10 @@ import {
   TaskVisionsPositionSubmission,
   TaskGenericCheckSubmission ,
   TaskGenericTodoSubmission,
+  TaskAssignLocationsSubmission,
 } from '../_models/task_submissions';
 import { Epar, VisionsEmployee } from '../_models/visions.model'
+import { Location, PersonSkinny } from '../_models/api.model';
 
 @Component({
   selector: 'app-persontask',
@@ -26,6 +29,7 @@ export class PersontaskComponent implements OnInit {
   @Input() workflow_id: string;
   @Output() update = new EventEmitter<any>();
   workflowActivities: WorkflowActivity[];
+  person: PersonSkinny;
   workflowTasks: WorkflowTask[];
   msgs: Message[] = [];
   taskName: string;
@@ -37,11 +41,18 @@ export class PersontaskComponent implements OnInit {
   // visions employee id form vars
   visionsIDForm: FormGroup;
   visionsEmployee: VisionsEmployee;
+  list1: string[] = ["Hello", "World"]
+  list2: string[] = ["Universe", "Galaxy"]
+  availableLocations: Location[];
+  employeeLocations: Location[];
 
   constructor(
     private workflowactivityService: WorkflowactivityService,
     private fb: FormBuilder,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService,
+    private employeeService: EmployeesService,
+  )
+  {
     this.createEparForm();
     this.createVisionsForm();
   }
@@ -60,12 +71,9 @@ export class PersontaskComponent implements OnInit {
 
   refreshTasks() {
     let authHeaders = new AuthHeaders;
-    console.log("REFESHING SOME TASKS!");
     this.workflowTasks = [];
     for (let workflowActivity of this.workflowActivities) {
-      console.log("FOUND AN ACTIVITY!");
       for (let workflowTask of workflowActivity.workflow_tasks) {
-        console.log("FOUND A TASK!");
         let users = workflowActivity.activity.users
         let usernames: string[] = [];
         for (let user of users) {
@@ -73,9 +81,25 @@ export class PersontaskComponent implements OnInit {
         }
         if (usernames.includes(authHeaders.getUsername())) {
           this.workflowTasks.push(workflowTask);
+          if (workflowTask.task.name == "Assign Work Locations") {
+            this.buildLocations();
+          }
         }
       }
     }
+  }
+
+  buildLocations() {
+    this.availableLocations = []
+    this.employeeLocations = []
+    this.employeeService.getPersonFromWorkflow(this.workflow_id).then(persons => {
+      this.employeeService.getLocationsFromPerson(String(persons[0].id)).then(locations => {
+        this.employeeLocations = locations;
+      })
+      this.employeeService.getLocationsNotFromPerson(String(persons[0].id)).then(locations => {
+        this.availableLocations = locations;
+      })
+    })
   }
 
   taskUpdateSuccessMessage(success: boolean, message: string) {
@@ -105,7 +129,6 @@ export class PersontaskComponent implements OnInit {
     const formModel = this.eparForm.value;
     let epar_id = formModel.epar_id;
     this.workflowactivityService.getEpar(epar_id).then(epar => {
-      console.log(`Epar ID is ${epar.id}`)
       this.epar = epar;
       this.confirmEparForm(workflowTask);
     });
@@ -340,6 +363,24 @@ export class PersontaskComponent implements OnInit {
         this.taskUpdateSuccessMessage(true, taskGenericCheckSubmission.message);
       } else {
         this.taskUpdateSuccessMessage(false, taskGenericCheckSubmission.message);
+      }
+    })
+  }
+
+  submitAssignLocations(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let location_ids: number[] = []
+    for (let location of this.employeeLocations) {
+      location_ids.push(location.id)
+    }
+    let taskAssignLocationsSubmission = new TaskAssignLocationsSubmission(workflowTask.id, username, location_ids);
+    this.workflowactivityService.taskAssignLocations(taskAssignLocationsSubmission).then(taskAssignLocationsSubmission => {
+      this.taskName = "Assign Work Locations";
+      if (taskAssignLocationsSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskAssignLocationsSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskAssignLocationsSubmission.message);
       }
     })
   }

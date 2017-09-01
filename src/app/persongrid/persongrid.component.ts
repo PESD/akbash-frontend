@@ -89,6 +89,12 @@ export class PersongridComponent implements OnInit {
   onChange(event) {
     if (this.selectedProcess) {
       this.processID = this.selectedProcess;
+      let label = "";
+      for (let process of this.selectProcesses) {
+        if (process.value == this.selectedProcess) {
+          label = process.label;
+        }
+      }
     } else {
       this.processID = "";
     }
@@ -132,7 +138,7 @@ export class PersongridComponent implements OnInit {
   }
 
   getProcesses(): void {
-    this.workflowsService.getProcesses().then(processes => {
+    this.workflowsService.getProcessesByCategory("existing_employee").then(processes => {
       this.processes = processes;
       this.buildProcessSelect();
     });
