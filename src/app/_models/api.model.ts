@@ -11,6 +11,7 @@ export class Employee {
   api_url?: any;
   id?: any;
   type?: any;
+  status?: string;
   employee_id?: any;
   first_name?: any;
   last_name?: any;
@@ -33,6 +34,8 @@ export class Employee {
   sub_type?: any;
   marked_as_hired?: any;
   epar_id?: any;
+  transfer_epar_id?: any;
+  termination_epar_id?: any;
   is_onboarded?: any;
   onboarded_date?: any;
   onboarded_by?: any;
@@ -70,12 +73,14 @@ export class Employee {
   start_date?: any;
   last_updated_date?: any;
   last_updated_by?: string;
+  locations?: any[];
 }
 
 export class Person {
     api_url?: string;
     id?: number;
     type?: any;
+    status?: string;
     first_name?: string;
     last_name?: string;
     middle_name?: string;
@@ -128,12 +133,14 @@ export class Person {
     start_date?: any;
     last_updated_date?: any;
     last_updated_by?: string;
+    locations?: any[];
 }
 
 export class Contractor {
     api_url?: string;
     id?: number;
     type?: any;
+    status?: string;
     first_name?: string;
     last_name?: string;
     middle_name?: string;
@@ -179,6 +186,7 @@ export class Contractor {
     start_date?: any;
     last_updated_date?: any;
     last_updated_by?: string;
+    locations?: any[];
 }
 
 export interface Location {
@@ -225,4 +233,10 @@ export class PersonSkinny {
     last_name?: string;
     start_date?: any;
     positions?: PositionSkinny[];
+}
+
+export class VisionsPosition {
+  id: number;
+  description: string;
+  type: string;
 }

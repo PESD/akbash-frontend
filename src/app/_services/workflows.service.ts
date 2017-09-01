@@ -40,6 +40,17 @@ export class WorkflowsService {
 
   }
 
+  getProcessesByCategory(category: string): Promise<Process[]> {
+    let url = `${Globals.BASE_API_URL}/bpm/process-by-category/${category}/?format=json`;
+    let options = this.authHeaders.getRequestOptions();
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as Process[])
+      .catch(this.handleError);
+
+  }
+
   getAllWorkflows(type: number): Promise<Workflow[]> {
     var url = "";
     if (type == 0) {

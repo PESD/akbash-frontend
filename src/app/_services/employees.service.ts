@@ -3,7 +3,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Employee, Position, Vendor, Location, Contractor, Person, Comment, PersonSkinny } from '../_models/api.model';
+import { Employee, Position, Vendor, Location, Contractor, Person, Comment, PersonSkinny, VisionsPosition } from '../_models/api.model';
 import { WorkflowCreate, Process } from '../_models/bpm.model';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { HttperrorService } from './httperror.service';
@@ -47,6 +47,23 @@ export class EmployeesService {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
 
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let e = response.json() as PersonSkinny[];
+          //console.log(e);
+          return e;
+        })
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
+    getPersonFromWorkflow(workflow_id: string): Promise<PersonSkinny[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/person-from-workflow/${workflow_id}/?format=json`;
       return this.http.get(url, options)
         .toPromise()
         .then(response => {
@@ -154,6 +171,25 @@ export class EmployeesService {
         });
     }
 
+    getVisionsPositions(): Promise<VisionsPosition[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/visionspositions/?format=json`;
+      console.log(url)
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let p = response.json() as VisionsPosition[];
+          //console.log(e);
+          return p;
+        })
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
     getVendors(): Promise<Vendor[]> {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
@@ -178,6 +214,36 @@ export class EmployeesService {
       let options = authHeaders.getRequestOptions();
 
       let url = `${Globals.BASE_API_URL}/api/location/?format=json`;
+      console.log(url)
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => response.json() as Location[])
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
+    getLocationsFromPerson(person_id: string): Promise<Location[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/location-from-person/${person_id}/?format=json`;
+      console.log(url)
+
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => response.json() as Location[])
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
+    getLocationsNotFromPerson(person_id: string): Promise<Location[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/location-not-from-person/${person_id}/?format=json`;
       console.log(url)
 
       return this.http.get(url, options)

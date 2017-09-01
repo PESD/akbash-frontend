@@ -9,11 +9,14 @@
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Start Date">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(person.start_date)">{{getStatusDate(person.start_date) | date:'short'}}</div>
 </p-panel></div>
-    <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Active Directory User">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(activeDirectoryUsername)">{{getStatusText(activeDirectoryUsername)}}</div>
+    <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Work Locations">
+<div class="workflow-status-panel" [ngClass]="setPanelClass(locationsString)">{{getStatusText(locationsString)}}</div>
 </p-panel></div>
 </div>
 <div class="ui-g">
+  <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Active Directory User">
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(activeDirectoryUsername)">{{getStatusText(activeDirectoryUsername)}}</div>
+  </p-panel></div>
   <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Synergy User">
   <div class="workflow-status-panel" [ngClass]="setPanelClass(synergyUsername, !person.is_synergy_account_needed)">{{getStatusText(synergyUsername, !person.is_synergy_account_needed)}}</div>
   </p-panel></div>
@@ -29,20 +32,23 @@
 <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="TCP Fingerprinted?">
 <div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_tcp_fingerprinted)">{{getStatusBool(person.is_tcp_fingerprinted)}}<span *ngIf="person.is_tcp_fingerprinted"> - {{getStatusDate(person.tcp_fingerprinted_date) | date:'short'}}</span></div>
 </p-panel></div>
-<div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Badge Created?">
-<div class="workflow-status-panel" [ngClass]="setPanelClass(person.is_badge_created)">{{getStatusBool(person.is_badge_created)}}<span *ngIf="person.is_badge_created"> - {{getStatusDate(person.badge_created_date) | date:'short'}}</span></div>
-</p-panel></div>
 </div>
 </p-panel>
 <p-panel *ngIf="showEmployee" class="workflow-status" header="Employee Information">
   <div class="ui-g">
-    <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="Employee ID">
+    <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Employee ID">
     <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.employee_id)">{{getStatusText(employee.employee_id)}}</div>
     </p-panel></div>
-  <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="ePAR ID">
+  <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="New Hire ePAR ID">
   <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.epar_id)">{{getStatusText(employee.epar_id)}}</div>
   </p-panel></div>
-      <div class="ui-g-12 ui-md-4 ui-lg-4"><p-panel header="Employee Record ID">
+  <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Transfer ePAR ID">
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.transfer_epar_id)">{{getStatusText(employee.transfer_epar_id)}}</div>
+  </p-panel></div>
+  <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Termination ePAR ID">
+  <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.termination_epar_id)">{{getStatusText(employee.termination_epar_id)}}</div>
+  </p-panel></div>
+      <div class="ui-g-12 ui-md-4 ui-lg-2"><p-panel header="Employee Record ID">
   <div class="workflow-status-panel" [ngClass]="setPanelClass(employee.visions_id)">{{getStatusText(employee.visions_id)}}</div>
   </p-panel></div>
 </div>
@@ -66,7 +72,7 @@
 <div class="workflow-status-panel">{{getStatusText(position.location?.short_name)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Primary?">
-<div class="workflow-status-panel">{{getStatusText(true)}}</div>
+<div class="workflow-status-panel">{{getStatusBool(position.is_primary)}}</div>
 </p-panel></div>
 <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Last Updated by:">
 <div class="workflow-status-panel">{{getStatusText(position.last_updated_by)}} - {{getStatusText(position.last_updated_date) | date :'y-MM-dd'}}</div>

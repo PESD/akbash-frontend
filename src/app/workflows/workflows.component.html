@@ -9,6 +9,7 @@
     <p-column field="current_user" header="Current Users" sortable="true" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains"></p-column>
     <ng-template let-workflow pTemplate="rowexpansion">
       <h1 class="display-4">{{workflow.person.first_name}} {{workflow.person.last_name}}</h1>
+      <h5>{{workflow.person.status}}</h5>
       <app-persontask workflow_id="{{workflow.id}}" (update)="refreshData($event)"></app-persontask>
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
       <app-personform person_id="{{workflow.person.id}}" (update)="refreshData($event)"></app-personform>
