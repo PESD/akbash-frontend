@@ -32,6 +32,37 @@
           </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Create Transfer ePAR'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create the transfer ePAR in iVisions and enter the ePAR ID in the box below.
+              </div>
+              <form [formGroup]="eparForm" (ngSubmit)="submitEparForm(workflowTask)">
+                ePAR ID *:<br/>
+                <input class="form-control" formControlName="epar_id" pattern="[0-9]+" pInputText>
+                <button pButton type="submit" label="Save" [disabled]="eparForm.pristine || !eparForm.valid"></button>
+              </form>
+          </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Assign Work Locations'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Add all physical locations the employee will work at to the right-hand box.
+              </div>
+              <p-pickList [source]="availableLocations" [target]="employeeLocations" [showTargetControls]=false [showSourceControls]=false>
+                  <ng-template let-location pTemplate="item">
+                      <div class="ui-helper-clearfix">
+                          {{location.short_name}}
+                      </div>
+                  </ng-template>
+              </p-pickList>
+              <button pButton type="button" (click)="submitAssignLocations(workflowTask)" label="Update Locations"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchCase="'Create Employee Maintenance Record'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -50,7 +81,7 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
               <div class="task-instructions">
-                Create the user's Active Directory account (making sure to enter the Visions ID in the appropriate place) and click the button below.
+                Create (or modify if this is a transfer) the user's Active Directory account (making sure to enter the Visions ID in the appropriate place) and click the button below.
               </div>
               <button pButton type="button" (click)="submitEmployeeADForm(workflowTask)" label="Check for Active Directory Account"></button>
             </div>
@@ -74,6 +105,26 @@
               </div>
               <button pButton type="button" (click)="submitEmployeeSynergyForm(workflowTask)" label="Check for Synergy Account"></button><br/><br/>
               <button pButton type="button" (click)="skipEmployeeSynergyForm(workflowTask)" label="Synergy Account Not Needed"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Transfer Synergy Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Do any work to transfer, inactivate or create a Synergy account based on the transfer information and click the button below (Even if no changes are required).
+              </div>
+              <button pButton type="button" (click)="submitEmployeeSynergyForm(workflowTask)" label="Synergy Account Transfered"></button><br/><br/>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Transfer Active Directory Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Do any work to transfer, inactivate or create an Active Directory account based on the transfer information and click the button below (Even if no changes are required).
+              </div>
+              <button pButton type="button" (click)="submitEmployeeADForm(workflowTask)" label="Active Directory Account Transfered"></button><br/><br/>
             </div>
           </div>
         </div>

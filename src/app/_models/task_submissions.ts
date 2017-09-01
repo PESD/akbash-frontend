@@ -95,3 +95,19 @@ export class TaskGenericTodoSubmission {
         this.username = username;
   }
 }
+
+export class TaskAssignLocationsSubmission {
+  workflow_task_id?: any;
+  status?: any;
+  message?: any;
+  username?: any;
+  locations?: any[];
+
+  constructor(workflow_task_id: number, username: string, locations: number[]) {
+        this.workflow_task_id = workflow_task_id;
+        this.status = false;
+        this.message = "";
+        this.username = username;
+        this.locations = locations;
+  }
+}
