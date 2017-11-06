@@ -33,6 +33,7 @@ import {
           InputTextareaModule,
           OverlayPanelModule,
           PickListModule,
+          OrganizationChartModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
@@ -57,6 +58,7 @@ import { PersongridComponent } from './persongrid/persongrid.component';
 import { EmployeegridComponent } from './employeegrid/employeegrid.component';
 import { PersonlogComponent } from './personlog/personlog.component';
 import { TransferformComponent } from './transferform/transferform.component';
+import { WorkflowchartComponent } from './workflowchart/workflowchart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -107,6 +109,7 @@ Date.prototype.yyyymmdd = function() {
     EmployeegridComponent,
     PersonlogComponent,
     TransferformComponent,
+    WorkflowchartComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +139,7 @@ Date.prototype.yyyymmdd = function() {
     InputTextareaModule,
     OverlayPanelModule,
     PickListModule,
+    OrganizationChartModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

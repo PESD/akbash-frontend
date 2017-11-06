@@ -149,10 +149,12 @@ export class PersontaskComponent implements OnInit {
   }
 
   commitEparForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
     const formModel = this.eparForm.value;
     let workflow_task_id = workflowTask.id;
     let epar_id = formModel.epar_id;
-    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id);
+    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id, username);
     this.workflowactivityService.taskSetEpar(eparSubmission).then(taskEparSubmission => {
       this.taskName = "Create ePAR";
       if (taskEparSubmission.status) {
@@ -198,7 +200,9 @@ export class PersontaskComponent implements OnInit {
     const formModel = this.visionsIDForm.value;
     let workflow_task_id = workflowTask.id;
     let visions_id = formModel.visions_id;
-    let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id);
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id, username);
     this.workflowactivityService.taskSetVisionsID(visionsIDSubmission).then(taskVisionsIDSubmission => {
       this.taskName = "Create Employee Maintenance Record";
       if (taskVisionsIDSubmission.status) {
@@ -285,7 +289,9 @@ export class PersontaskComponent implements OnInit {
 
   // "Assign Employee to Visions Position" Form
   submitEmployeeVisionsPositionForm(workflowTask: WorkflowTask) {
-    let taskVisionsPositionSubmission = new TaskVisionsPositionSubmission(workflowTask.id)
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskVisionsPositionSubmission = new TaskVisionsPositionSubmission(workflowTask.id, username)
     this.workflowactivityService.taskUpdateVisionsPositions(taskVisionsPositionSubmission).then(taskVisionsPositionSubmission => {
       this.taskName = "Employee Added to Visions Position";
       if (taskVisionsPositionSubmission.status) {
@@ -298,7 +304,9 @@ export class PersontaskComponent implements OnInit {
 
   // "Create TCP Account" Form
   submitTcpAccountForm(workflowTask: WorkflowTask) {
-    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id)
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id, username)
     this.workflowactivityService.taskGenericCheck(taskGenericCheckSubmission).then(taskGenericCheckSubmission => {
       this.taskName = "Employee Added to Visions Position";
       if (taskGenericCheckSubmission.status) {
@@ -356,7 +364,9 @@ export class PersontaskComponent implements OnInit {
 
   // "Ignore Employee" Form
   submitIgnoreEmployeeForm(workflowTask: WorkflowTask) {
-    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id)
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id, username)
     this.workflowactivityService.taskGenericCheck(taskGenericCheckSubmission).then(taskGenericCheckSubmission => {
       this.taskName = "Ignore Employee";
       if (taskGenericCheckSubmission.status) {
@@ -381,6 +391,66 @@ export class PersontaskComponent implements OnInit {
         this.taskUpdateSuccessMessage(true, taskAssignLocationsSubmission.message);
       } else {
         this.taskUpdateSuccessMessage(false, taskAssignLocationsSubmission.message);
+      }
+    })
+  }
+
+  // "Cancel Workflow" Form
+  submitCancelWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Cancel Workflow";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Verify Possible Active Directory Account Reversion" Form
+  submitCancelADWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Verify Possible Active Directory Account Reversion";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Verify Possible Synergy Account Reversion" Form
+  submitCancelSynergyWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Verify Possible Synergy Account Reversion";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Verify Possible Visions Position Reversion" Form
+  submitCancelVisionsWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Verify Possible Visions Position Reversion";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
       }
     })
   }

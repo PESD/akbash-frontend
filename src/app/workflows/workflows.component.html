@@ -1,3 +1,4 @@
+<p-growl [(value)]="msgs"></p-growl>
 <p-steps [model]="filterItems" [(activeIndex)]="activeIndex" [readonly]="false" (activeIndexChange)="menuChange()"></p-steps>
 <p-dataTable [value]="workflowGrid" [(selection)]="selectedWorkflows" selectionMode="single" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" dataKey="id" [rows]="20" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[20,50,100]" expandableRows="true">
     <p-column expander="true" styleClass="col-icon" [style]="{'width':'5%'}"></p-column>
@@ -10,10 +11,16 @@
     <ng-template let-workflow pTemplate="rowexpansion">
       <h1 class="display-4">{{workflow.person.first_name}} {{workflow.person.last_name}}</h1>
       <h5>{{workflow.person.status}}</h5>
+      <div *ngIf="shouldShowCancel(workflow.status, workflow.process_name)">
+        <br/>
+        <button pButton type="button" (click)="confirmCancel(workflow.id, workflow.person.first_name, workflow.person.last_name, workflow.person.id)" label="Cancel Workflow" class="ui-button-danger"></button>
+        <br/><br/><br/>
+      </div>
       <app-persontask workflow_id="{{workflow.id}}" (update)="refreshData($event)"></app-persontask>
       <app-personstatus person_id="{{workflow.person.id}}"></app-personstatus>
       <app-personform person_id="{{workflow.person.id}}" (update)="refreshData($event)"></app-personform>
       <app-comments person_id="{{workflow.person.id}}"></app-comments>
       <app-personlog person_id="{{workflow.person.id}}"></app-personlog>
+      <app-workflowchart workflow_id="{{workflow.id}}"></app-workflowchart>
     </ng-template>
 </p-dataTable>

@@ -1,0 +1,39 @@
+<p-panel class="workflow-status" header="Workflow Flowchart" toggleable="true" collapsed="true">
+  Workflow ID: {{workflow_id}}
+  <p-organizationChart [value]="workflowTree">
+    <ng-template let-node pTemplate="Complete">
+      <div style="background-color: #99BBFF">
+      <div class="node-header ui-corner-top">{{node.type}}</div>
+      <div class="node-content">
+        <div><b>{{node.label}}</b></div>
+        <div>{{node.data.completed_by}}</div>
+        <div>{{node.data.completed_date | date:'short'}}</div>
+      </div>
+    </div>
+    </ng-template>
+    <ng-template let-node pTemplate="Inactive">
+      <div style="background-color: #CCCCCC">
+      <div class="node-header ui-corner-top">{{node.type}}</div>
+      <div class="node-content">
+        <div><b>{{node.label}}</b></div>
+      </div>
+    </div>
+    </ng-template>
+    <ng-template let-node pTemplate="Active">
+      <div style="background-color: #99FF99">
+      <div class="node-header ui-corner-top">{{node.type}}</div>
+      <div class="node-content">
+        <div><b>{{node.label}}</b></div>
+      </div>
+    </div>
+    </ng-template>
+    <ng-template let-node pTemplate="Error">
+      <div style="background-color: #FF9999">
+      <div class="node-header ui-corner-top">{{node.type}}</div>
+      <div class="node-content">
+        <div><b>{{node.label}}</b></div>
+      </div>
+    </div>
+    </ng-template>
+  </p-organizationChart>
+</p-panel>

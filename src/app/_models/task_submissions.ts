@@ -1,28 +1,32 @@
 export class TaskEparSubmission {
   workflow_task_id?: any;
   epar_id?: any;
+  username?: any;
   status?: any;
   message?: any;
 
-  constructor(workflow_task_id: number, epar_id: any) {
+  constructor(workflow_task_id: number, epar_id: any, username: string) {
         this.workflow_task_id = workflow_task_id;
         this.epar_id = epar_id;
         this.status = false;
         this.message = "";
+        this.username = username;
   }
 }
 
 export class TaskVisionsIDSubmission {
   workflow_task_id?: any;
   visions_id?: any;
+  username?: any;
   status?: any;
   message?: any;
 
-  constructor(workflow_task_id: number, epar_id: any) {
+  constructor(workflow_task_id: number, epar_id: any, username: string) {
         this.workflow_task_id = workflow_task_id;
         this.visions_id = epar_id;
         this.status = false;
         this.message = "";
+        this.username = username;
   }
 }
 
@@ -60,25 +64,29 @@ export class TaskEmployeeSynergySubmission {
 
 export class TaskVisionsPositionSubmission {
   workflow_task_id?: any;
+  username?: any;
   status?: any;
   message?: any;
 
-  constructor(workflow_task_id: number) {
+  constructor(workflow_task_id: number, username: string) {
         this.workflow_task_id = workflow_task_id;
         this.status = false;
         this.message = "";
+        this.username = username;
   }
 }
 
 export class TaskGenericCheckSubmission {
   workflow_task_id?: any;
+  username?: any;
   status?: any;
   message?: any;
 
-  constructor(workflow_task_id: number) {
+  constructor(workflow_task_id: number, username: string) {
         this.workflow_task_id = workflow_task_id;
         this.status = false;
         this.message = "";
+        this.username = username;
   }
 }
 

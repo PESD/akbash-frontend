@@ -198,6 +198,46 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Cancel Workflow'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                To cancel this person's current workflow, click the button below.
+              </div>
+              <button pButton type="button" (click)="submitCancelWorkflow(workflowTask)" label="Cancel Workflow"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Verify Possible Active Directory Account Reversion'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                This employee had a Workflow that has been canceled. If you had already made Active Directory changes, please revert.
+              </div>
+              <button pButton type="button" (click)="submitCancelADWorkflow(workflowTask)" label="Active Directory Reversions Completed or Unnecessary"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Verify Possible Synergy Account Reversion'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                This employee had a Workflow that has been canceled. If you had already made Synergy changes, please revert.
+              </div>
+              <button pButton type="button" (click)="submitCancelSynergyWorkflow(workflowTask)" label="Synergy Reversions Completed or Unnecessary"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Verify Possible Visions Position Reversion'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                This employee had a Workflow that has been canceled. If you had already made Visions Position changes, please revert.
+              </div>
+              <button pButton type="button" (click)="submitCancelVisionsWorkflow(workflowTask)" label="Visions Position Reversions Completed or Unnecessary"></button>
+            </div>
+          </div>
+        </div>
         <div *ngSwitchDefault>No Tasks</div>
       </div>
     </p-panel>

@@ -3,8 +3,8 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { WorkflowCreate } from '../_models/bpm.model';
-import { Workflow, Process } from '../_models/bpm.model';
+import { Workflow, Process, WorkflowWithActivity, WorkflowCreate } from '../_models/bpm.model';
+import { TreeNode } from 'primeng/primeng';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { UsersService }      from './users.service';
 import { HttperrorService } from './httperror.service';
@@ -67,6 +67,9 @@ export class WorkflowsService {
     } else if (type == 3) {
       url = `${Globals.BASE_API_URL}/bpm/workflow-complete-completed/?format=json`;
       return this.getWorkflows(url);
+    } else if (type == 4) {
+      url = `${Globals.BASE_API_URL}/bpm/workflow-complete-canceled/?format=json`;
+      return this.getWorkflows(url);
     }
   }
 
@@ -75,6 +78,20 @@ export class WorkflowsService {
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as Workflow[])
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  getWorkflowTreeNode(workflow_id: string): Promise<TreeNode[]> {
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+
+    let url = `${Globals.BASE_API_URL}/bpm/wwa/${workflow_id}/?format=json`;
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as TreeNode[])
       .catch(error => {
         return this.handleError(error)
       });

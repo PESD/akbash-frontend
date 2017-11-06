@@ -49,15 +49,32 @@ export class Workflow {
     id: number;
     process: Process;
     person: Person;
+    status?: any;
     workflow_activites?: WorkflowActivity[];
 }
 
 export class WorkflowCreate {
   process_id?: any;
   person_id?: any;
+  status?: any;
+  message?: any;
 
   constructor(processID: string, personID: string) {
         this.process_id = processID;
         this.person_id = personID;
+        this.status = false;
+        this.message = "";
   }
+}
+
+export class WorkflowWithActivityData {
+  completed_by?: any;
+  completed_date?: any;
+}
+
+export class WorkflowWithActivity {
+  label?: any;
+  type?: any;
+  data?: WorkflowWithActivityData;
+  children?: any;
 }
