@@ -34,6 +34,7 @@ import {
           OverlayPanelModule,
           PickListModule,
           OrganizationChartModule,
+          ChartModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
@@ -140,6 +141,7 @@ Date.prototype.yyyymmdd = function() {
     OverlayPanelModule,
     PickListModule,
     OrganizationChartModule,
+    ChartModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

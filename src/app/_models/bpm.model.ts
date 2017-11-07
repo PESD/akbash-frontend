@@ -78,3 +78,19 @@ export class WorkflowWithActivity {
   data?: WorkflowWithActivityData;
   children?: any;
 }
+
+export class DashboardStats {
+  my_tasks?: any;
+  hires_this_month?: any;
+  active_workflows?: any;
+}
+
+export interface GraphDataSet {
+    label: string;
+    data: number[];
+}
+
+export interface Graph {
+    labels: string[];
+    datasets: GraphDataSet[];
+}

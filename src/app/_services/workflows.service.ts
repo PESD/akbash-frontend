@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Workflow, Process, WorkflowWithActivity, WorkflowCreate } from '../_models/bpm.model';
+import { Workflow, Process, WorkflowWithActivity, WorkflowCreate, DashboardStats, Graph } from '../_models/bpm.model';
 import { TreeNode } from 'primeng/primeng';
 import { AuthHeaders } from '../_helpers/authheaders';
 import { UsersService }      from './users.service';
@@ -92,6 +92,35 @@ export class WorkflowsService {
     return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as TreeNode[])
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  getDashboardStats(): Promise<DashboardStats> {
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let username = this.authHeaders.getUsername();
+
+    let url = `${Globals.BASE_API_URL}/bpm/dashboard-stats/${username}/?format=json`;
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as DashboardStats)
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  getGraphProcess(): Promise<Graph> {
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+
+    let url = `${Globals.BASE_API_URL}/bpm/graph-process/?format=json`;
+
+    return this.http.get(url, options)
+      .toPromise()
+      .then(response => response.json() as Graph)
       .catch(error => {
         return this.handleError(error)
       });

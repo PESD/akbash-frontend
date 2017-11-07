@@ -76,6 +76,23 @@ export class EmployeesService {
         });
     }
 
+    getPersonMissedStartDate(): Promise<PersonSkinny[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/person-missed-start-date/?format=json`;
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let e = response.json() as PersonSkinny[];
+          //console.log(e);
+          return e;
+        })
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
     getPerson(person_id: string): Promise<Person> {
       let authHeaders = new AuthHeaders;
       let options = authHeaders.getRequestOptions();
