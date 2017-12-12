@@ -94,3 +94,7 @@ export interface Graph {
     labels: string[];
     datasets: GraphDataSet[];
 }
+
+export class ContractorSuccess {
+  status: boolean;
+}

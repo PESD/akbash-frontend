@@ -27,6 +27,7 @@ export class Employee {
   ethnicity?: any;
   hqt?: any;
   ssn?: any;
+  long_term_sub?: any;
   tcp_id?: any;
   talented_id?: any;
   onboarding_date?: any;
@@ -95,6 +96,7 @@ export class Person {
     ethnicity?: string;
     hqt?: string;
     ssn?: string;
+    long_term_sub?: any;
     tcp_id?: any;
     talented_id?: number;
     visions_id?: any;
@@ -155,6 +157,7 @@ export class Contractor {
     ethnicity?: string;
     hqt?: string;
     ssn?: string;
+    long_term_sub?: any;
     tcp_id?: any;
     talented_id?: number;
     is_onboarded?: boolean;
@@ -175,6 +178,7 @@ export class Contractor {
     is_visions_account_created?: boolean;
     visions_account_created_date?: any;
     visions_account_created_by?: any;
+    is_synergy_account_needed?: boolean;
     is_synergy_account_created?: boolean;
     synergy_account_created_date?: any;
     synergy_account_created_by?: any;
@@ -231,6 +235,7 @@ export class PersonSkinny {
     status: string;
     first_name?: string;
     last_name?: string;
+    long_term_sub?: any;
     start_date?: any;
     positions?: PositionSkinny[];
 }

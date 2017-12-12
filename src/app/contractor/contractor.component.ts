@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators }            from '@angular/forms';
 
-import {SelectItem} from 'primeng/primeng';
+import { SelectItem, Message } from 'primeng/primeng';
 
 import { Contractor, Vendor, Position, Location } from '../_models/api.model';
 import { EmployeesService } from '../_services/employees.service';
@@ -39,6 +39,7 @@ export class ContractorComponent implements OnInit {
   contractorVendor: Vendor;
   newContractor: Contractor;
   contractorPositions: Position[];
+  msgs: Message[] = [];
 
   constructor (
     private fb: FormBuilder,
@@ -125,6 +126,8 @@ export class ContractorComponent implements OnInit {
       hqt: '',
       ssn: '',
       tcp_id: '',
+      start_date: ['', Validators.required],
+      is_synergy_account_needed: [false],
       positions: this.fb.array([this.fb.group(new PositionForm())]),
     });
   }
@@ -149,6 +152,11 @@ export class ContractorComponent implements OnInit {
     if (birth_date) {
       bday_string = birth_date.yyyymmdd();
     }
+    let start_date_string = formModel.start_date as string
+    if (!(formModel.start_date.length===10)) {
+      let start_date = formModel.start_date as Date;
+      start_date_string = start_date.yyyymmdd();
+    }
     this.newContractor.first_name = formModel.first_name as string;
     this.newContractor.last_name = formModel.last_name as string;
     this.newContractor.middle_name = formModel.middle_name as string;
@@ -161,6 +169,8 @@ export class ContractorComponent implements OnInit {
     this.newContractor.race_american_indian = formModel.race_american_indian as boolean;
     this.newContractor.ethnicity = formModel.ethnicity as string;
     this.newContractor.ssn = formModel.ssn as string;
+    this.newContractor.start_date = start_date_string;
+    this.newContractor.is_synergy_account_needed = formModel.is_synergy_account_needed as boolean;
     //this.prepareVendor(formModel.vendor as string);
     let posArr = this.contractorForm.get("positions") as FormArray;
     this.preparePositions(posArr);
@@ -170,7 +180,15 @@ export class ContractorComponent implements OnInit {
 
   saveContractor() {
     this.prepareSave();
-    this.employeesService.saveContractorWithPositions(this.newContractor, this.contractorPositions);
+    this.employeesService.saveContractorNew(this.newContractor, this.contractorPositions).then(status => {
+      if (status){
+        console.log("WE HAVE SAVED A CONTRACTOR OMG");
+      } else {
+        console.log("THERE WAS A PROBLEM WHEN SAVING CONTRACTOR");
+      }
+      this.resultMessage(status);
+
+    });
     this.revert();
   }
 /*
@@ -198,6 +216,14 @@ export class ContractorComponent implements OnInit {
 
   revert() {
     this.createForm();
+  }
+
+  resultMessage(success: boolean) {
+    if (success) {
+      this.msgs.push({severity:'success', summary:"Contractor Added", detail:"Contractor has been added"});
+    } else {
+      this.msgs.push({severity:'error', summary:"Error Adding Contractor", detail:"Please check your data and try again."});
+    }
   }
 
 }

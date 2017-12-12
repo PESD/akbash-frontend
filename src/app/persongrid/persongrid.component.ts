@@ -56,9 +56,11 @@ export class PersongridComponent implements OnInit {
     for (let person of this.persons) {
       let positions: string[] = [];
       let locations: string[] = [];
-      for (let position of person.positions) {
-        positions.push(position.title);
-        locations.push(position.location);
+      if (typeof person.positions !== "undefined") {
+        for (let position of person.positions) {
+          positions.push(position.title);
+          locations.push(position.location);
+        }
       }
       let position_string = positions.join(" - ");
       let location_string = locations.join(" - ");
@@ -155,8 +157,19 @@ export class PersongridComponent implements OnInit {
   buildProcessSelect() {
     this.selectProcesses = [];
     for (let process of this.processes) {
-      if (!(process.name.indexOf("Contractor") >= 0) && !(process.name.indexOf("New Hire") >= 0) && !(process.name.indexOf("Ignore") >= 0)) {
-        this.selectProcesses.push({label: process.name, value: process.id})
+
+      if (this.person_type == "Contractor") {
+        if (process.name.indexOf("Contractor") >= 0) {
+          this.selectProcesses.push({label: process.name, value: process.id});
+        }
+      } else if (this.person_type == "Sub") {
+        if (process.name.indexOf("Deactivate Long-term") >= 0) {
+          this.selectProcesses.push({label: process.name, value: process.id});
+        }
+      } else {
+        if (!(process.name.indexOf("Contractor") >= 0) && !(process.name.indexOf("Deactivate Long-term") >= 0)) {
+          this.selectProcesses.push({label: process.name, value: process.id})
+        }
       }
     }
   }
