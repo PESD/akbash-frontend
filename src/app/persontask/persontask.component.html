@@ -77,6 +77,20 @@
           </div>
           </div>
         </div>
+        <div *ngSwitchCase="'Mark as Long-term Sub'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Enter the Visions Record ID of the employee this person is subbing for.
+              </div>
+              <form [formGroup]="visionsSubIDForm" (ngSubmit)="submitSubVisionsIDForm(workflowTask)">
+                Replacing Visions Record ID *:<br/>
+                <input class="form-control" formControlName="visions_id" pattern="[0-9]+" pInputText>
+                <button pButton type="submit" label="Save" [disabled]="visionsSubIDForm.pristine || !visionsSubIDForm.valid"></button>
+              </form>
+          </div>
+          </div>
+        </div>
         <div *ngSwitchCase="'Create Active Directory Account'">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -235,6 +249,35 @@
                 This employee had a Workflow that has been canceled. If you had already made Visions Position changes, please revert.
               </div>
               <button pButton type="button" (click)="submitCancelVisionsWorkflow(workflowTask)" label="Visions Position Reversions Completed or Unnecessary"></button>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Create Long-term Sub Active Directory Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create (or modify if this is a transfer) the user's Active Directory account (making sure to enter the Visions ID in the appropriate place) and enter the username below.
+              </div>
+              <form [formGroup]="adSubForm" (ngSubmit)="commitAdSubForm(workflowTask)">
+                Active Directory Username *:<br/>
+                <input class="form-control" formControlName="ad_username" pInputText>
+                <button pButton type="submit" label="Save" [disabled]="adSubForm.pristine || !adSubForm.valid"></button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'Create Long-term Sub Synergy Account'">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              <div class="task-instructions">
+                Create (or modify if this is a transfer) the user's Active Directory account (making sure to enter the Visions ID in the appropriate place) and enter the username below.
+              </div>
+              <form [formGroup]="synergySubForm" (ngSubmit)="commitSynergySubForm(workflowTask)">
+                Synergy Username *:<br/>
+                <input class="form-control" formControlName="synergy_username" pInputText>
+                <button pButton type="submit" label="Save" [disabled]="synergySubForm.pristine || !synergySubForm.valid"></button>
+              </form>
+              <button pButton type="button" (click)="skipEmployeeSynergyForm(workflowTask)" label="Synergy Account Not Needed"></button>
             </div>
           </div>
         </div>

@@ -28,6 +28,7 @@ export class Employee {
   hqt?: any;
   ssn?: any;
   long_term_sub?: any;
+  long_term_sub_replacing?: any;
   tcp_id?: any;
   talented_id?: any;
   onboarding_date?: any;
@@ -97,6 +98,7 @@ export class Person {
     hqt?: string;
     ssn?: string;
     long_term_sub?: any;
+    long_term_sub_replacing?: any;
     tcp_id?: any;
     talented_id?: number;
     visions_id?: any;
@@ -158,6 +160,7 @@ export class Contractor {
     hqt?: string;
     ssn?: string;
     long_term_sub?: any;
+    long_term_sub_replacing?: any;
     tcp_id?: any;
     talented_id?: number;
     is_onboarded?: boolean;
@@ -236,6 +239,7 @@ export class PersonSkinny {
     first_name?: string;
     last_name?: string;
     long_term_sub?: any;
+    long_term_sub_replacing?: any;
     start_date?: any;
     positions?: PositionSkinny[];
 }

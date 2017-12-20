@@ -46,6 +46,22 @@ export class TaskEmployeeADSubmission {
   }
 }
 
+export class TaskSubADSubmission {
+  workflow_task_id?: any;
+  ad_username?: any;
+  username?: any;
+  status?: any;
+  message?: any;
+
+  constructor(workflow_task_id: number, username: any, ad_username: any) {
+        this.workflow_task_id = workflow_task_id;
+        this.username = username;
+        this.ad_username = ad_username;
+        this.status = false;
+        this.message = "";
+  }
+}
+
 export class TaskEmployeeSynergySubmission {
   workflow_task_id?: any;
   synergy_username?: any;
@@ -57,6 +73,22 @@ export class TaskEmployeeSynergySubmission {
         this.workflow_task_id = workflow_task_id;
         this.username = username;
         this.synergy_username = "";
+        this.status = true;
+        this.message = "";
+  }
+}
+
+export class TaskSubSynergySubmission {
+  workflow_task_id?: any;
+  synergy_username?: any;
+  username?: any;
+  status?: any;
+  message?: any;
+
+  constructor(workflow_task_id: number, username: any, synergy_username: any) {
+        this.workflow_task_id = workflow_task_id;
+        this.username = username;
+        this.synergy_username = synergy_username;
         this.status = true;
         this.message = "";
   }

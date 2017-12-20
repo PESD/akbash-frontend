@@ -63,6 +63,13 @@
   </p-panel></div>
 </div>
 </p-panel>
+<p-panel *ngIf="showLongTermSub" class="workflow-status" header="Long Term Sub Information">
+  <div class="ui-g">
+    <div class="ui-g-12 ui-md-6 ui-lg-6"><p-panel header="Replacing">
+    <div class="workflow-status-panel" [ngClass]="setPanelClass(replacingEmployeeString)">{{getStatusText(replacingEmployeeString)}}</div>
+    </p-panel></div>
+</div>
+</p-panel>
 <p-panel class="workflow-status" header="Positions">
     <div *ngFor="let position of positions" class="ui-g">
   <div class="ui-g-12 ui-md-6 ui-lg-3"><p-panel header="Position Title">
