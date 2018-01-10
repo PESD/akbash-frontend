@@ -14,7 +14,7 @@ import { Globals } from '../global';
 @Injectable()
 export class EmployeesService {
   //private employeesURL = 'http://10.127.0.202/api/employee/?format=json';
-  private employeesURL = `${Globals.BASE_API_URL}/api/employee-no-workflow/?format=json`;
+  private employeesURL = `${Globals.BASE_API_URL}/api/employee-new-hire-no-workflow/?format=json`;
 
   constructor(private http: Http, private httperrorService: HttperrorService, private workflowsService: WorkflowsService) { }
 
