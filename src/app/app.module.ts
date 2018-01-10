@@ -33,6 +33,8 @@ import {
           InputTextareaModule,
           OverlayPanelModule,
           PickListModule,
+          OrganizationChartModule,
+          ChartModule,
         } from 'primeng/primeng';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeesService } from './_services/employees.service';
@@ -57,6 +59,9 @@ import { PersongridComponent } from './persongrid/persongrid.component';
 import { EmployeegridComponent } from './employeegrid/employeegrid.component';
 import { PersonlogComponent } from './personlog/personlog.component';
 import { TransferformComponent } from './transferform/transferform.component';
+import { WorkflowchartComponent } from './workflowchart/workflowchart.component';
+import { SubgridComponent } from './subgrid/subgrid.component';
+import { ContractorgridComponent } from './contractorgrid/contractorgrid.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -65,6 +70,8 @@ const routes: Routes = [
   { path: 'employees',  component: EmployeesComponent, canActivate: [AuthGuard] },
   { path: 'contractor', component: ContractorComponent, canActivate: [AuthGuard] },
   { path: 'employeegrid', component: EmployeegridComponent, canActivate: [AuthGuard] },
+  { path: 'contractorgrid', component: ContractorgridComponent, canActivate: [AuthGuard] },
+  { path: 'subgrid', component: SubgridComponent, canActivate: [AuthGuard] },
   { path: 'test/:person_id', component: PersonformComponent},
   { path: 'login',  component: LoginComponent },
 ];
@@ -107,6 +114,9 @@ Date.prototype.yyyymmdd = function() {
     EmployeegridComponent,
     PersonlogComponent,
     TransferformComponent,
+    WorkflowchartComponent,
+    SubgridComponent,
+    ContractorgridComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +146,8 @@ Date.prototype.yyyymmdd = function() {
     InputTextareaModule,
     OverlayPanelModule,
     PickListModule,
+    OrganizationChartModule,
+    ChartModule,
     RouterModule.forRoot(routes),
   ],
   providers: [

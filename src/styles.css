@@ -5,8 +5,23 @@
 }
 */
 .dashboard-panel {
-  background-color: #2ecc71;
+  background-color: #bba18e;
+  /* background-color: #2ecc71; */
   height: 100px;
+}
+
+.dashboard-title {
+  background-color: #bba18e;
+  padding: 20px;
+}
+
+.dashboard-title h4 {
+  color: white;
+  font-size: 1.25em;
+}
+
+.dashboard-graph {
+  border: 1px solid #ccc;
 }
 
 .dashboard-text-box {
@@ -25,7 +40,8 @@ span.dashboard-number {
 
 .dashboard-icon-box {
   float: left;
-  background-color: #27ae60;
+  /* background-color: #27ae60; */
+  background-color: #45413c;
   height: 100%;
   width: 25%;
 }

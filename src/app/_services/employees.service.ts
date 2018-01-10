@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -14,7 +14,7 @@ import { Globals } from '../global';
 @Injectable()
 export class EmployeesService {
   //private employeesURL = 'http://10.127.0.202/api/employee/?format=json';
-  private employeesURL = `${Globals.BASE_API_URL}/api/employee-no-workflow/?format=json`;
+  private employeesURL = `${Globals.BASE_API_URL}/api/employee-new-hire-no-workflow/?format=json`;
 
   constructor(private http: Http, private httperrorService: HttperrorService, private workflowsService: WorkflowsService) { }
 
@@ -41,6 +41,8 @@ export class EmployeesService {
       let url = "";
       if (personType == "Contractor") {
         url = `${Globals.BASE_API_URL}/api/person-all-contractors/?format=json`;
+      } else if (personType == "Sub") {
+        url = `${Globals.BASE_API_URL}/api/person-all-subs/?format=json`;
       } else {
         url = `${Globals.BASE_API_URL}/api/person-all-employees/?format=json`;
       }
@@ -64,6 +66,23 @@ export class EmployeesService {
       let options = authHeaders.getRequestOptions();
 
       let url = `${Globals.BASE_API_URL}/api/person-from-workflow/${workflow_id}/?format=json`;
+      return this.http.get(url, options)
+        .toPromise()
+        .then(response => {
+          let e = response.json() as PersonSkinny[];
+          //console.log(e);
+          return e;
+        })
+        .catch(error => {
+          return this.handleError(error)
+        });
+    }
+
+    getPersonMissedStartDate(): Promise<PersonSkinny[]> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+
+      let url = `${Globals.BASE_API_URL}/api/person-missed-start-date/?format=json`;
       return this.http.get(url, options)
         .toPromise()
         .then(response => {
@@ -285,7 +304,9 @@ export class EmployeesService {
       return this.http.post(url, body, options)
         .toPromise()
         .then(response => response.json() as Contractor)
-        .catch(this.handleError);
+        .catch(error => {
+          return this.handleContractorError(error)
+        });
     }
 
     savePosition(position: Position): Promise<Position> {
@@ -300,6 +321,39 @@ export class EmployeesService {
         .catch(this.handleError);
     }
 
+    saveContractorNew(contractor: Contractor, positions: Position[]): Promise<boolean> {
+      let authHeaders = new AuthHeaders;
+      let options = authHeaders.getRequestOptions();
+      let url = `${Globals.BASE_API_URL}/api/contractor/?format=json`;
+      let body = JSON.stringify(contractor);
+      console.log(body);
+
+      return this.http.post(url, body, options)
+        .toPromise()
+        .then(response => {
+          contractor = response.json() as Contractor
+          let promises = [];
+          let processID: string;
+          promises.push(this.workflowsService.getProcesses().then(processes => {
+            let processID = this.getContractorProcessID(processes)
+            let workflowCreate = new WorkflowCreate(processID, contractor.id.toString())
+            this.workflowsService.createWorkflow(workflowCreate)
+          }));
+          for (let position of positions) {
+            position.person = contractor.id;
+            promises.push(this.savePosition(position))
+          }
+          return Promise.all(promises).then(value => {
+            return true;
+          }).catch( error => {
+            return false;
+          });
+        })
+        .catch(error => {
+          return this.handleContractorError(error)
+        });
+    }
+
     saveContractorWithPositions(contractor: Contractor, positions: Position[]){
       this.saveContractor(contractor).then(contractor => {
         let processID: string;
@@ -312,7 +366,7 @@ export class EmployeesService {
           position.person = contractor.id;
           this.savePosition(position);
         }
-      });
+      })
     }
 
     getContractorProcessID(processes: Process[]): string {
@@ -353,6 +407,30 @@ export class EmployeesService {
     handleError(error: any): Promise<any> {
       console.error('An error occurred', error); // for demo purposes only
       this.httperrorService.raiseHttpError("Trouble connecting to API server");
+      return Promise.reject(error.message || error);
+    }
+
+    handleContractorError(error: any): Promise<any> {
+      console.error('An error occurred', error); // for demo purposes only
+      console.log(error.json())
+      let message: string = "";
+      let obj = error.json();
+      console.log(obj.ssn)
+      console.log(obj)
+      for (let key in obj) {
+        message = message + key + ": ";
+        let value = obj[key]
+        if (value instanceof Array) {
+          for (let item of value) {
+            if (typeof item === 'string') {
+              message = message + item + " ";
+            }
+          }
+        }
+        console.log(key);
+        console.log(obj[key]);
+      }
+      this.httperrorService.raiseHttpError("Error Adding Contractor: " + message);
       return Promise.reject(error.message || error);
     }
 

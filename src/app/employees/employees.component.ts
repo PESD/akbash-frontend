@@ -104,8 +104,12 @@ export class EmployeesComponent implements OnInit {
     this.checkButton();
   }
 
-  showWorkflowCreateSuccess() {
-    this.msgs.push({severity:'success', summary:'Workflow Created', detail:'Workflow successfully created.'});
+  taskUpdateSuccessMessage(success: boolean, message: string) {
+    if (success) {
+      this.msgs.push({severity:'success', summary:'Workflow Created', detail:message});
+    } else {
+      this.msgs.push({severity:'error', summary:'Workflow Not Created', detail:message});
+    }
   }
 
   confirm() {
@@ -121,8 +125,11 @@ export class EmployeesComponent implements OnInit {
           let workflowCreate = new WorkflowCreate(this.processID, this.personID);
           this.workflowsService.createWorkflow(workflowCreate).then(newWorkflowCreate => {
             this.newWorkflowCreate = newWorkflowCreate;
-            console.log("WORKFLOW CREATED WOOHOO!");
-            this.showWorkflowCreateSuccess();
+            if (newWorkflowCreate.status) {
+              this.taskUpdateSuccessMessage(true, newWorkflowCreate.message);
+            } else {
+              this.taskUpdateSuccessMessage(false, newWorkflowCreate.message);
+            }
             this.getEmployees();
             this.buttonDisabled = true;
             this.employeeName = "";

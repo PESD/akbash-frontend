@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Employee, Position, Contractor, Person, Vendor } from '../_models/api.model';
+import { VisionsEmployee } from '../_models/visions.model';
 import { EmployeesService } from '../_services/employees.service';
+import { WorkflowactivityService } from '../_services/workflowactivity.service';
 
 enum PanelStatus {
   Complete,
@@ -24,12 +26,15 @@ export class PersonstatusComponent implements OnInit {
   positions: Position[];
   showEmployee: boolean = false;
   showContractor: boolean = false;
+  showLongTermSub: boolean = false;
   visionsUsername: string;
   activeDirectoryUsername: string;
   synergyUsername: string;
   locationsString: string;
+  replacingVisionsEmployee: VisionsEmployee;
+  replacingEmployeeString: string;
 
-  constructor(private employeesService: EmployeesService) { }
+  constructor(private employeesService: EmployeesService, private workflowactivityService: WorkflowactivityService) { }
 
   getPerson() {
     this.employeesService.getPerson(this.person_id).then(person => {
@@ -68,6 +73,13 @@ export class PersonstatusComponent implements OnInit {
           this.contractor = contractor;
           this.employeesService.getVendor(contractor.vendor).then(vendor => this.vendor = vendor)
         })
+      }
+      if (person.long_term_sub == true) {
+        this.showLongTermSub = true;
+        this.workflowactivityService.getVisionsEmployee(person.long_term_sub_replacing).then(visionsEmployee => {
+          this.replacingVisionsEmployee = visionsEmployee;
+          this.replacingEmployeeString = this.replacingVisionsEmployee.name + " - " + this.replacingVisionsEmployee.id.toString();
+        });
       }
       console.log(this.person.id)
     });
