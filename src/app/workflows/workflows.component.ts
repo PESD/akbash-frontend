@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MenuItem } from 'primeng/primeng';
+import { MenuItem, ConfirmationService, Message, } from 'primeng/primeng';
 
-import { Workflow } from '../_models/bpm.model';
+import { Workflow, Process, WorkflowCreate } from '../_models/bpm.model';
 import { Person } from '../_models/api.model';
 import { WorkflowsService }      from '../_services/workflows.service';
 
@@ -15,6 +15,7 @@ export interface WorkflowGrid {
   current_user?: string;
   start_date?: string;
   person?: Person;
+  status?: string;
 }
 
 @Component({
@@ -24,12 +25,13 @@ export interface WorkflowGrid {
 })
 export class WorkflowsComponent implements OnInit {
 
-  constructor(private workflowsService: WorkflowsService) {
+  constructor(private workflowsService: WorkflowsService, private confirmationService: ConfirmationService) {
     this.filterItems = [];
     this.filterItems.push({label: "My Workflows"});
     this.filterItems.push({label: "Active Workflows"});
     this.filterItems.push({label: "All Workflows"});
     this.filterItems.push({label: "Completed Workflows"});
+    this.filterItems.push({label: "Canceled Workflows"});
 
   }
 
@@ -40,6 +42,9 @@ export class WorkflowsComponent implements OnInit {
   selectedFilter: MenuItem;
   activeIndex = 0;
   selectedPerson: string = "1";
+  cancelProcess: Process;
+  msgs: Message[] = [];
+
 
 
   getWorkflows(): void {
@@ -49,8 +54,26 @@ export class WorkflowsComponent implements OnInit {
     });
   }
 
+  getProcesses(): void {
+    this.workflowsService.getProcessesByCategory("cancel_workflow").then(processes => {
+      this.getCancelProcess(processes);
+    });
+  }
+
+  getCancelProcess(processes: Process[]): void {
+    console.log("Finding Cancel Process");
+    for (let process of processes) {
+      console.log("Evaluating...");
+      if (process.name=="Cancel Workflow Process") {
+        console.log("I found one!");
+        this.cancelProcess = process;
+      }
+    }
+  }
+
   buildData(): void {
     console.log("Rebuilding the data")
+    this.getProcesses();
     this.workflowGrid = []
     for (let row of this.workflows) {
       var grid: WorkflowGrid = {
@@ -60,6 +83,7 @@ export class WorkflowsComponent implements OnInit {
         last_name: row.person.last_name,
         start_date: row.person.start_date,
         person: row.person,
+        status: row.status,
       };
       let workflowActivities: string[] = [];
       let workflowUsers: string[] = [];
@@ -78,6 +102,13 @@ export class WorkflowsComponent implements OnInit {
     }
   }
 
+  shouldShowCancel(status: string, process_name: string): boolean {
+    if (status == "Active" && process_name != "Cancel Workflow Process") {
+      return true;
+    }
+    return false;
+  }
+
   ngOnInit() {
     this.getWorkflows()
     this.activeIndex = 0;
@@ -87,12 +118,40 @@ export class WorkflowsComponent implements OnInit {
   onRowUnselect(event) { }
 
   menuChange() {
-    console.log(this.activeIndex);
     this.getWorkflows();
   }
 
   refreshData(event: object) {
     this.getWorkflows();
+  }
+
+  taskUpdateSuccessMessage(success: boolean, message: string) {
+    if (success) {
+      this.msgs.push({severity:'success', summary:'Workflow Created', detail:message});
+    } else {
+      this.msgs.push({severity:'error', summary:'Workflow Not Created', detail:message});
+    }
+  }
+
+  confirmCancel(workflowID: string, firstName: string, lastName: string, personID: string): void {
+    this.confirmationService.confirm({
+      message: `Cancel Workflow for ${firstName} ${lastName}`,
+        accept: () => {
+          this.commitCancel(workflowID, personID);
+        }
+      });
+  }
+
+  commitCancel(workflowID: string, personID: string): void {
+    let workflowCreate = new WorkflowCreate(`${this.cancelProcess.id}`, personID);
+    this.workflowsService.createWorkflow(workflowCreate).then(newWorkflowCreate => {
+      if (newWorkflowCreate.status) {
+        this.taskUpdateSuccessMessage(true, newWorkflowCreate.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, newWorkflowCreate.message);
+      }
+      this.getWorkflows();
+    });
   }
 
 }

@@ -9,7 +9,9 @@ import {
   TaskEparSubmission,
   TaskVisionsIDSubmission,
   TaskEmployeeADSubmission,
+  TaskSubADSubmission,
   TaskEmployeeSynergySubmission,
+  TaskSubSynergySubmission,
   TaskVisionsPositionSubmission,
   TaskGenericCheckSubmission,
   TaskGenericTodoSubmission,
@@ -83,6 +85,20 @@ export class WorkflowactivityService {
       });
   }
 
+  taskSetSubAD(taskSubADSubmission: TaskSubADSubmission): Promise<TaskSubADSubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_check_employee_ad/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskSubADSubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskSubADSubmission)
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
   taskCheckEmployeeSynergy(taskEmployeeSynergySubmission: TaskEmployeeSynergySubmission): Promise<TaskEmployeeSynergySubmission> {
     let url = `${Globals.BASE_API_URL}/bpm/task_check_employee_synergy/?format=json`;
     let authHeaders = new AuthHeaders;
@@ -92,6 +108,20 @@ export class WorkflowactivityService {
     return this.http.post(url, body, options)
       .toPromise()
       .then(response => response.json() as TaskEmployeeSynergySubmission)
+      .catch(error => {
+        return this.handleError(error)
+      });
+  }
+
+  taskSetSubSynergy(taskSubSynergySubmission: TaskSubSynergySubmission): Promise<TaskSubSynergySubmission> {
+    let url = `${Globals.BASE_API_URL}/bpm/task_check_employee_synergy/?format=json`;
+    let authHeaders = new AuthHeaders;
+    let options = authHeaders.getRequestOptions();
+    let body = JSON.stringify(taskSubSynergySubmission);
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(response => response.json() as TaskSubSynergySubmission)
       .catch(error => {
         return this.handleError(error)
       });

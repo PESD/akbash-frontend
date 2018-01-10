@@ -6,7 +6,7 @@
         </div>
         <div class="dashboard-text-box">
           My Tasks<br/>
-          <span class="dashboard-number">3</span>
+          <span class="dashboard-number">{{dashboardStats.my_tasks}}</span>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="dashboard-text-box">
           Hires this Month<br/>
-          <span class="dashboard-number">10</span>
+          <span class="dashboard-number">{{dashboardStats.hires_this_month}}</span>
         </div>
       </div>
     </div>
@@ -28,8 +28,39 @@
         </div>
         <div class="dashboard-text-box">
           Active Workflows<br/>
-          <span class="dashboard-number">23</span>
+          <span class="dashboard-number">{{dashboardStats.active_workflows}}</span>
         </div>
       </div>
     </div>
+</div>
+<div class="row">
+  <div class="col">
+    <span style="height: 24px;">&nbsp;</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="ui-corner-all">
+      <div class="dashboard-title">
+        <h4>Uncompleted Workflows Past Start Date</h4>
+      </div>
+      <div class="dashboard-table">
+        <p-dataTable [value]="personGrid" dataKey="id" [rows]="100">
+          <p-column field="first_name" header="First Name" sortable="true"></p-column>
+          <p-column field="last_name" header="Last Name" sortable="true"></p-column>
+          <p-column field="start_date" header="Start Date" sortable="true"></p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="ui-corner-all">
+      <div class="dashboard-title">
+        <h4>Active Workflows by Process Type</h4>
+      </div>
+      <div class="dashboard-graph">
+        <p-chart type="horizontalBar" [data]="graphProcess" [options]="options"></p-chart>
+      </div>
+    </div>
+  </div>
 </div>

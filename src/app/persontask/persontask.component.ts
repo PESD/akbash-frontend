@@ -11,7 +11,9 @@ import {
   TaskEparSubmission,
   TaskVisionsIDSubmission,
   TaskEmployeeADSubmission,
+  TaskSubADSubmission,
   TaskEmployeeSynergySubmission,
+  TaskSubSynergySubmission,
   TaskVisionsPositionSubmission,
   TaskGenericCheckSubmission ,
   TaskGenericTodoSubmission,
@@ -40,7 +42,12 @@ export class PersontaskComponent implements OnInit {
   epar: Epar;
   // visions employee id form vars
   visionsIDForm: FormGroup;
+  visionsSubIDForm: FormGroup;
   visionsEmployee: VisionsEmployee;
+  adSubForm: FormGroup;
+  synergySubForm: FormGroup;
+  adSubUsername: string;
+  synergySubUsername: string;
   list1: string[] = ["Hello", "World"]
   list2: string[] = ["Universe", "Galaxy"]
   availableLocations: Location[];
@@ -55,6 +62,9 @@ export class PersontaskComponent implements OnInit {
   {
     this.createEparForm();
     this.createVisionsForm();
+    this.createSubVisionsForm();
+    this.createAdSubForm();
+    this.createSynergySubForm();
   }
 
   ngOnInit() {
@@ -149,10 +159,12 @@ export class PersontaskComponent implements OnInit {
   }
 
   commitEparForm(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
     const formModel = this.eparForm.value;
     let workflow_task_id = workflowTask.id;
     let epar_id = formModel.epar_id;
-    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id);
+    let eparSubmission = new TaskEparSubmission(workflow_task_id, epar_id, username);
     this.workflowactivityService.taskSetEpar(eparSubmission).then(taskEparSubmission => {
       this.taskName = "Create ePAR";
       if (taskEparSubmission.status) {
@@ -198,9 +210,58 @@ export class PersontaskComponent implements OnInit {
     const formModel = this.visionsIDForm.value;
     let workflow_task_id = workflowTask.id;
     let visions_id = formModel.visions_id;
-    let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id);
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id, username);
     this.workflowactivityService.taskSetVisionsID(visionsIDSubmission).then(taskVisionsIDSubmission => {
       this.taskName = "Create Employee Maintenance Record";
+      if (taskVisionsIDSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskVisionsIDSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskVisionsIDSubmission.message);
+      }
+    });
+  }
+
+  // Mark as Long-term Sub (piggy backs off of Create Employee Maintenance)
+  createSubVisionsForm() {
+    this.visionsSubIDForm = this.fb.group({
+      visions_id: [null, Validators.pattern('[0-9]+')]
+    });
+  }
+
+  submitSubVisionsIDForm(workflowTask: WorkflowTask) {
+    const formModel = this.visionsSubIDForm.value;
+    let visions_id = formModel.visions_id;
+    this.workflowactivityService.getVisionsEmployee(visions_id).then(visionsEmployee => {
+      this.visionsEmployee = visionsEmployee;
+      this.confirmSubVisionsIDForm(workflowTask);
+    });
+  }
+
+  confirmSubVisionsIDForm(workflowTask: WorkflowTask) {
+    if (this.visionsEmployee.name) {
+      let visions_string = `${this.visionsEmployee.id} - ${this.visionsEmployee.name}`
+      this.confirmationService.confirm({
+        message: `Link to Visions Employee: ${visions_string}?`,
+          accept: () => {
+            this.commitSubVisionsIDForm(workflowTask);
+          }
+        });
+    } else {
+      this.displayErrorWithMessage("Visions Employee not Found");
+    }
+  }
+
+  commitSubVisionsIDForm(workflowTask: WorkflowTask) {
+    const formModel = this.visionsSubIDForm.value;
+    let workflow_task_id = workflowTask.id;
+    let visions_id = formModel.visions_id;
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let visionsIDSubmission = new TaskVisionsIDSubmission(workflow_task_id, visions_id, username);
+    this.workflowactivityService.taskSetVisionsID(visionsIDSubmission).then(taskVisionsIDSubmission => {
+      this.taskName = "Mark as Long-term Sub";
       if (taskVisionsIDSubmission.status) {
         this.taskUpdateSuccessMessage(true, taskVisionsIDSubmission.message);
       } else {
@@ -285,7 +346,9 @@ export class PersontaskComponent implements OnInit {
 
   // "Assign Employee to Visions Position" Form
   submitEmployeeVisionsPositionForm(workflowTask: WorkflowTask) {
-    let taskVisionsPositionSubmission = new TaskVisionsPositionSubmission(workflowTask.id)
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskVisionsPositionSubmission = new TaskVisionsPositionSubmission(workflowTask.id, username)
     this.workflowactivityService.taskUpdateVisionsPositions(taskVisionsPositionSubmission).then(taskVisionsPositionSubmission => {
       this.taskName = "Employee Added to Visions Position";
       if (taskVisionsPositionSubmission.status) {
@@ -298,7 +361,9 @@ export class PersontaskComponent implements OnInit {
 
   // "Create TCP Account" Form
   submitTcpAccountForm(workflowTask: WorkflowTask) {
-    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id)
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id, username)
     this.workflowactivityService.taskGenericCheck(taskGenericCheckSubmission).then(taskGenericCheckSubmission => {
       this.taskName = "Employee Added to Visions Position";
       if (taskGenericCheckSubmission.status) {
@@ -356,7 +421,9 @@ export class PersontaskComponent implements OnInit {
 
   // "Ignore Employee" Form
   submitIgnoreEmployeeForm(workflowTask: WorkflowTask) {
-    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id)
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericCheckSubmission = new TaskGenericCheckSubmission(workflowTask.id, username)
     this.workflowactivityService.taskGenericCheck(taskGenericCheckSubmission).then(taskGenericCheckSubmission => {
       this.taskName = "Ignore Employee";
       if (taskGenericCheckSubmission.status) {
@@ -383,5 +450,114 @@ export class PersontaskComponent implements OnInit {
         this.taskUpdateSuccessMessage(false, taskAssignLocationsSubmission.message);
       }
     })
+  }
+
+  // "Cancel Workflow" Form
+  submitCancelWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Cancel Workflow";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Verify Possible Active Directory Account Reversion" Form
+  submitCancelADWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Verify Possible Active Directory Account Reversion";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Verify Possible Synergy Account Reversion" Form
+  submitCancelSynergyWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Verify Possible Synergy Account Reversion";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Verify Possible Visions Position Reversion" Form
+  submitCancelVisionsWorkflow(workflowTask: WorkflowTask) {
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let taskGenericTodoSubmission = new TaskGenericTodoSubmission(workflowTask.id, username)
+    this.workflowactivityService.taskGenericTodo(taskGenericTodoSubmission).then(taskGenericTodoSubmission => {
+      this.taskName = "Verify Possible Visions Position Reversion";
+      if (taskGenericTodoSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskGenericTodoSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskGenericTodoSubmission.message);
+      }
+    })
+  }
+
+  // "Create Long-term Sub Active Directory Account" Form
+  createAdSubForm() {
+    this.adSubForm = this.fb.group({
+      ad_username: null
+    });
+  }
+
+  commitAdSubForm(workflowTask: WorkflowTask) {
+    const formModel = this.adSubForm.value;
+    let workflow_task_id = workflowTask.id;
+    let ad_username = formModel.ad_username;
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let adUsernameSubmission = new TaskSubADSubmission(workflow_task_id, username, ad_username);
+    this.workflowactivityService.taskSetSubAD(adUsernameSubmission).then(taskSubADSubmission => {
+      this.taskName = "Create Long-term Sub Active Directory Account";
+      if (taskSubADSubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskSubADSubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskSubADSubmission.message);
+      }
+    });
+  }
+
+  // "Create Long-term Sub Synergy Account" Form
+  createSynergySubForm() {
+    this.synergySubForm = this.fb.group({
+      synergy_username: null
+    });
+  }
+
+  commitSynergySubForm(workflowTask: WorkflowTask) {
+    const formModel = this.synergySubForm.value;
+    let workflow_task_id = workflowTask.id;
+    let synergy_username = formModel.synergy_username;
+    let authHeaders = new AuthHeaders;
+    let username = authHeaders.getUsername();
+    let synergyUsernameSubmission = new TaskSubSynergySubmission(workflow_task_id, username, synergy_username);
+    synergyUsernameSubmission.status = true;
+    this.workflowactivityService.taskSetSubSynergy(synergyUsernameSubmission).then(taskSubSynergySubmission => {
+      this.taskName = "Create Long-term Sub Active Directory Account";
+      if (taskSubSynergySubmission.status) {
+        this.taskUpdateSuccessMessage(true, taskSubSynergySubmission.message);
+      } else {
+        this.taskUpdateSuccessMessage(false, taskSubSynergySubmission.message);
+      }
+    });
   }
 }
