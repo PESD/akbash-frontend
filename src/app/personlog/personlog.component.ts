@@ -1,20 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 
-import { ModelLog } from '../_models/auditlog.model';
-import { AuditlogService } from '../_services/auditlog.service';
+import { ModelLog } from "../_models/auditlog.model";
+import { AuditlogService } from "../_services/auditlog.service";
 
 @Component({
-  selector: 'app-personlog',
-  templateUrl: './personlog.component.html',
-  styleUrls: ['./personlog.component.css']
+  selector: "app-personlog",
+  templateUrl: "./personlog.component.html",
+  styleUrls: ["./personlog.component.css"]
 })
 export class PersonlogComponent implements OnInit {
   @Input() person_id: string;
   modelLogs: ModelLog[];
   selectedModelLog: ModelLog;
 
-
-  constructor(private auditlogService: AuditlogService) { }
+  constructor(private auditlogService: AuditlogService) {}
 
   ngOnInit() {
     this.getModelLogs();
@@ -23,10 +22,9 @@ export class PersonlogComponent implements OnInit {
   getModelLogs() {
     this.auditlogService.getModelLogByPerson(this.person_id).then(modelLogs => {
       this.modelLogs = modelLogs;
-    })
+    });
   }
 
-  onRowSelect(event) { }
-  onRowUnselect(event) { }
-
+  onRowSelect(event) {}
+  onRowUnselect(event) {}
 }

@@ -4,7 +4,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Token } from '../_models/token';
-import { AuthHeaders } from '../_helpers/authheaders';
+import { AuthHelper } from '../_helpers/authhelper';
 import { HttperrorService } from './httperror.service';
 
 import { Globals } from '../global';
@@ -28,7 +28,7 @@ export class LoginService {
   }
 
   getRefreshedToken(): Promise<Token> {
-    let authHeaders = new AuthHeaders();
+    let authHeaders = new AuthHelper();
     let token = authHeaders.getToken();
     return this.http.post(this.refreshURL, JSON.stringify(token), this.options)
       .toPromise()

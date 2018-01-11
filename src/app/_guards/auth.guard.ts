@@ -1,22 +1,34 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Injectable } from "@angular/core";
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router
+} from "@angular/router";
+import { Observable } from "rxjs/Observable";
 
-import { AuthService }      from '../_services/auth.service';
-import { LoginService }     from '../_services/login.service';
+import { AuthService } from "../_services/auth.service";
+import { LoginService } from "../_services/login.service";
 
-import { Token }            from '../_models/token';
+import { Token } from "../_models/token";
 
-import { AuthHeaders }      from '../_helpers/authheaders';
+import { AuthHelper } from "../_helpers/authhelper";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   token: Token;
-  authHeaders: AuthHeaders = new AuthHeaders;
+  authHeaders: AuthHelper = new AuthHelper();
 
-  constructor(private authService: AuthService, private loginService: LoginService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private loginService: LoginService,
+    private router: Router
+  ) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
     let url: string = state.url;
     return this.checkLogin(url);
   }
@@ -24,7 +36,7 @@ export class AuthGuard implements CanActivate {
   checkLogin(url: string): boolean {
     if (this.authService.isLoggedIn) {
       this.loginService.getRefreshedToken().then(token => {
-        this.authHeaders.setToken(token)
+        this.authHeaders.setToken(token);
       });
       return true;
     }
@@ -36,7 +48,7 @@ export class AuthGuard implements CanActivate {
     this.authService.redirectUrl = url;
 
     // Navigate to the login page with extras
-    this.router.navigate(['/login'], { queryParams: { returnUrl: url }});
+    this.router.navigate(["/login"], { queryParams: { returnUrl: url } });
     return false;
   }
 }

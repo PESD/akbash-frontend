@@ -1,9 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 
-import { Employee, Position, Contractor, Person, Vendor } from '../_models/api.model';
-import { VisionsEmployee } from '../_models/visions.model';
-import { EmployeesService } from '../_services/employees.service';
-import { WorkflowactivityService } from '../_services/workflowactivity.service';
+import {
+  Employee,
+  Position,
+  Contractor,
+  Person,
+  Vendor
+} from "../_models/api.model";
+import { VisionsEmployee } from "../_models/visions.model";
+import { PersonsService } from "../_services/persons.service";
+import { WorkflowactivityService } from "../_services/workflowactivity.service";
 
 enum PanelStatus {
   Complete,
@@ -12,9 +18,9 @@ enum PanelStatus {
 }
 
 @Component({
-  selector: 'app-personstatus',
-  templateUrl: './personstatus.component.html',
-  styleUrls: ['./personstatus.component.css']
+  selector: "app-personstatus",
+  templateUrl: "./personstatus.component.html",
+  styleUrls: ["./personstatus.component.css"]
 })
 export class PersonstatusComponent implements OnInit {
   @Input() person_id: string;
@@ -34,15 +40,18 @@ export class PersonstatusComponent implements OnInit {
   replacingVisionsEmployee: VisionsEmployee;
   replacingEmployeeString: string;
 
-  constructor(private employeesService: EmployeesService, private workflowactivityService: WorkflowactivityService) { }
+  constructor(
+    private employeesService: PersonsService,
+    private workflowactivityService: WorkflowactivityService
+  ) {}
 
   getPerson() {
     this.employeesService.getPerson(this.person_id).then(person => {
       this.person = person;
       this.locationsString = person.locations.join(", ");
-      if(this.person.services) {
+      if (this.person.services) {
         for (let service of this.person.services) {
-          switch(service["type"]) {
+          switch (service["type"]) {
             case "ad": {
               this.activeDirectoryUsername = service["user_info"];
               break;
@@ -61,34 +70,43 @@ export class PersonstatusComponent implements OnInit {
           }
         }
       }
-      console.log(person.services)
+      console.log(person.services);
       if (person.type == "Employee") {
         this.showEmployee = true;
         this.showContractor = false;
-        this.employeesService.getEmployee(this.person_id).then(employee => this.employee = employee)
+        this.employeesService
+          .getEmployee(this.person_id)
+          .then(employee => (this.employee = employee));
       } else {
         this.showEmployee = false;
         this.showContractor = true;
         this.employeesService.getContractor(this.person_id).then(contractor => {
           this.contractor = contractor;
-          this.employeesService.getVendor(contractor.vendor).then(vendor => this.vendor = vendor)
-        })
+          this.employeesService
+            .getVendor(contractor.vendor)
+            .then(vendor => (this.vendor = vendor));
+        });
       }
       if (person.long_term_sub == true) {
         this.showLongTermSub = true;
-        this.workflowactivityService.getVisionsEmployee(person.long_term_sub_replacing).then(visionsEmployee => {
-          this.replacingVisionsEmployee = visionsEmployee;
-          this.replacingEmployeeString = this.replacingVisionsEmployee.name + " - " + this.replacingVisionsEmployee.id.toString();
-        });
+        this.workflowactivityService
+          .getVisionsEmployee(person.long_term_sub_replacing)
+          .then(visionsEmployee => {
+            this.replacingVisionsEmployee = visionsEmployee;
+            this.replacingEmployeeString =
+              this.replacingVisionsEmployee.name +
+              " - " +
+              this.replacingVisionsEmployee.id.toString();
+          });
       }
-      console.log(this.person.id)
+      console.log(this.person.id);
     });
   }
 
   getPositions() {
     this.employeesService.getPositions(this.person_id).then(positions => {
       this.positions = positions;
-    })
+    });
   }
 
   ngOnInit() {
@@ -103,10 +121,10 @@ export class PersonstatusComponent implements OnInit {
 
   getStatusText(value: string | boolean, notNeeded?: boolean): string {
     if (notNeeded) {
-      return "N/A"
+      return "N/A";
     }
     if (!value) {
-      return "None"
+      return "None";
     }
     if (typeof value === "boolean") {
       return value.toString();
@@ -116,43 +134,38 @@ export class PersonstatusComponent implements OnInit {
 
   getStatusBool(value: string | boolean, notNeeded?: boolean): string {
     if (!value) {
-      return "No"
+      return "No";
     }
     if (value) {
-      return "Yes"
+      return "Yes";
     }
   }
 
   getStatusDate(value: string, notNeeded?: boolean): Date | string {
     if (notNeeded) {
-      return "N/A"
+      return "N/A";
     }
     if (!value) {
-      return "None"
+      return "None";
     }
-    return new Date(value)
+    return new Date(value);
   }
 
   setPanelClass(value: string | boolean, notNeeded?: boolean) {
-    var classes = {}
+    var classes = {};
     if (notNeeded) {
       classes = {
         panelNotNeeded: true
-      }
-    }
-    else if (value) {
+      };
+    } else if (value) {
       classes = {
         panelCompleted: true
-      }
-    }
-    else {
+      };
+    } else {
       classes = {
         panelNotCompleted: true
-      }
+      };
     }
-    return classes
-
-
+    return classes;
   }
-
 }

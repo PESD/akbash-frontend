@@ -1,24 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators }            from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { SelectItem, Message } from 'primeng/primeng';
+import { SelectItem, Message } from "primeng/primeng";
 
-import { Contractor, Vendor, Position, Location } from '../_models/api.model';
-import { EmployeesService } from '../_services/employees.service';
-import { WorkflowsService }      from '../_services/workflows.service';
-import { FormHelper } from '../_helpers/formhelper';
-import { AuthHeaders } from '../_helpers/authheaders';
-import { Process } from '../_models/bpm.model';
+import { Contractor, Vendor, Position, Location } from "../_models/api.model";
+import { PersonsService } from "../_services/persons.service";
+import { WorkflowsService } from "../_services/workflows.service";
+import { FormHelper } from "../_helpers/formhelper";
+import { AuthHelper } from "../_helpers/authhelper";
+import { Process } from "../_models/bpm.model";
 
 export class PositionForm {
-  title = ['', Validators.required];
-  location = ['', Validators.required];
+  title = ["", Validators.required];
+  location = ["", Validators.required];
 }
 
 @Component({
-  selector: 'app-contractor',
-  templateUrl: './contractor.component.html',
-  styleUrls: ['./contractor.component.css']
+  selector: "app-contractor",
+  templateUrl: "./contractor.component.html",
+  styleUrls: ["./contractor.component.css"]
 })
 export class ContractorComponent implements OnInit {
   contractor: Contractor;
@@ -41,12 +41,12 @@ export class ContractorComponent implements OnInit {
   contractorPositions: Position[];
   msgs: Message[] = [];
 
-  constructor (
+  constructor(
     private fb: FormBuilder,
-    private employeesService: EmployeesService,
-    private workflowsService: WorkflowsService,
-    ) {
-    let formHelper = new FormHelper;
+    private employeesService: PersonsService,
+    private workflowsService: WorkflowsService
+  ) {
+    let formHelper = new FormHelper();
     this.createForm();
     this.genders = formHelper.getGenders();
     this.races = formHelper.getRaces();
@@ -84,20 +84,23 @@ export class ContractorComponent implements OnInit {
     this.employeesService.getLocations().then(locations => {
       this.locations = locations;
       this.buildLocationSelect();
-    })
+    });
   }
 
   buildVendorSelect() {
     this.selectVendors = [];
     for (let vendor of this.vendors) {
-      this.selectVendors.push({label: vendor.name, value: vendor.id});
+      this.selectVendors.push({ label: vendor.name, value: vendor.id });
     }
   }
 
   buildLocationSelect() {
-    this.selectLocations = []
+    this.selectLocations = [];
     for (let location of this.locations) {
-      this.selectLocations.push({label: location.short_name, value: location.id});
+      this.selectLocations.push({
+        label: location.short_name,
+        value: location.id
+      });
     }
   }
 
@@ -111,24 +114,24 @@ export class ContractorComponent implements OnInit {
 
   createForm() {
     this.contractorForm = this.fb.group({
-      vendor: ['', Validators.required],
-      first_name: ['', Validators.required],
-      middle_name: '',
-      last_name: ['', Validators.required],
-      birth_date: '',
-      gender: [''],
+      vendor: ["", Validators.required],
+      first_name: ["", Validators.required],
+      middle_name: "",
+      last_name: ["", Validators.required],
+      birth_date: "",
+      gender: [""],
       race_white: [false],
       race_asian: [false],
       race_black: [false],
       race_islander: [false],
       race_american_indian: [false],
-      ethnicity: '',
-      hqt: '',
-      ssn: '',
-      tcp_id: '',
-      start_date: ['', Validators.required],
+      ethnicity: "",
+      hqt: "",
+      ssn: "",
+      tcp_id: "",
+      start_date: ["", Validators.required],
       is_synergy_account_needed: [false],
-      positions: this.fb.array([this.fb.group(new PositionForm())]),
+      positions: this.fb.array([this.fb.group(new PositionForm())])
     });
   }
 
@@ -137,7 +140,7 @@ export class ContractorComponent implements OnInit {
   }
 
   addPosition() {
-    this.positions.push(this.fb.group(new PositionForm()))
+    this.positions.push(this.fb.group(new PositionForm()));
   }
 
   removePosition(index) {
@@ -148,12 +151,12 @@ export class ContractorComponent implements OnInit {
     const formModel = this.contractorForm.value;
     this.newContractor = new Contractor();
     let birth_date = formModel.birth_date as Date;
-    let bday_string = '1900-01-01'
+    let bday_string = "1900-01-01";
     if (birth_date) {
       bday_string = birth_date.yyyymmdd();
     }
-    let start_date_string = formModel.start_date as string
-    if (!(formModel.start_date.length===10)) {
+    let start_date_string = formModel.start_date as string;
+    if (!(formModel.start_date.length === 10)) {
       let start_date = formModel.start_date as Date;
       start_date_string = start_date.yyyymmdd();
     }
@@ -180,18 +183,19 @@ export class ContractorComponent implements OnInit {
 
   saveContractor() {
     this.prepareSave();
-    this.employeesService.saveContractorNew(this.newContractor, this.contractorPositions).then(status => {
-      if (status){
-        console.log("WE HAVE SAVED A CONTRACTOR OMG");
-      } else {
-        console.log("THERE WAS A PROBLEM WHEN SAVING CONTRACTOR");
-      }
-      this.resultMessage(status);
-
-    });
+    this.employeesService
+      .saveContractorNew(this.newContractor, this.contractorPositions)
+      .then(status => {
+        if (status) {
+          console.log("WE HAVE SAVED A CONTRACTOR OMG");
+        } else {
+          console.log("THERE WAS A PROBLEM WHEN SAVING CONTRACTOR");
+        }
+        this.resultMessage(status);
+      });
     this.revert();
   }
-/*
+  /*
   prepareVendor(vendorID: string) {
     const vendorIDNumber = +vendorID;
     this.contractorVendor = this.vendors.find(vendor => vendor.id === vendorIDNumber);
@@ -199,13 +203,15 @@ export class ContractorComponent implements OnInit {
   */
 
   preparePositions(formArray: FormArray) {
-    let authHeaders = new AuthHeaders;
-    this.contractorPositions = []
+    let authHeaders = new AuthHelper();
+    this.contractorPositions = [];
     for (var i = 0; i < formArray.length; i++) {
-      let group = formArray.at(i) as FormGroup
+      let group = formArray.at(i) as FormGroup;
       let values = group.value;
-      let location = this.locations.find(location => location.id === +values.location)
-      console.log(location)
+      let location = this.locations.find(
+        location => location.id === +values.location
+      );
+      console.log(location);
       let position = new Position();
       position.title = values.title;
       position.location = location;
@@ -220,10 +226,17 @@ export class ContractorComponent implements OnInit {
 
   resultMessage(success: boolean) {
     if (success) {
-      this.msgs.push({severity:'success', summary:"Contractor Added", detail:"Contractor has been added"});
+      this.msgs.push({
+        severity: "success",
+        summary: "Contractor Added",
+        detail: "Contractor has been added"
+      });
     } else {
-      this.msgs.push({severity:'error', summary:"Error Adding Contractor", detail:"Please check your data and try again."});
+      this.msgs.push({
+        severity: "error",
+        summary: "Error Adding Contractor",
+        detail: "Please check your data and try again."
+      });
     }
   }
-
 }

@@ -1,21 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { Subject } from 'rxjs/Subject';
+import { Subject } from "rxjs/Subject";
 
-import { Httperror } from '../_models/httperror';
+import { Httperror } from "../_models/httperror";
 
 @Injectable()
 export class HttperrorService {
-
   httperror: Subject<Httperror> = new Subject<Httperror>();
 
-  constructor() { }
+  constructor() {}
 
   raiseHttpError(msg: string) {
-    let error = new Httperror;
+    let error = new Httperror();
     error.isError = true;
     error.errorMsg = msg;
     this.httperror.next(error);
   }
-
 }

@@ -1,17 +1,18 @@
-import { Person } from './api.model'
+import { Person } from "./api.model";
 
+// Classes that mirror Akbash BPM models
 export class User {
-    api_url?: string;
-    id?: number;
-    username?: string;
+  api_url?: string;
+  id?: number;
+  username?: string;
 }
 
 export interface Task {
-    api_url: string;
-    id: number;
-    name: string;
-    task_function: string;
-    task_type: string;
+  api_url: string;
+  id: number;
+  name: string;
+  task_function: string;
+  task_type: string;
 }
 
 export class WorkflowTask {
@@ -22,35 +23,35 @@ export class WorkflowTask {
 }
 
 export interface Activity {
-    api_url: string;
-    id: number;
-    name: string;
-    users?: User[];
+  api_url: string;
+  id: number;
+  name: string;
+  users?: User[];
 }
 
 export interface Process {
-    api_url: string;
-    id: number;
-    name: string;
-    start_activity: Activity;
+  api_url: string;
+  id: number;
+  name: string;
+  start_activity: Activity;
 }
 
 export interface WorkflowActivity {
-    api_url: string;
-    id: number;
-    status: string;
-    workflow: number;
-    activity: Activity;
-    workflow_tasks: WorkflowTask[];
+  api_url: string;
+  id: number;
+  status: string;
+  workflow: number;
+  activity: Activity;
+  workflow_tasks: WorkflowTask[];
 }
 
 export class Workflow {
-    api_url: string;
-    id: number;
-    process: Process;
-    person: Person;
-    status?: any;
-    workflow_activites?: WorkflowActivity[];
+  api_url: string;
+  id: number;
+  process: Process;
+  person: Person;
+  status?: any;
+  workflow_activites?: WorkflowActivity[];
 }
 
 export class WorkflowCreate {
@@ -60,10 +61,10 @@ export class WorkflowCreate {
   message?: any;
 
   constructor(processID: string, personID: string) {
-        this.process_id = processID;
-        this.person_id = personID;
-        this.status = false;
-        this.message = "";
+    this.process_id = processID;
+    this.person_id = personID;
+    this.status = false;
+    this.message = "";
   }
 }
 
@@ -86,13 +87,13 @@ export class DashboardStats {
 }
 
 export interface GraphDataSet {
-    label: string;
-    data: number[];
+  label: string;
+  data: number[];
 }
 
 export interface Graph {
-    labels: string[];
-    datasets: GraphDataSet[];
+  labels: string[];
+  datasets: GraphDataSet[];
 }
 
 export class ContractorSuccess {

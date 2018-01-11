@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-contractorgrid',
-  templateUrl: './contractorgrid.component.html',
-  styleUrls: ['./contractorgrid.component.css']
+  selector: "app-contractorgrid",
+  templateUrl: "./contractorgrid.component.html",
+  styleUrls: ["./contractorgrid.component.css"]
 })
 export class ContractorgridComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 import {
   TabMenuModule,
@@ -10,28 +10,26 @@ import {
   ConfirmDialogModule,
   ConfirmationService,
   GrowlModule,
-  Message,
-} from 'primeng/primeng';
+  Message
+} from "primeng/primeng";
 
-import { EmployeesService } from '../_services/employees.service';
-import { Employee } from '../_models/api.model';
-import { WorkflowsService }      from '../_services/workflows.service';
-import { WorkflowCreate, Process } from '../_models/bpm.model';
-
+import { PersonsService } from "../_services/persons.service";
+import { Employee } from "../_models/api.model";
+import { WorkflowsService } from "../_services/workflows.service";
+import { WorkflowCreate, Process } from "../_models/bpm.model";
 
 @Component({
-  selector: 'app-employees',
-  templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css'],
-  providers: [EmployeesService, ConfirmationService]
+  selector: "app-employees",
+  templateUrl: "./employees.component.html",
+  styleUrls: ["./employees.component.css"],
+  providers: [PersonsService, ConfirmationService]
 })
 export class EmployeesComponent implements OnInit {
-
   constructor(
-    private employeesService: EmployeesService,
+    private employeesService: PersonsService,
     private confirmationService: ConfirmationService,
     private workflowsService: WorkflowsService
-  ) { }
+  ) {}
 
   employees: Employee[];
   buttonDisabled: boolean;
@@ -45,9 +43,10 @@ export class EmployeesComponent implements OnInit {
   newWorkflowCreate: WorkflowCreate;
   msgs: Message[] = [];
 
-
   getEmployees(): void {
-    this.employeesService.getEmployees().then(employees => this.employees = employees);
+    this.employeesService
+      .getEmployees()
+      .then(employees => (this.employees = employees));
   }
 
   getProcesses(): void {
@@ -61,7 +60,7 @@ export class EmployeesComponent implements OnInit {
     this.selectProcesses = [];
     for (let process of this.processes) {
       if (!(process.name.indexOf("Contractor") >= 0)) {
-        this.selectProcesses.push({label: process.name, value: process.id})
+        this.selectProcesses.push({ label: process.name, value: process.id });
       }
     }
   }
@@ -71,11 +70,14 @@ export class EmployeesComponent implements OnInit {
     this.getEmployees();
     this.buttonDisabled = true;
     this.employeeName = "";
-
   }
 
   checkButton() {
-    console.log(`Checking button: personid is ${this.personID} and processid is ${this.processID}`);
+    console.log(
+      `Checking button: personid is ${this.personID} and processid is ${
+        this.processID
+      }`
+    );
     if (this.personID && this.processID) {
       this.buttonDisabled = false;
     } else {
@@ -84,7 +86,9 @@ export class EmployeesComponent implements OnInit {
   }
 
   onRowSelect(event) {
-    this.employeeName = `${this.selectedEmployee.first_name} ${this.selectedEmployee.last_name}`;
+    this.employeeName = `${this.selectedEmployee.first_name} ${
+      this.selectedEmployee.last_name
+    }`;
     this.personID = `${this.selectedEmployee.id}`;
     this.checkButton();
   }
@@ -106,9 +110,17 @@ export class EmployeesComponent implements OnInit {
 
   taskUpdateSuccessMessage(success: boolean, message: string) {
     if (success) {
-      this.msgs.push({severity:'success', summary:'Workflow Created', detail:message});
+      this.msgs.push({
+        severity: "success",
+        summary: "Workflow Created",
+        detail: message
+      });
     } else {
-      this.msgs.push({severity:'error', summary:'Workflow Not Created', detail:message});
+      this.msgs.push({
+        severity: "error",
+        summary: "Workflow Not Created",
+        detail: message
+      });
     }
   }
 
@@ -121,9 +133,11 @@ export class EmployeesComponent implements OnInit {
     }
     this.confirmationService.confirm({
       message: `Start a ${processName} for ${this.employeeName}?`,
-        accept: () => {
-          let workflowCreate = new WorkflowCreate(this.processID, this.personID);
-          this.workflowsService.createWorkflow(workflowCreate).then(newWorkflowCreate => {
+      accept: () => {
+        let workflowCreate = new WorkflowCreate(this.processID, this.personID);
+        this.workflowsService
+          .createWorkflow(workflowCreate)
+          .then(newWorkflowCreate => {
             this.newWorkflowCreate = newWorkflowCreate;
             if (newWorkflowCreate.status) {
               this.taskUpdateSuccessMessage(true, newWorkflowCreate.message);
@@ -134,9 +148,8 @@ export class EmployeesComponent implements OnInit {
             this.buttonDisabled = true;
             this.employeeName = "";
           });
-                //Actual logic to perform a confirmation
-        }
-      });
-    }
-
+        //Actual logic to perform a confirmation
+      }
+    });
+  }
 }

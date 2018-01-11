@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 
-import { EmployeesService } from '../_services/employees.service';
-import { PersonSkinny } from '../_models/api.model';
-import { WorkflowsService }      from '../_services/workflows.service';
-import { WorkflowCreate, Process } from '../_models/bpm.model';
+import { PersonsService } from "../_services/persons.service";
+import { PersonSkinny } from "../_models/api.model";
+import { WorkflowsService } from "../_services/workflows.service";
+import { WorkflowCreate, Process } from "../_models/bpm.model";
 
-import { SelectItem, Message, ConfirmationService } from 'primeng/primeng';
+import { SelectItem, Message, ConfirmationService } from "primeng/primeng";
 
 export interface PersonGrid {
   id?: number;
@@ -18,9 +18,9 @@ export interface PersonGrid {
 }
 
 @Component({
-  selector: 'app-persongrid',
-  templateUrl: './persongrid.component.html',
-  styleUrls: ['./persongrid.component.css']
+  selector: "app-persongrid",
+  templateUrl: "./persongrid.component.html",
+  styleUrls: ["./persongrid.component.css"]
 })
 export class PersongridComponent implements OnInit {
   @Input() person_type: string;
@@ -38,17 +38,16 @@ export class PersongridComponent implements OnInit {
   processes: Process[];
 
   constructor(
-    private employeesService: EmployeesService,
+    private employeesService: PersonsService,
     private confirmationService: ConfirmationService,
     private workflowsService: WorkflowsService
-  ) { }
+  ) {}
 
   getPersons(): void {
     this.employeesService.getPersonsbyType(this.person_type).then(persons => {
-        this.persons = persons;
-        this.buildData();
+      this.persons = persons;
+      this.buildData();
     });
-
   }
 
   buildData(): void {
@@ -71,14 +70,16 @@ export class PersongridComponent implements OnInit {
         last_name: person.last_name,
         hire_date: person.start_date,
         positions: position_string,
-        locations: location_string,
-      }
+        locations: location_string
+      };
       this.personGrid.push(grid);
     }
   }
 
   onRowSelect(event) {
-    this.personName = `${this.selectedPerson.first_name} ${this.selectedPerson.last_name}`;
+    this.personName = `${this.selectedPerson.first_name} ${
+      this.selectedPerson.last_name
+    }`;
     this.personID = `${this.selectedPerson.id}`;
     this.checkButton();
   }
@@ -121,9 +122,11 @@ export class PersongridComponent implements OnInit {
     }
     this.confirmationService.confirm({
       message: `Start a ${processName} for ${this.personName}?`,
-        accept: () => {
-          let workflowCreate = new WorkflowCreate(this.processID, this.personID);
-          this.workflowsService.createWorkflow(workflowCreate).then(newWorkflowCreate => {
+      accept: () => {
+        let workflowCreate = new WorkflowCreate(this.processID, this.personID);
+        this.workflowsService
+          .createWorkflow(workflowCreate)
+          .then(newWorkflowCreate => {
             this.newWorkflowCreate = newWorkflowCreate;
             if (newWorkflowCreate.status) {
               this.taskUpdateSuccessMessage(true, newWorkflowCreate.message);
@@ -134,41 +137,53 @@ export class PersongridComponent implements OnInit {
             this.buttonDisabled = true;
             this.personName = "";
           });
-                //Actual logic to perform a confirmation
-        }
-      });
-    }
+        //Actual logic to perform a confirmation
+      }
+    });
+  }
 
   taskUpdateSuccessMessage(success: boolean, message: string) {
     if (success) {
-      this.msgs.push({severity:'success', summary:'Workflow Created', detail:message});
+      this.msgs.push({
+        severity: "success",
+        summary: "Workflow Created",
+        detail: message
+      });
     } else {
-      this.msgs.push({severity:'error', summary:'Workflow Not Created', detail:message});
+      this.msgs.push({
+        severity: "error",
+        summary: "Workflow Not Created",
+        detail: message
+      });
     }
   }
 
   getProcesses(): void {
-    this.workflowsService.getProcessesByCategory("existing_employee").then(processes => {
-      this.processes = processes;
-      this.buildProcessSelect();
-    });
+    this.workflowsService
+      .getProcessesByCategory("existing_employee")
+      .then(processes => {
+        this.processes = processes;
+        this.buildProcessSelect();
+      });
   }
 
   buildProcessSelect() {
     this.selectProcesses = [];
     for (let process of this.processes) {
-
       if (this.person_type == "Contractor") {
         if (process.name.indexOf("Contractor") >= 0) {
-          this.selectProcesses.push({label: process.name, value: process.id});
+          this.selectProcesses.push({ label: process.name, value: process.id });
         }
       } else if (this.person_type == "Sub") {
         if (process.name.indexOf("Deactivate Long-term") >= 0) {
-          this.selectProcesses.push({label: process.name, value: process.id});
+          this.selectProcesses.push({ label: process.name, value: process.id });
         }
       } else {
-        if (!(process.name.indexOf("Contractor") >= 0) && !(process.name.indexOf("Deactivate Long-term") >= 0)) {
-          this.selectProcesses.push({label: process.name, value: process.id})
+        if (
+          !(process.name.indexOf("Contractor") >= 0) &&
+          !(process.name.indexOf("Deactivate Long-term") >= 0)
+        ) {
+          this.selectProcesses.push({ label: process.name, value: process.id });
         }
       }
     }
@@ -180,5 +195,4 @@ export class PersongridComponent implements OnInit {
     this.buttonDisabled = true;
     this.personName = "";
   }
-
 }

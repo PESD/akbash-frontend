@@ -1,40 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { InputTextModule, PasswordModule } from 'primeng/primeng';
-import { AuthService } from '../_services/auth.service';
-import { AuthHeaders } from '../_helpers/authheaders';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { InputTextModule, PasswordModule } from "primeng/primeng";
+import { AuthService } from "../_services/auth.service";
+import { AuthHelper } from "../_helpers/authhelper";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"]
   /* providers: [AuthService], */
 })
 export class LoginComponent implements OnInit {
-
   showLogin: boolean = true;
   username: string;
   password: string;
-  authHeaders: AuthHeaders;
+  authHeaders: AuthHelper;
   returnUrl: string;
   display: boolean = false;
 
-  constructor(public authService: AuthService, private route: ActivatedRoute, private router: Router) {
-    this.authHeaders = new AuthHeaders;
+  constructor(
+    public authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.authHeaders = new AuthHelper();
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
   onclick() {
     this.authService.login(this.username, this.password).subscribe(
       data => {
-                    this.router.navigate([this.returnUrl]);
-            },
+        this.router.navigate([this.returnUrl]);
+      },
       err => {
-          console.log("THERE WAS AN ERROR PLEASE DO SOMETHING!");
-          this.display = true;
+        this.display = true;
       }
     );
   }
@@ -42,5 +44,4 @@ export class LoginComponent implements OnInit {
   onclicklogout() {
     this.authService.logout();
   }
-
 }

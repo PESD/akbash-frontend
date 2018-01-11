@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators }            from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import {SelectItem} from 'primeng/primeng';
+import { SelectItem } from "primeng/primeng";
 
-import { Employee, Person } from '../_models/api.model';
-import { EmployeesService } from '../_services/employees.service';
-import { FormHelper } from '../_helpers/formhelper';
-import { AuthHeaders } from '../_helpers/authheaders';
-
+import { Employee, Person } from "../_models/api.model";
+import { PersonsService } from "../_services/persons.service";
+import { FormHelper } from "../_helpers/formhelper";
+import { AuthHelper } from "../_helpers/authhelper";
 
 declare global {
   interface Date {
@@ -19,22 +18,21 @@ Date.prototype.yyyymmdd = function() {
   var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
   var dd = this.getDate().toString();
 
-  if (mm.length===1) {
+  if (mm.length === 1) {
     mm = "0" + mm;
   }
 
-  if (dd.length===1) {
+  if (dd.length === 1) {
     dd = "0" + dd;
   }
 
-    return [this.getFullYear(), mm, dd].join('-'); // padding
-  }
-
+  return [this.getFullYear(), mm, dd].join("-"); // padding
+};
 
 @Component({
-  selector: 'app-personform',
-  templateUrl: './personform.component.html',
-  styleUrls: ['./personform.component.css']
+  selector: "app-personform",
+  templateUrl: "./personform.component.html",
+  styleUrls: ["./personform.component.css"]
 })
 export class PersonformComponent implements OnInit {
   @Input() person_id: string;
@@ -46,9 +44,11 @@ export class PersonformComponent implements OnInit {
   ethnicities: SelectItem[];
   selectedGender: string;
 
-
-  constructor(private fb: FormBuilder, private employeesService: EmployeesService) {
-    let formHelper = new FormHelper;
+  constructor(
+    private fb: FormBuilder,
+    private employeesService: PersonsService
+  ) {
+    let formHelper = new FormHelper();
     this.createForm();
     this.genders = formHelper.getGenders();
     this.races = formHelper.getRaces();
@@ -69,23 +69,23 @@ export class PersonformComponent implements OnInit {
 
   createForm() {
     this.personForm = this.fb.group({
-      first_name: ['', Validators.required],
-      middle_name: '',
-      last_name: ['', Validators.required],
-      birth_date: ['', Validators.required],
-      gender: [''],
+      first_name: ["", Validators.required],
+      middle_name: "",
+      last_name: ["", Validators.required],
+      birth_date: ["", Validators.required],
+      gender: [""],
       race_white: [false],
       race_asian: [false],
       race_black: [false],
       race_islander: [false],
       race_american_indian: [false],
-      ethnicity: '',
-      hqt: '',
-      ssn: '',
-      tcp_id: '',
-      start_date: ['', Validators.required],
+      ethnicity: "",
+      hqt: "",
+      ssn: "",
+      tcp_id: "",
+      start_date: ["", Validators.required],
       is_visions_account_needed: [false],
-      is_synergy_account_needed: [false],
+      is_synergy_account_needed: [false]
     });
   }
 
@@ -107,7 +107,7 @@ export class PersonformComponent implements OnInit {
       tcp_id: this.person.tcp_id,
       start_date: this.person.start_date,
       is_visions_account_needed: this.person.is_visions_account_needed,
-      is_synergy_account_needed: this.person.is_synergy_account_needed,
+      is_synergy_account_needed: this.person.is_synergy_account_needed
     });
   }
 
@@ -116,16 +116,16 @@ export class PersonformComponent implements OnInit {
   }
 
   prepareSave(): Employee {
-    let authHeaders = new AuthHeaders;
+    let authHeaders = new AuthHelper();
     const formModel = this.personForm.value;
     let updatedPerson = this.person;
-    let bday_string = formModel.birth_date as string
-    if (!(formModel.birth_date.length===10)) {
+    let bday_string = formModel.birth_date as string;
+    if (!(formModel.birth_date.length === 10)) {
       let birth_date = formModel.birth_date as Date;
       bday_string = birth_date.yyyymmdd();
     }
-    let start_date_string = formModel.start_date as string
-    if (!(formModel.start_date.length===10)) {
+    let start_date_string = formModel.start_date as string;
+    if (!(formModel.start_date.length === 10)) {
       let start_date = formModel.start_date as Date;
       start_date_string = start_date.yyyymmdd();
     }
@@ -142,8 +142,8 @@ export class PersonformComponent implements OnInit {
     updatedPerson.ethnicity = formModel.ethnicity as string;
     updatedPerson.ssn = formModel.ssn as string;
     updatedPerson.start_date = start_date_string;
-    updatedPerson.is_visions_account_needed = formModel.is_visions_account_needed as boolean
-    updatedPerson.is_synergy_account_needed = formModel.is_synergy_account_needed as boolean
+    updatedPerson.is_visions_account_needed = formModel.is_visions_account_needed as boolean;
+    updatedPerson.is_synergy_account_needed = formModel.is_synergy_account_needed as boolean;
     updatedPerson.last_updated_by = authHeaders.getUsername();
     return updatedPerson;
   }
@@ -152,8 +152,7 @@ export class PersonformComponent implements OnInit {
     console.log("Saving Employee");
     let updatedPerson = this.prepareSave();
     this.employeesService.updatePerson(updatedPerson).then(result => {
-      this.update.emit({refresh: true});
+      this.update.emit({ refresh: true });
     });
   }
-
 }

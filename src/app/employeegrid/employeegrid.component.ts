@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-employeegrid',
-  templateUrl: './employeegrid.component.html',
-  styleUrls: ['./employeegrid.component.css']
+  selector: "app-employeegrid",
+  templateUrl: "./employeegrid.component.html",
+  styleUrls: ["./employeegrid.component.css"]
 })
 export class EmployeegridComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,9 +1,8 @@
-import { Headers, RequestOptions } from '@angular/http';
-import { Token } from '../_models/token';
+import { Headers, RequestOptions } from "@angular/http";
+import { Token } from "../_models/token";
 
 // Helper class for dealing with authentication and http headers.
-// Name should be refactored at some point.
-export class AuthHeaders {
+export class AuthHelper {
   public getRequestOptions(): RequestOptions {
     var options: RequestOptions;
     if (localStorage.currentUser) {
@@ -11,8 +10,8 @@ export class AuthHeaders {
       console.log("Current User is: " + currentUser);
       let token = currentUser["token"];
       console.log("This user token is: " + token);
-      var headers = new Headers({ 'Authorization': 'JWT ' + token });
-      headers.append('Content-Type','application/json');
+      var headers = new Headers({ Authorization: "JWT " + token });
+      headers.append("Content-Type", "application/json");
       options = new RequestOptions({ headers: headers });
     } else {
       options = new RequestOptions();
@@ -39,7 +38,10 @@ export class AuthHeaders {
     if (localStorage.getItem("currentUser")) {
       let currentUser = JSON.parse(localStorage.getItem("currentUser"));
       let username = currentUser["username"];
-      localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token.token }));
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({ username: username, token: token.token })
+      );
     }
   }
 }
